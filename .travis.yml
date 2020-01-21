@@ -1,12 +1,22 @@
 language: java
+sudo: false
+install: true
 
+jdk:
+  - oraclejdk8
 
+script:
+  # JaCoCo is used to have code coverage, "-Pcoverage" activates the maven profile in the pom.xml
+  - mvn clean verify sonar:sonar -Pcoverage 
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    
 addons:
   sonarcloud:
     organization: "unimibsoftengcourse1920"
     token:
       secure: "lcPAbfBENC3iKJEfoXAsDA9hsut+F9os1MIfAEpjjBp40f8oLbqxrK8P/5oVqBLB4S6ZT5fKMXb9EIunSEcIWo3ed7vVR4cd6keZTuMEoNnFrkCXzTtniEVgnl71CCfpvqwwNbf5uEG8LCkqSXQFvU85pQ/+Cy4iNH3oDE4DV6jAK7Ga6NlIafLCPtdE4CggcPxChOugkPvIkR9x92uMZ9MJ5kCgQR7Wa7aocneFoycjfw+epwXaNSa22+e8uScSPMpVnw71rlIq2bkW9/dTkbY6mrdveJMXC+qqIHzjU4OnJiZ4HuwTNnSgVlySE+YUXYYnx/lFH1nVBnXIQWKGCCmfp7SK/j+rvort08IFcg7HwhVJsYWwb0evlF2cAssLif3g1Rykh9Wa0oukvfeTYb5W0FmGlwzQDZR090av0HLtqNPVJeXM61NR06JwemJYYKK//7gtrovd8jSI5R5rBBMoJgUnPeDfdEb2ya6K4nsyNWVoCP+Xx7qwNTKBP7CCuSLpB5FDhwebS9+GICVj6vgL7rJsiNi/MEC+qpmwqcW9RoZa05JZtaCxjucMnPo68y2ZOlOLzgC5MQVfndmEI9W3DxTDP9BtYE4J67XRFdc6rgEKLI3D1nG7IzdZUBJBr1ipJdFVJzMyZ7EO2wz0Ow+6mQ45+n/KuYiTI4ZOxM0="
 
-script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=UnimibSoftEngCourse1920_progetto-smarthome-1-gruppo-smarthome-1
