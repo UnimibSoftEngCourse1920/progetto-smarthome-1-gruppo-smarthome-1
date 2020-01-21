@@ -1,1 +1,12 @@
 language: java
+
+
+addons:
+  sonarcloud:
+    organization: "unimibsoftengcourse1920"
+    token:
+      secure: "K7v5VwgaRrsefKsfjSHFqpQQmswNKonyHUB1XHgQyc1b5vbjY2Jku0KWSimpIFZtTCTz79/wlPx+QDnNi4MJJr8xeecokidUmKXH3WAbg9ewyyCJdt8CxTQw6aac15Ga3Mj3iA97waPpWoKCP+LwUX1VPeCfyFxFuVwTPRu+vL7neRq6BzOOnkH5cKXFKN7SNwIhi6Hjx0Ffj892TzhGiV1jUAsarkvfeAsTvbWwyHUe2XJRCFV7YXd1Km63H4iS7EKn5E+bfzl1UPC6vX0a8seT0XBblm+YqKLofdfT30mQXP362E/qe327NcrcVeBfBEBWTcSG0ge4LvRa4SQKBk8HSN2s6pAmYsHZpXrd456je9X8dpRjhkIKnJ8dln/5rrFKJYRcLWxMaM52hPg7Jr9lBcSwLE6cA9AhmwICFwuSrgUiO5hiY/J+Tq0/0uckbdHFnJgx2QVWOilWthv4QYWAgF+qivz2dkP2YaHVNZUVlB1rn75SNZo8cqt4kZxGnJAJX2ZLuazOgpUAJV6DCm0IU9w1qav8Ngj4a7USeMAiNkpq1XbqMRxjpVXXR9JKFUZ6NJBFvdtimXd7z2q//tHdusHgcAAlkyhQLX0HiUt/PqYL9bWxrsog81BLYoEYfiVpvkl6Dz5qfnXWLwNufYufBsO7l4PzRLfspYvflAM="
+
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=UnimibSoftEngCourse1920_progetto-smarthome-1-gruppo-smarthome-1
