@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' mqtt://localhost">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.css">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="jumbotron">
+        <h1 class="display-4">Home</h1>
+
+      </div>
+
+      <div class="entities">
+
+        <template id="entity_switch">
+          <div class="entity">
+            <div class="entity-head">
+              <div class="entity-name">
+                Entity_name
+              </div>
+              <i class="fas fa-toggle-on"></i>
+            </div>
+            <div class="entity-command">
+              <label for="formControlRange">Stato: <span class="entity-state"></span> </label>
+              <button class="btn btn-primary custom-btn"> click</button>
+            </div>
+          </div>
+        </template>
+
+        <template id="entity_range">
+          <div class="entity">
+            <div class="entity-head">
+              <div class="entity-name">
+                Entity_name
+              </div>
+              <i class="fas fa-arrows-alt-h"></i>
+            </div>
+            <div class="entity-command">
+              <label>Valore:  <span class="entity-value"></span> </label>
+              <input type="range" class="form-control-range slider">
+            </div>
+          </div>
+        </template>
+
+        <template id="entity_state">
+          <div class="entity">
+            <div class="entity-head">
+              <div class="entity-name">
+                Entity_name
+              </div>
+              <i class="fas fa-toggle-on"></i>
+            </div>
+            <div class="entity-command">
+              <label>Stato: <span class="entity-value"></span></label>
+              <select class="form-control select">
+
+              </select>
+            </div>
+          </div>
+        </template>
+
+        <template id="entity_range_state">
+          <div class="entity">
+            <div class="entity-head">
+              <div class="entity-name">
+                Entity_name
+              </div>
+              <i class="fas fa-toggle-on"></i>
+            </div>
+
+            <div class="entity-command">
+              <div class="form-group">
+                <label>Valore:  <span class="entity-value"></span> </label>
+                <input type="range" class="form-control-range slider">
+              </div>
+
+              <label>Stato: <span class="entity-state"></span></label>
+              <select class="form-control select form-control-sm ">
+
+              </select>
+            </div>
+          </div>
+        </template>
+
+
+
+      </div>
+
+    </div>
+    <!--
+        We are using Node.js <span id="node-version"></span>,
+        Chromium <span id="chrome-version"></span>,
+        and Electron <span id="electron-version"></span>.
+
+         You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+    <script src="js/mqtt.js"></script>
+    <script src="js/entities.js"></script>
+  </body>
+</html>
