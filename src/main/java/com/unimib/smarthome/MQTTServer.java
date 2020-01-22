@@ -1,21 +1,32 @@
 package com.unimib.smarthome;
 
-import io.vertx.core.AbstractVerticle;
+import io.netty.handler.codec.mqtt.MqttQoS;
+import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.mqtt.MqttEndpoint;
 import io.vertx.mqtt.MqttServer;
 import io.vertx.mqtt.MqttServerOptions;
 
-public class MQTTServer extends AbstractVerticle {
+public class MQTTServer {
 	
-	 @Override
-	  public void start() throws Exception {
+	static MqttServer server;
+	static MqttEndpoint endpoint;
+	
+	  public static void start() throws Exception {
 
+	  VertxOptions voptions = new VertxOptions();
+	  Vertx vertx = Vertx.vertx(voptions);
+		  
 	    MqttServerOptions options = new MqttServerOptions()
 	      .setPort(1883)
 	      .setHost("0.0.0.0");
 
-	    MqttServer server = MqttServer.create(vertx, options);
+	    server = MqttServer.create(vertx, options);
 
-	    server.endpointHandler(endpoint -> {
+	    server.endpointHandler(end -> {
+	    	
+	    endpoint = end;
 
 	      System.out.println("connected client " + endpoint.clientIdentifier());
 
@@ -24,6 +35,27 @@ public class MQTTServer extends AbstractVerticle {
 	        System.out.println("Just received message on [" + message.topicName() + "] payload [" +
 	          message.payload() + "] with QoS [" +
 	          message.qosLevel() + "]");
+	        
+//	       endpoint.publish("control/temp2/value",
+//	        		  Buffer.buffer("56"),
+//	        		  MqttQoS.AT_MOST_ONCE,
+//	        		  false,
+//	        		  false);
+
+	        		// specifing handlers for handling QoS 1 and 2
+    		endpoint.publishAcknowledgeHandler(messageId -> {
+
+    		  System.out.println("Received ack for message = " +  messageId);
+
+    		}).publishReceivedHandler(messageId -> {
+
+    		  endpoint.publishRelease(messageId);
+
+    		}).publishCompletionHandler(messageId -> {
+
+    		  System.out.println("Received ack for message = " +  messageId);
+    		});
+	        
 	      });
 
 	      endpoint.accept(false);
