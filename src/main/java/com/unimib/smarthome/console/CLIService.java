@@ -4,29 +4,28 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.unimib.smarthome.broker.BrokerServer;
-
-import io.netty.handler.codec.mqtt.MqttQoS;
-import io.vertx.core.buffer.Buffer;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CLIService extends Thread{
 
-	public CLIService() {
-		
-	}
+	private Logger logger = LogManager.getLogger();
+	final static Level CLI = Level.forName("CLI", 350);
 	
 	@Override
 	public void run() {
 		super.run();
 		
-		System.out.println("Starting cli interface");
+		logger.log(CLI, "Starting cli interface");
         BufferedReader reader =
                    new BufferedReader(new InputStreamReader(System.in));
         String input;
         while(!Thread.interrupted()) {
         	try {
+        		logger.log(CLI, "Enter the entity identifier:");
         		input = reader.readLine();
-        		String[] a = input.split(",");
+        		logger.log(CLI, "Entity selected: " + input);
         	} catch (IOException e) {
 				e.printStackTrace();
 			}

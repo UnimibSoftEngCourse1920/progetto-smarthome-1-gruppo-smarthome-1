@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.unimib.smarthome.broker.BrokerManager;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
-import com.unimib.smarthome.entity.exceptions.MissingEntityTopicException;
 
 /**
  * Classe usata per la gestione di tutte le entita
@@ -14,9 +13,9 @@ import com.unimib.smarthome.entity.exceptions.MissingEntityTopicException;
 public class EntityManager {
 
 	static EntityManager instance;
+	private BrokerManager brokerManager = BrokerManager.getInstance();
 	private Map<Integer, Entity> entityList = new HashMap<>();
-	private Map<String, Integer> brokerMap = new HashMap<>();
-	private BrokerManager messageDispatcher = BrokerManager.getInstance();
+
 	
 	private EntityManager() {}
 	
@@ -38,38 +37,25 @@ public class EntityManager {
 		
 		entityList.put(entityID, entity);
 		
-		
-		//Registro le entita nella mappa del broker
-		if(entity instanceof SimulatorEntity) {
-			SimulatorEntity sEntity = (SimulatorEntity) entity;
-			brokerMap.put(sEntity.getTopic(), entityID);
-		}
 	}
 	
 	
 	//Prende tutti i nuovi messaggi per le enita e gli fa gestire il nuovo messaggio in ingresso
-	public void handleNewStateMessage(Entity e, String message) {
-		e.onIncomingMessage(message);
+	public void updateEntity(int entityID, String message) {
+		entityList.get(entityID).onIncomingMessage(message);
 	}
 	
-	//Prende tutti i messaggi dal simulatore e li adatta al metodo handleNewStateMessage
-	public void handleBrokerMessage(String topic, String message) throws MissingEntityTopicException {
-		int entityID = brokerMap.get(topic);
-		Entity entityTarget = entityList.get(entityID);
-		if(entityTarget != null) {
-			handleNewStateMessage(entityTarget, message);
-		}else {
-			throw new MissingEntityTopicException(topic);
-		}
+	public void notifyEntityChange(Entity entity) {		
 		
-	}
-	
-	public void sendNewStateMessage(Entity entity) {
+		//NOTIFICA OSSERVATORI
 		
-		//Se sono le entita del simulatore mando i nuovi messaggi attraverso il server MQTT
+		//Aggiorno l'entita nella lista
+		entityList.put(entity.getId(), entity);
+		
+		//Se sono le entita del simulatore notifico attraverso il server MQTT
 		if(entity instanceof SimulatorEntity) {
 			SimulatorEntity se = (SimulatorEntity) entity;
-			messageDispatcher.sendMessage(se.getTopic(), String.valueOf(se.getState()));
+			brokerManager.sendMessage(se.getTopic(), String.valueOf(se.getState()));
 		}
 			
 	}

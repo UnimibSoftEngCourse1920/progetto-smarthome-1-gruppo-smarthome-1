@@ -5,11 +5,12 @@
     <CustomLevel name="BROKER" intLevel="350" />
     <CustomLevel name="MONITOR" intLevel="5" />
     <CustomLevel name="EMAC" intLevel="350" />
+    <CustomLevel name="CLI" intLevel="350" />
   </CustomLevels>
 
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout disableAnsi="false" pattern="%d{HH:mm:ss} %highlight{[%level]}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, SEC=blue, BROKER=Green, MONITOR=magenta, EMAC=Bright, EMAC=Cyan  }: %msg%n" />
+      <PatternLayout disableAnsi="false" pattern="%d{HH:mm:ss} %highlight{[%level]}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, SEC=blue, BROKER=yellow, MONITOR=cyan, EMAC=Bright, EMAC=green, CLI=magenta}: %msg%n" />
     </Console>
     
     <File name="MyFile" fileName="logs/monitor.log">
