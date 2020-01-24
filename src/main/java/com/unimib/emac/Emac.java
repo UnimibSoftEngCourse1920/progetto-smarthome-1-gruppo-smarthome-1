@@ -2,7 +2,8 @@ package com.unimib.emac;
 
 import com.unimib.common.Observer;
 import com.unimib.monitor.Monitor;
-import com.unimib.test.Entity;
+import com.unimib.smarthome.entity.EntityManager;
+
 
 
 public class Emac implements Observer {
@@ -20,16 +21,16 @@ public class Emac implements Observer {
 	
 	
 	@Override
-	public void updateAdd(Entity e) {
+	public void updateAdd(EntityManager e) {
 		evaluate(e);
 	}
 
 	@Override
-	public void updateRemove(Entity e) {
+	public void updateRemove(EntityManager e) {
 
 	}
 	
-	public void evaluate(Entity e) {
+	public void evaluate(EntityManager e) {
 		
 	}
 

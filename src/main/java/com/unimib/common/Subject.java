@@ -1,6 +1,4 @@
-package com.unimib.test;
-
-import com.unimib.common.Observer;
+package com.unimib.common;
 
 public interface Subject {
 	public void attach (Observer o);

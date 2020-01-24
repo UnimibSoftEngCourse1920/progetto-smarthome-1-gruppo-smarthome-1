@@ -1,8 +1,11 @@
 package com.unimib.smarthome.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.unimib.common.Observer;
+import com.unimib.common.Subject;
 import com.unimib.smarthome.broker.BrokerManager;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
 
@@ -10,11 +13,12 @@ import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
  * Classe usata per la gestione di tutte le entita
  */
 
-public class EntityManager {
+public class EntityManager implements Subject {
 
 	static EntityManager instance;
 	private BrokerManager brokerManager = BrokerManager.getInstance();
 	private Map<Integer, Entity> entityList = new HashMap<>();
+	protected ArrayList<Observer> observers;
 
 	
 	private EntityManager() {}
@@ -48,6 +52,7 @@ public class EntityManager {
 	public void notifyEntityChange(Entity entity) {		
 		
 		//NOTIFICA OSSERVATORI
+		this.notifyAddAll();
 		
 		//Aggiorno l'entita nella lista
 		entityList.put(entity.getId(), entity);
@@ -58,6 +63,36 @@ public class EntityManager {
 			brokerManager.sendMessage(se.getTopic(), String.valueOf(se.getState()));
 		}
 			
+	}
+	
+	public void attach(Observer o) {
+		observers.add(o);
+		this.notifyAdd(o);
+	}
+	public boolean detach(Observer o) {
+		boolean a = observers.remove(o);
+		o.updateRemove(this);
+		return a;
+	}
+
+	public void notifyAdd(Observer o) {
+		o.updateAdd(this);
+	}
+
+	public void notifyAddAll() {
+		for (Observer o : observers) {
+			o.updateAdd(this);
+		}
+	}
+
+	public void notifyRemove(Observer o) {
+		o.updateRemove(this);
+	}
+
+	public void notifyRemoveAll() {
+		for (Observer o : observers) {
+			o.updateRemove(this);
+		}
 	}
 	
 	

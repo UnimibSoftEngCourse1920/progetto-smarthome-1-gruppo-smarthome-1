@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 import com.unimib.common.Observer;
 import com.unimib.emac.Emac;
-import com.unimib.test.Entity;
+import com.unimib.smarthome.entity.EntityManager;
+
 
 
 
@@ -15,23 +16,23 @@ import com.unimib.test.Entity;
 public class Monitor implements Observer {
 	static Monitor instance;
 	private Emac emac;
-	private HashMap<Integer, Entity> mappedEntity;
+	private HashMap<Integer, EntityManager> mappedEntityManager;
 	
 	
 	
 	
-	public HashMap<Integer, Entity> getMappedEntity() {
-		return mappedEntity;
+	public HashMap<Integer, EntityManager> getMappedEntity() {
+		return mappedEntityManager;
 	}
 	
 
-	public void setMappedEntity(HashMap<Integer, Entity> mappedEntity) {
-		this.mappedEntity = mappedEntity;
+	public void setMappedEntity(HashMap<Integer, EntityManager> mappedEntity) {
+		this.mappedEntityManager = mappedEntity;
 	}
 
 
 	private Monitor() {
-		this.setMappedEntity(new HashMap<Integer, Entity>());
+		this.setMappedEntity(new HashMap<Integer, EntityManager>());
 	}
 	
 	//Singleton
@@ -43,13 +44,13 @@ public class Monitor implements Observer {
 	}
 	
 	@Override
-	public void updateAdd(Entity e) {
-		mappedEntity.put(e.hashCode(), e);
+	public void updateAdd(EntityManager entityManager) {
+		mappedEntityManager.put(entityManager.hashCode(), entityManager);
 	}
 	
 	@Override
-	public void updateRemove(Entity e) {
-		mappedEntity.remove(e.hashCode(), e);
+	public void updateRemove(EntityManager entityManager) {
+		mappedEntityManager.remove(entityManager.hashCode(), entityManager);
 	}
 }	
 
