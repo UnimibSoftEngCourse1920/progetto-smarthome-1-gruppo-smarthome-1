@@ -11,14 +11,14 @@ public interface Observer {
 	
 	
 	
-	public default void updateAdd(int subjectID, Subject subject) {
-		subjects.put(subjectID, subject);
+	public default void updateAdd(Subject subject) {
+		subjects.put(subject.hashCode(), subject);
 		
 	}
 	
 	
-	public default void updateRemove(int subjectID, Subject subject) {
-		subjects.remove(subjectID, subject);
+	public default void updateRemove(Subject subject) {
+		subjects.remove(subject.hashCode(), subject);
 	}
 	
 
