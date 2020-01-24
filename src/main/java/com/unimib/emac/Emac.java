@@ -20,15 +20,7 @@ public class Emac implements Observer {
 		}
 	
 	
-	@Override
-	public void updateAdd(EntityManager e) {
-		evaluate(e);
-	}
 
-	@Override
-	public void updateRemove(EntityManager e) {
-
-	}
 	
 	public void evaluate(EntityManager e) {
 		

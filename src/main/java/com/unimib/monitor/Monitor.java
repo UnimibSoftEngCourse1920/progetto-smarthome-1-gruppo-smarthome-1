@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 
 import com.unimib.common.Observer;
+import com.unimib.common.Subject;
 import com.unimib.emac.Emac;
 import com.unimib.smarthome.entity.EntityManager;
 
@@ -43,15 +44,10 @@ public class Monitor implements Observer {
 		return instance;
 	}
 	
-	@Override
-	public void updateAdd(EntityManager entityManager) {
-		mappedEntityManager.put(entityManager.hashCode(), entityManager);
-	}
 	
-	@Override
-	public void updateRemove(EntityManager entityManager) {
-		mappedEntityManager.remove(entityManager.hashCode(), entityManager);
-	}
+	
+	
+	
 }	
 
 

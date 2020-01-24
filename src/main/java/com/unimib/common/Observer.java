@@ -1,12 +1,20 @@
 package com.unimib.common;
 
-import com.unimib.smarthome.entity.EntityManager;
-
+import java.util.HashMap;
 
 
 public interface Observer {
-	public void updateAdd(EntityManager entityManager);
-	public void updateRemove(EntityManager entityManager);
+	public HashMap<Integer, Subject> mappedSubject = new HashMap<Integer, Subject>();
+	
+	
+	public default void updateAdd(Subject subject) {
+		mappedSubject.put(subject.hashCode(), subject);
+	}
+	
+	
+	public default void updateRemove(Subject subject ) {
+		mappedSubject.remove(subject.hashCode(), subject);
+	}
 	
 
 }
