@@ -2,7 +2,6 @@ package com.unimib.common;
 
 import java.util.ArrayList;
 
-
 public interface Subject {
 	public ArrayList<Observer> observers = new ArrayList<>();
 
@@ -10,6 +9,7 @@ public interface Subject {
 		observers.add(o);
 		this.notifyAdd(o);
 	}
+	
 	public default boolean detach(Observer o) {
 		boolean a = observers.remove(o);
 		o.updateRemove(this);

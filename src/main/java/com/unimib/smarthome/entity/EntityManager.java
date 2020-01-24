@@ -8,6 +8,7 @@ import com.unimib.common.Observer;
 import com.unimib.common.Subject;
 import com.unimib.smarthome.broker.BrokerManager;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
+import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 /**
  * Classe usata per la gestione di tutte le entita
@@ -44,8 +45,8 @@ public class EntityManager implements Subject {
 	}
 	
 	
-	//Prende tutti i nuovi messaggi per le enita e gli fa gestire il nuovo messaggio in ingresso
-	public void updateEntity(int entityID, String message) {
+	//Inoltra un messaggio ad una entita
+	public void sendEntityMessage(int entityID, String message) throws EntityIncomingMessageException {
 		entityList.get(entityID).onIncomingMessage(message);
 	}
 	
@@ -60,40 +61,12 @@ public class EntityManager implements Subject {
 		//Se sono le entita del simulatore notifico attraverso il server MQTT
 		if(entity instanceof SimulatorEntity) {
 			SimulatorEntity se = (SimulatorEntity) entity;
-			brokerManager.sendMessage(se.getTopic(), String.valueOf(se.getState()));
+			brokerManager.sendMessageToClient(se.getTopic(), String.valueOf(se.getState()));
 		}
 			
 	}
 	
-	public void attach(Observer o) {
-		observers.add(o);
-		this.notifyAdd(o);
+	public String getEntityState(int entityID) {
+		return entityList.get(entityID).getState();
 	}
-	public boolean detach(Observer o) {
-		boolean a = observers.remove(o);
-		o.updateRemove(this);
-		return a;
-	}
-
-	public void notifyAdd(Observer o) {
-		o.updateAdd(this);
-	}
-
-	public void notifyAddAll() {
-		for (Observer o : observers) {
-			o.updateAdd(this);
-		}
-	}
-
-	public void notifyRemove(Observer o) {
-		o.updateRemove(this);
-	}
-
-	public void notifyRemoveAll() {
-		for (Observer o : observers) {
-			o.updateRemove(this);
-		}
-	}
-	
-	
 }
