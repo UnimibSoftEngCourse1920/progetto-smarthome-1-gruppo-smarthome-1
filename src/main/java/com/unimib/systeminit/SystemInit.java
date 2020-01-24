@@ -1,5 +1,9 @@
 package com.unimib.systeminit;
-
+import com.unimib.smarthome.entity.EntityManager;
+import com.unimib.smarthome.entity.Device;
+import com.unimib.smarthome.entity.Sensor;
+import com.unimib.smarthome.entity.enums.EntityType;
+import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,14 +20,15 @@ import org.json.simple.parser.ParseException;
  
 public class SystemInit {
 
-	public static void main(String arg[]) throws IOException, ParseException {
+	public static void main(String arg[]) throws IOException, ParseException, DuplicatedEntityException {
+		
 		InitEntities();
 		InitAutomatation();
 	}
 	
-	public static ArrayList<Entities> InitEntities() throws IOException, ParseException {
+	public static void InitEntities() throws IOException, ParseException, DuplicatedEntityException {
 		JSONParser parser = new JSONParser();
-		ArrayList<Entities> element = new ArrayList<Entities>();
+		EntityManager Entity = EntityManager.getInstance();
 		
 		try {
 			 
@@ -34,23 +39,26 @@ public class SystemInit {
             Iterator<JSONObject> iterator = entitiesList.iterator();
             while (iterator.hasNext()) {
 	            JSONObject list = iterator.next();
-	            Entities ent = new Entities();
-	            ent.setName((String) list.get("name"));
-	            ent.setTopic((String) list.get("topic"));
-	            ent.setType((String) list.get("type"));
-	            ent.setID((long) list.get("ID"));
-	            element.add(ent);
+	            
+	            String name = ((String) list.get("Name"));
+	            String topic = ((String) list.get("Topic"));
+	            String type = ((String) list.get("Type"));
+	            int id = (int) ((long) list.get("Id"));
+	            if ((Boolean) list.get("Commandable")) {
+	            	Entity.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
+	            }
+	            else 
+	            	Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
+	          
             }
-            for(int i = 0; i < element.size(); i++) {   
-                System.out.print(element.get(i).getTopic());
-            }  
+            
             
  
         }
 		catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-		return element;
+		
 	}
 	public static void InitAutomatation() {
 		
