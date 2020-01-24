@@ -8,7 +8,7 @@ addons:
       secure: "r0dj3I/l+tUngL1ZjSD39QrhOxGkj9andDg0S50HwgGr1ZC+4mN5TnXuRV/39VbblCkb9QYAFpCz4NLteNyizEhrGNXoobTfAgndWP+ie3YdJDNBTZe9vhmTmdG4HoUL/S8DPn33x7tmnbAHUpbLpcx2NRD3Pw97soEnOJkmbfPnYdTXbTqi5lfaZAVPnDcPKqCEGvXhBJEJjzyRgho2UWiSeRBg9SHGEZFCCDYlxJqhL26TqxKLgjWw3jE0JYQJnSs7bZSP3ZEdR2LeIf0uIhZ3PC7KKLCeXD8jQBfZX3+7UWLKoO3kSuEOrtEif60ByZiQHH2Wcm2wKk87haLX2sG1VGmx6gLmHpGoarG9pWzSLJH7Lz4KqntNTgkBpxRtn3FFZDzyXuJRRdEYE1Evb/1kbMnMFBUQhkT2LKPyzobudlTkwcUud6+2/53ucG2Iazx2aGYYiZSEfUvoaWyddWmD53ne5Sj6CJ2ivwhny5DJeVxck91yHTdO+3qmomwi3oB+hZ9ne9/MCYTFZJ7iHa0oRoGDwxu5oxvsi8Ur76Qx6RZmgtIbrFEPRMXcc+e/nWwpMUVAclCUyrOO+RVirPC2QIav9KRqkSkjJSLKS70KmEVimBiqWJBpd0uHHD/+l+Z9QqmBv7ZGSpUsz/b800NVQM0qXPC71Hq2AS+Gy5s="
       
 jdk:
-- openjdk8
+- oraclejdk11
 
 script:
 - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=UnimibSoftEngCourse1920_progetto-smarthome-1-gruppo-smarthome-1
