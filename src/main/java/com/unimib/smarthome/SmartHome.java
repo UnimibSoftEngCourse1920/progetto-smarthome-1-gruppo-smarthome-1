@@ -1,15 +1,16 @@
 package com.unimib.smarthome;
+import com.unimib.smarthome.broker.BrokerService;
+import com.unimib.smarthome.console.CLIService;
 
 public class SmartHome {
 	
 	public static void main(String[] args) {
-
-		ServerThread st = ServerThread.getInstance();
-		UIThread ut = UIThread.getInstance();
-		SECThread set = SECThread.getInstance();
 		
-		st.start();
-		ut.start();
-		set.start();
+		
+		BrokerService brokerService = new BrokerService();
+		CLIService cliService = new CLIService();
+		
+		brokerService.start();
+		cliService.start();
 	}
 }
