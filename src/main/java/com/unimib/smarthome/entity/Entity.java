@@ -17,6 +17,7 @@ public abstract class Entity {
 		this.name = name;
 	}
 	
+	//Metodo per permettere all'entita di comunicare con l'esterno
 	abstract void onIncomingMessage(String newState);
 	
 	public int getId() {
