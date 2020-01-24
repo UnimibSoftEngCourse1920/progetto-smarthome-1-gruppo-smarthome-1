@@ -23,7 +23,7 @@ public class SystemInit {
 	public static void main(String arg[]) throws IOException, ParseException, DuplicatedEntityException {
 		
 		InitEntities();
-		InitAutomatation();
+		InitAutomatations();
 	}
 	
 	public static void InitEntities() throws IOException, ParseException, DuplicatedEntityException {
@@ -36,7 +36,8 @@ public class SystemInit {
  
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray entitiesList = (JSONArray) jsonObject.get("entities");
-            Iterator<JSONObject> iterator = entitiesList.iterator();
+            @SuppressWarnings("unchecked")
+			Iterator<JSONObject> iterator = entitiesList.iterator();
             while (iterator.hasNext()) {
 	            JSONObject list = iterator.next();
 	            
@@ -45,10 +46,10 @@ public class SystemInit {
 	            String type = ((String) list.get("Type"));
 	            int id = (int) ((long) list.get("Id"));
 	            if ((Boolean) list.get("Commandable")) {
-	            	Entity.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
+	            	Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
 	            }
 	            else 
-	            	Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
+	            	Entity.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
 	          
             }
             
@@ -60,8 +61,35 @@ public class SystemInit {
         }
 		
 	}
-	public static void InitAutomatation() {
+	public static void InitAutomatations() throws IOException, ParseException {
+		JSONParser parser = new JSONParser();
+		EntityManager Entity = EntityManager.getInstance();
 		
+		try {
+			 
+            Object obj = parser.parse(new FileReader("src/main/resources/Automatations.json"));
+ 
+            JSONObject jsonObject = (JSONObject) obj;
+            JSONArray entitiesList = (JSONArray) jsonObject.get("entities");
+            @SuppressWarnings("unchecked")
+			Iterator<JSONObject> iterator = entitiesList.iterator();
+            while (iterator.hasNext()) {
+	            JSONObject list = iterator.next();
+	            
+	            String name = ((String) list.get("Name"));
+	            String topic = ((String) list.get("Topic"));
+	            String type = ((String) list.get("Type"));
+	            int id = (int) ((long) list.get("Id"));
+	            
+	          
+            }
+            
+            
+ 
+        }
+		catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 	}
 	
 }
