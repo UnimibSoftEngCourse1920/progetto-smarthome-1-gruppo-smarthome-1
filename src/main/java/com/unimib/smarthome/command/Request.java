@@ -1,22 +1,21 @@
-package com.unimib.smathome.command;
+package com.unimib.smarthome.command;
 
 public class Request {
 	private EntityCondition[] condition;
-	private EntityCommand[] then;
+	private EntityStatus[] then;
 	private boolean retain;
 	private int retainLevel;
 	
 	
-	public Request(EntityCondition[] condition, EntityCommand[] then,boolean retain,int retainLevel )
+	public Request(EntityCondition[] condition, EntityStatus[] then,boolean retain,int retainLevel )
 	{
 		this.setCondition(condition);
 		this.setThen(then);
 		this.setRetain(retain);
 		this.setRetainLevel(retainLevel);
 	}
-	
-	
-	public void addAction(EntityCommand action) {
+
+	public void addAction(EntityStatus action) {
 		
 	}
 	
@@ -30,11 +29,11 @@ public class Request {
 		this.condition = condition;
 	}
 
-	public EntityCommand[] getThen() {
+	public EntityStatus[] getThen() {
 		return then;
 	}
 
-	public void setThen(EntityCommand[] then) {
+	public void setThen(EntityStatus[] then) {
 		this.then = then;
 	}
 
