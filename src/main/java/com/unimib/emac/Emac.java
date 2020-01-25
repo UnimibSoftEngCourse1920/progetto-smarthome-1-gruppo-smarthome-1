@@ -2,8 +2,13 @@ package com.unimib.emac;
 
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.unimib.action.Request;
 import com.unimib.common.Observer;
-import com.unimib.monitor.Monitor;
+
 import com.unimib.smarthome.entity.EntityManager;
 
 
@@ -11,6 +16,7 @@ import com.unimib.smarthome.entity.EntityManager;
 public class Emac implements Observer {
 
 	static Emac instance;
+	private Map<Integer, List<Request>> requests = new HashMap<>();
 	
 	
 
@@ -23,7 +29,10 @@ public class Emac implements Observer {
 		return instance;
 	}
 	
-	
+	public void registerAutomation(Request r) {
+		
+		
+	}
 
 	
 	public void evaluate(EntityManager e) {
