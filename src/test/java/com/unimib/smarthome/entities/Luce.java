@@ -15,11 +15,11 @@ public class Luce extends CommandableEntity{
 		@Override
 		protected void onIncomingMessage(String newState) throws EntityIncomingMessageException {
 			System.out.println("Setto nuovo stato su " + newState);
-			
-			if(newState.equals("0") || newState.equals("1")) {
-				this.setState(newState);
-			}else
-				throw new EntityIncomingMessageException(this, "Invalid state: " + newState);
+			this.setState(newState);
+//			if(newState.equals("0") || newState.equals("1")) {
+//				this.setState(newState);
+//			}else
+//				throw new EntityIncomingMessageException(this, "Invalid state: " + newState);
 		}
 		
 		@Override

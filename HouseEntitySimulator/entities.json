@@ -104,8 +104,8 @@
     },
     {
       "name": "Robot pulizia",
-      "switch_topic": "robots/cleaner1",
-      "type": "switch",
+      "state_topic": "robots/cleaner1",
+      "type": "state",
       "states" : [
         {
           "value": 0,
