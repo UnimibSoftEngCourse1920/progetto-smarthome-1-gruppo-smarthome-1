@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
-import com.unimib.smarthome.temp.EA;
+import com.unimib.smarthome.temp.EntityStatus;
 import com.unimib.smarthome.temp.Request;
 
 /*
@@ -26,9 +26,9 @@ public class ErrorSupervisor {
 	public boolean executeRequest(Request r) {	
 		boolean noError = true;
 		
-		for(EA ea : r.consequences) {
+		for(EntityStatus es : r.getConsequences()) {
 			try {
-				entityManager.sendEntityMessage(ea.id, ea.state);
+				entityManager.sendEntityMessage(es.getEntityID(), es.getState());
 			} catch (EntityIncomingMessageException e) {
 				logger.printf(SEC, e.getMessage());
 				noError = true;

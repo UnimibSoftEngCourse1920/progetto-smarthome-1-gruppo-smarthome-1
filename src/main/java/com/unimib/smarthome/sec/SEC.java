@@ -54,7 +54,7 @@ public class SEC {
 					
 				} //Se la richiesta ha lanciato un errore il supervisore dei conflitti avra gia gestito la situazione
 				
-				if(r.retain) {
+				if(r.getRetain()) {
 					conflictSupervisor.addRetainedRequest(r);
 				}
 				
