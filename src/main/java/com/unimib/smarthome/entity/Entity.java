@@ -11,7 +11,14 @@ public abstract class Entity {
 	private int id;
 	public EntityType type;
 	private String name;
+	private String state;
 	
+	
+	
+	public String getState() {
+		return state;
+	}
+
 	public Entity(EntityType type, int id, String name) {
 		this.id = id;
 		this.name = name;

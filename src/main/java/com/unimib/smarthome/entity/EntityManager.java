@@ -52,7 +52,7 @@ public class EntityManager implements Subject {
 	public void notifyEntityChange(Entity entity) {		
 		
 		//NOTIFICA OSSERVATORI
-		this.notifyAddAll();
+		this.notifyObservers(entity);
 		
 		//Aggiorno l'entita nella lista
 		entityList.put(entity.getId(), entity);
@@ -65,35 +65,26 @@ public class EntityManager implements Subject {
 			
 	}
 	
+	private void notifyObservers(Entity entity) {
+		for (Observer o : observers) {
+			o.update(entity.getId(), entity.getState());
+		}
+		
+	}
+
+
 	public void attach(Observer o) {
 		observers.add(o);
-		this.notifyAdd(o);
+
 	}
 	public boolean detach(Observer o) {
 		boolean a = observers.remove(o);
-		o.updateRemove(this);
 		return a;
 	}
 
-	public void notifyAdd(Observer o) {
-		o.updateAdd(this);
-	}
+	
 
-	public void notifyAddAll() {
-		for (Observer o : observers) {
-			o.updateAdd(this);
-		}
-	}
 
-	public void notifyRemove(Observer o) {
-		o.updateRemove(this);
-	}
-
-	public void notifyRemoveAll() {
-		for (Observer o : observers) {
-			o.updateRemove(this);
-		}
-	}
 	
 	
 }

@@ -1,25 +1,18 @@
 package com.unimib.common;
 
-
 import java.util.HashMap;
-
-
-
+import java.util.Map;
 
 public interface Observer {
-	public HashMap<Integer, Subject> subjects = new HashMap<Integer, Subject>();
+	public Map<Integer, String> subjects = new HashMap<Integer, String>();
+
 	
 	
 	
-	public default void updateAdd(Subject subject) {
-		subjects.put(subject.hashCode(), subject);
-		
+	public default void update(Integer subjectId, String subjectState) {
+		subjects.put(subjectId, subjectState);
 	}
-	
-	
-	public default void updateRemove(Subject subject) {
-		subjects.remove(subject.hashCode(), subject);
-	}
+
 	
 
 }
