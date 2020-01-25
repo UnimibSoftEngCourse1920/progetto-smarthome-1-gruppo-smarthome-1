@@ -6,11 +6,12 @@
         <CustomLevel name="MONITOR" intLevel="1" />
         <CustomLevel name="EMAC" intLevel="200" />
         <CustomLevel name="CLI" intLevel="50" />
+        <CustomLevel name="EM" intLevel="200" />
     </CustomLevels>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
         	<ThresholdFilter level="MONITOR" onMatch="DENY" onMismatch="ACCEPT"/>
-            <PatternLayout disableAnsi="false" pattern="%d{HH:mm:ss} %highlight{[%level]}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, SEC=blue, BROKER=yellow, MONITOR=cyan, EMAC=Bright, EMAC=green, CLI=magenta}: %msg%n" />
+            <PatternLayout disableAnsi="false" pattern="%d{HH:mm:ss} %highlight{[%level]}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, SEC=red, BROKER=yellow, MONITOR=cyan, EMAC=Bright, EMAC=green, CLI=magenta, EM=cyan}: %msg%n" />
         </Console>
         <File name="EntityHistoryLog" fileName="logs/entityHistory.log">
             <PatternLayout>

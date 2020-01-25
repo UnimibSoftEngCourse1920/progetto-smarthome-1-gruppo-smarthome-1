@@ -26,13 +26,13 @@ public class ConflictPool extends Thread{
 		
 		while(!Thread.interrupted()) {
 			conflictPool.forEach((request) -> {
-				logger.printf(SECL, "Trying to evaluate request %i from conflict pool", request.hashCode());
+				logger.printf(SECL, "Trying to evaluate request from conflict pool [id: %d]", request.hashCode());
 				sec.evaluateRequest(request);
 			});
 			try {
 				Thread.sleep(10000); //10s
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
 	}

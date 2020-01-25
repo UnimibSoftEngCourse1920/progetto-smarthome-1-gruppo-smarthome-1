@@ -20,4 +20,10 @@ public class SECService extends Thread{
 		
 	}
 	
+	@Override
+	public void interrupt() {
+		sec.interruptConflictPool();
+		super.interrupt();
+	}
+	
 }

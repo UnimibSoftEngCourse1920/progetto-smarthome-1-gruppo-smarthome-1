@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.unimib.common.Observer;
 import com.unimib.common.Subject;
 import com.unimib.smarthome.broker.BrokerManager;
@@ -21,6 +25,9 @@ public class EntityManager implements Subject {
 	private Map<Integer, Entity> entityList = new HashMap<>();
 	protected ArrayList<Observer> observers;
 
+	private Logger logger = LogManager.getLogger();
+	final Level EM = Level.getLevel("EM");
+	
 	
 	private EntityManager() {}
 	
@@ -33,13 +40,15 @@ public class EntityManager implements Subject {
 	
 	//Registra una nuova entita
 	public void registerEntity(Entity entity) throws DuplicatedEntityException {		
-		
 		int entityID = entity.getId();
+		
+		
 		
 		//Controllo che non ci siano entita con lo stesso id
 		if(entityList.containsKey(entityID))
 			throw new DuplicatedEntityException(entity, entityList.get(entityID));
 		
+		logger.printf(EM, "Registered entity [id: %d, name: %s]", entityID, entity.getName());
 		entityList.put(entityID, entity);
 		
 	}
@@ -47,6 +56,7 @@ public class EntityManager implements Subject {
 	
 	//Inoltra un messaggio ad una entita
 	public void sendEntityMessage(int entityID, String message) throws EntityIncomingMessageException {
+		logger.printf(EM, "Sending message to entity [id: %d, message: %s]", entityID, message);
 		entityList.get(entityID).onIncomingMessage(message);
 	}
 	

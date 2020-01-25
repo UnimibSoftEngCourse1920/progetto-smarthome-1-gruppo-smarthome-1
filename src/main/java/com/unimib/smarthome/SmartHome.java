@@ -10,22 +10,33 @@ import com.unimib.smarthome.sec.SECService;
 
 public class SmartHome {
 	
-	static Logger logger = LogManager.getLogger();
-	
+	private static Logger logger = LogManager.getLogger();
+	private static BrokerService brokerService;
+	private static CLIService cliService;
+	private static MonitorService monitorService;
+	private static SECService secService;
 	
 	public static void main(String[] args) {		
 		logger.printf(Level.INFO, "Starting SmartHome");
 		
-		BrokerService brokerService = new BrokerService();
-		CLIService cliService = new CLIService();
-		MonitorService monitorService = new MonitorService();
-		SECService secService = new SECService();
+		brokerService = new BrokerService();
+		cliService = new CLIService();
+		monitorService = new MonitorService();
+		secService = new SECService();
 		
 		brokerService.start();
 		cliService.start();
 		monitorService.start();
 		secService.start();
-		
+	}
+	
+	public static void shutdown() {
+		brokerService.interrupt();
+		cliService.interrupt();
+		monitorService.interrupt();
+		secService.interrupt();
 		
 	}
+	
+	
 }

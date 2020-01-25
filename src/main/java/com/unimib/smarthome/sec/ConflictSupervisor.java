@@ -76,7 +76,7 @@ public class ConflictSupervisor {
 							
 							requestCanBeExecuted = false;
 							
-							logger.printf(SEC, "Request %i has conflict with request %i", request.hashCode(), conflictingRequest.hashCode());
+							logger.printf(SEC, "Request %d has conflict with request %d", request.hashCode(), conflictingRequest.hashCode());
 							
 							//METTO LA RICHIESTA NELLA POOL
 							
@@ -107,7 +107,10 @@ public class ConflictSupervisor {
 				retainedSet = new HashSet<Request>();
 			}
 			
+			logger.printf(SEC, "Adding retained request to entity [request: %d, entity: %d]", request.hashCode(), consequence.id);
 			retainedSet.add(request);
+			
+			retainedRequests.put(consequence.id, retainedSet);
 		}
 		
 	}

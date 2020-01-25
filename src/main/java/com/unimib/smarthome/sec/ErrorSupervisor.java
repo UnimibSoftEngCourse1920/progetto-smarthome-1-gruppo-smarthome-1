@@ -24,19 +24,19 @@ public class ErrorSupervisor {
 	private EntityManager entityManager = EntityManager.getInstance();
 	
 	public boolean executeRequest(Request r) {	
-		boolean error = false;
+		boolean noError = true;
 		
 		for(EA ea : r.consequences) {
 			try {
 				entityManager.sendEntityMessage(ea.id, ea.state);
 			} catch (EntityIncomingMessageException e) {
 				logger.printf(SEC, e.getMessage());
-				error = true;
+				noError = true;
 				//PRENDE DECISIONE IN AUTOMATICO
 			}
 		}
 		
-		return error;
+		return noError;
 	}
 	
 	

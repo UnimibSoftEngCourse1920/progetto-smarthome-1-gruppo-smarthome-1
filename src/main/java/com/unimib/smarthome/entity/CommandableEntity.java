@@ -24,6 +24,11 @@ public abstract class CommandableEntity extends SimulatorEntity{
 	public void setState(String newState) {
 		this.state = newState;
 	}
+	
+	@Override
+		public String getState() {
+			return state;
+		}
 
 	@Override
 	public String toString() {

@@ -42,7 +42,7 @@ public class SEC {
 		Request r;
 		if((r = secQueue.poll()) != null) { //Se ci sono nuove richieste
 			
-			logger.printf(SEC, "Evaluating request %i", r.hashCode());
+			logger.printf(SEC, "Evaluating request [id: %d]", r.hashCode());
 			
 			if(conflictSupervisor.controlRequest(r)) {
 				boolean status = errorSupervisor.executeRequest(r);
@@ -50,15 +50,16 @@ public class SEC {
 				if(status) {
 					//Se la richiesta è andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
 					
-					logger.printf(SEC, "No conflicts detected on request %i", r.hashCode());
+					logger.printf(SEC, "No conflicts detected on request %d", r.hashCode());
 					
-					if(r.retain) {
-						conflictSupervisor.addRetainedRequest(r);
-					}
 				} //Se la richiesta ha lanciato un errore il supervisore dei conflitti avra gia gestito la situazione
 				
+				if(r.retain) {
+					conflictSupervisor.addRetainedRequest(r);
+				}
+				
 			}else {
-				logger.printf(SEC, "Putting request %i in the ConflictPool", r.hashCode());
+				logger.printf(SEC, "Putting request %d in the ConflictPool", r.hashCode());
 				conflictPool.addRequestToPool(r);
 			}
 		}
@@ -66,6 +67,10 @@ public class SEC {
 	
 	protected void startConflictPool() {
 		conflictPool.start();
+	}
+
+	public void interruptConflictPool() {
+		conflictPool.interrupt();
 	}
 	
 	
