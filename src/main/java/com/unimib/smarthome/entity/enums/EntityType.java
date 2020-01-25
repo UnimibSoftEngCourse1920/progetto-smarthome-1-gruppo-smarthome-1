@@ -24,5 +24,5 @@ public enum EntityType {
         return null;
     }
    
-   
 }
+
