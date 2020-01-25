@@ -1,4 +1,5 @@
-package com.unimib.smarthome.temp;
+package com.unimib.smarthome.request;
+
 public class Request {
 	private EntityCondition[] conditions;
 	private EntityStatus[] consequences;
@@ -6,17 +7,14 @@ public class Request {
 	private int priority;
 	
 	
-	public Request(EntityCondition[] conditions, EntityStatus[] consequences, boolean retain, int priority )
-	{
-		this.setConditions(conditions);
-		this.setConsequences(consequences);
+	public Request(EntityCondition[] condition, EntityStatus[] then,boolean retain,int priority ){
+		this.setCondition(condition);
+		this.setConsequences(then);
 		this.setRetain(retain);
 		this.setPriority(priority);
 	}
 
-	public void addAction(EntityStatus action) {
-		
-	}
+	public void addAction(EntityStatus action) {}
 	
 	public void executeRequest() {}
 
@@ -24,16 +22,16 @@ public class Request {
 		return conditions;
 	}
 
-	public void setConditions(EntityCondition[] condition) {
-		this.conditions = condition;
+	public void setCondition(EntityCondition[] conditions) {
+		this.conditions = conditions;
 	}
 
 	public EntityStatus[] getConsequences() {
 		return consequences;
 	}
 
-	public void setConsequences(EntityStatus[] then) {
-		this.consequences = then;
+	public void setConsequences(EntityStatus[] consequences) {
+		this.consequences = consequences;
 	}
 
 	public boolean getRetain() {

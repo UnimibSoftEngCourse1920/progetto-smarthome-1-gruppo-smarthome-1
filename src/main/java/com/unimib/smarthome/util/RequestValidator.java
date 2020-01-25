@@ -1,7 +1,8 @@
 package com.unimib.smarthome.util;
 
-import com.unimib.smarthome.temp.*;
 import com.unimib.smarthome.entity.EntityManager;
+import com.unimib.smarthome.request.EntityCondition;
+import com.unimib.smarthome.request.Request;
 
 public class RequestValidator {
 	
@@ -30,7 +31,7 @@ public class RequestValidator {
 						return false;
 				break;
 				case '>':
-					//Controllo in double così copro sia int che double
+					//Controllo in double cosï¿½ copro sia int che double
 					if(Double.valueOf(entityRealStatus) <= Double.valueOf(entityCondition.getState()))
 						return false;
 				break;

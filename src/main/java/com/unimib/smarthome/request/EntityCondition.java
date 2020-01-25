@@ -1,7 +1,8 @@
-package com.unimib.smarthome.temp;
+package com.unimib.smarthome.request;
+
 public class EntityCondition extends EntityStatus {
 	private char rel;
-
+	
 	public EntityCondition(int entityID, String state, char relazione) {
 		super(entityID, state);
 		this.setRel(relazione);

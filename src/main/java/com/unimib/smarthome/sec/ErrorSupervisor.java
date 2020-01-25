@@ -6,8 +6,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
-import com.unimib.smarthome.temp.EntityStatus;
-import com.unimib.smarthome.temp.Request;
+import com.unimib.smarthome.request.EntityStatus;
+import com.unimib.smarthome.request.Request;
+
 
 /*
  * Una richiesta genera errore se gli imposto ad una entita un valore "invalido"

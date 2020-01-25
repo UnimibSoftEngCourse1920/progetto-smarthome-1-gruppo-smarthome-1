@@ -9,7 +9,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.unimib.smarthome.temp.*;
+import com.unimib.smarthome.request.EntityStatus;
+import com.unimib.smarthome.request.Request;
 import com.unimib.smarthome.util.RequestValidator;
 
 /*

@@ -5,7 +5,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.unimib.smarthome.temp.*;
+
+import com.unimib.smarthome.request.Request;
 
 
 
@@ -48,7 +49,7 @@ public class SEC {
 				boolean status = errorSupervisor.executeRequest(r);
 				
 				if(status) {
-					//Se la richiesta è andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
+					//Se la richiesta ï¿½ andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
 					
 					logger.printf(SEC, "No conflicts detected on request %d", r.hashCode());
 					

@@ -1,4 +1,4 @@
-package com.unimib.smarthome.command;
+package com.unimib.smarthome.request;
 
 public class EntityStatus {
 	private int entityID;

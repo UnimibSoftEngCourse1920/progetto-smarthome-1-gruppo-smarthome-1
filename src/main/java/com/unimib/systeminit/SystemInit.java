@@ -4,7 +4,8 @@ import com.unimib.smarthome.entity.Device;
 import com.unimib.smarthome.entity.Sensor;
 import com.unimib.smarthome.entity.enums.EntityType;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
-import com.unimib.smarthome.command.*;
+import com.unimib.smarthome.request.*;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,9 +15,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
-
- 
 public class SystemInit {
 
 	public static void main(String arg[]) throws IOException, ParseException, DuplicatedEntityException {
@@ -49,11 +47,8 @@ public class SystemInit {
 	            }
 	            else 
 	            	Entity.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
-	          
             }
             
-            
- 
         }
 		catch (FileNotFoundException e) {
             e.printStackTrace();
