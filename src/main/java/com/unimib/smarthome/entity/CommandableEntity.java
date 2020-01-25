@@ -9,20 +9,26 @@ import com.unimib.smarthome.entity.enums.EntityType;
 
 public abstract class CommandableEntity extends SimulatorEntity{
 
-	private int state;
+	private String state;
 	
 	public CommandableEntity(EntityType type, int id, String name, String topic) {
 		super(type, id, name, topic);
+		this.state = "0";
 	}
 	
-	public CommandableEntity(EntityType type, int id, String name, String topic, int initialState) {
+	public CommandableEntity(EntityType type, int id, String name, String topic, String initialState) {
 		this(type, id, name, topic);
 		this.state = initialState;
 	}
 
-	public void setState(int newState) {
+	public void setState(String newState) {
 		this.state = newState;
 	}
+	
+	@Override
+		public String getState() {
+			return state;
+		}
 
 	@Override
 	public String toString() {

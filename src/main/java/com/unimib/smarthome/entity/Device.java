@@ -11,8 +11,8 @@ public class Device extends CommandableEntity {
 	}
 
 	@Override
-	void onIncomingMessage(String newState) {
-		this.setState(Integer.parseInt(newState));
+	protected void onIncomingMessage(String newState) {
+		this.setState(newState);
 	}
 
 	

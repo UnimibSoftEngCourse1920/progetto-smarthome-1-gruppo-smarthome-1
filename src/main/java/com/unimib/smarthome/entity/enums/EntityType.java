@@ -1,5 +1,6 @@
 package com.unimib.smarthome.entity.enums;
 public enum EntityType {
+	
     BINARY("BINARY"),
     STATE("STATE"),
     RANGE("RANGE");
@@ -23,5 +24,5 @@ public enum EntityType {
         return null;
     }
    
-   
 }
+

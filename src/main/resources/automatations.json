@@ -21,8 +21,7 @@
 			],
 			"retain": true,
 			"retain_level": 1		
-		}
-		
+		},
 		{
 			"if" : [
 				{

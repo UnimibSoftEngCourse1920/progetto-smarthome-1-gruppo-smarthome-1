@@ -9,9 +9,8 @@ public class Sensor extends ReadOnlyEntity {
 	}
 
 	@Override
-	void onIncomingMessage(String newState) {
-		
-
+	protected void onIncomingMessage(String newState) {
+		//E' un sensore, non fa nulla :)
 	}
 
 }
