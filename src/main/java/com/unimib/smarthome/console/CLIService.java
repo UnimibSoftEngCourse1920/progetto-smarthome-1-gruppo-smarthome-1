@@ -1,12 +1,16 @@
 package com.unimib.smarthome.console;
 
+import com.unimib.smarthome.entity.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.unimib.smarthome.entity.Entity;
 
 public class CLIService extends Thread {
 
@@ -29,6 +33,13 @@ public class CLIService extends Thread {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void list() {
+		Map<Integer, Entity> lista = EntityManager.getInstance().getEntityMap();
+		for(Integer key : lista.keySet()) {
+			System.out.println(lista.get(key));
+	  }
 	}
 
 }
