@@ -85,15 +85,14 @@ public class SystemInit {
 	            Iterator<JSONObject> ifIterator = ifList.iterator();
 	            while(ifIterator.hasNext()) {
 	            	JSONObject conditionlist = ifIterator.next();
-	            	System.out.println(conditionlist.toString());
 	            	a = ((String) conditionlist.get("rel"));
-	            	value = Integer.toString((int) ((long) conditionlist.get("value")));
-	            	
+	            	value = Integer.toString((int) ((long) conditionlist.get("value")));	            	
 	            	EntityCondition cond = new EntityCondition((int) ((long) conditionlist.get("id")), 
 	            			value, a.charAt(0));
 	            	condition[i] = cond;
 	            	i++;
 	            }
+	            
 	            JSONArray thenList = (JSONArray) list.get("then");
 	            Iterator<JSONObject> thenIterator = thenList.iterator();
 	            while(thenIterator.hasNext()) {
@@ -101,19 +100,19 @@ public class SystemInit {
 	            	value = Integer.toString((int) ((long) thenlist.get("value")));
 	            	EntityStatus status = new EntityStatus((int) ((long) thenlist.get("id")), 
 	            			value);
-	            	  System.out.print(value);
+	            	  
 	            	then[j] = status;
 	            	j++;
 	            }
 	            
 	            boolean retain = (boolean) list.get("retain");
 	            int retain_level = (int) ((long) list.get("retain_level"));
-	            System.out.print(retain);
+	            
 	          
-	            Request r = new Request(condition, then, retain, retain_level);
+	            //Request r = new Request(condition, then, retain, retain_level);
 	            //registerAutomation(new Request(condition, then, retain, retain_level));
 	            
-	          System.out.print(r.toString());
+	          
             }
             
             
