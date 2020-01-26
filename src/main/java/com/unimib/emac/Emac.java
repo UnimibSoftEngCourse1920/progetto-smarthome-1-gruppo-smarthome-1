@@ -30,6 +30,9 @@ public class Emac implements Observer {
 	}
 	
 	public void registerAutomation(Request r) {
+		//r.conditions.getEntityID();
+		
+		
 		
 		
 	}

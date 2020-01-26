@@ -65,7 +65,7 @@ public class EntityManager implements Subject {
 			
 	}
 	
-	private void notifyObservers(Entity entity) {
+	public void notifyObservers(Entity entity) {
 		for (Observer o : observers) {
 			o.update(entity.getId(), entity.getState());
 		}
