@@ -1,6 +1,6 @@
 package com.unimib.smarthome.console;
 
-import com.unimib.smarthome.entity.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import com.unimib.smarthome.entity.Entity;
 
 public class CLIService extends Thread {
-
+	
 	private Logger logger = LogManager.getLogger();
 	final static Level CLI = Level.getLevel("CLI");
 
@@ -25,9 +25,10 @@ public class CLIService extends Thread {
 		while (!Thread.interrupted()) {
 			try {
 				
-				logger.log(CLI, "Enter the entity identifier:");
+				logger.log(CLI, "Enter a command:");
 				input = reader.readLine();
-				logger.printf(CLI, "Entity selected: %s", input);
+				CLIEvaluation eval = new CLIEvaluation();
+				eval.evaluation(input);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -35,14 +36,18 @@ public class CLIService extends Thread {
 		}
 	}
 	//Visualizzo tutte le entità
-	public void list() {
-		Map<Integer, Entity> lista = EntityManager.getInstance().getEntityMap();
+	public void entityVisualization(Map<Integer, Entity> lista ) {
+		
 		for(Integer key : lista.keySet()) {
-			System.out.println(lista.get(key).getId());
-			System.out.println(lista.get(key).getName());
-			System.out.println(lista.get(key).getState());
-			System.out.println(lista.get(key).getType());
+			logger.printf(CLI, "ID entità: %s", lista.get(key).getId());
+			logger.printf(CLI, "Nome entità: %s", lista.get(key).getName());
+			logger.printf(CLI, "Stato entità: %s", lista.get(key).getState());
+			logger.printf(CLI, "Tipo entità: %s", lista.get(key).getType());
 	  }
+	}
+	
+	public void stateVisualization(int id, String state) {
+		logger.printf(CLI, "L'entità con ID: %s", id, " ha come stato: %s", state);
 	}
 
 }
