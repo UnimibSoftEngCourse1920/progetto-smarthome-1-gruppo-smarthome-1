@@ -42,10 +42,9 @@ public class EntityManager implements Subject {
 	public void registerEntity(Entity entity) throws DuplicatedEntityException {		
 		int entityID = entity.getId();
 		
-		
-		
-		//Controllo che non ci siano entita con lo stesso id
-		if(entityList.containsKey(entityID))
+
+		if(entityList.containsKey(entityID)) //Controllo che non ci siano entita con lo stesso id
+
 			throw new DuplicatedEntityException(entity, entityList.get(entityID));
 		
 		logger.printf(EM, "Registered entity [id: %d, name: %s]", entityID, entity.getName());
@@ -63,7 +62,7 @@ public class EntityManager implements Subject {
 	public void notifyEntityChange(Entity entity) {		
 		
 		//NOTIFICA OSSERVATORI
-		this.notifyAddAll();
+		this.notifyObservers(entity);
 		
 		//Aggiorno l'entita nella lista
 		entityList.put(entity.getId(), entity);
@@ -82,6 +81,24 @@ public class EntityManager implements Subject {
 	
 	public Map<Integer, Entity> getEntityMap(){
 		return Map.copyOf(entityList);
-		
+	}
+	
+	/** OBSERVER PATTERN **/
+	
+
+
+	public void attach(Observer o) {
+		observers.add(o);
+	}
+	
+	public boolean detach(Observer o) {
+		return observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers(Entity entity) {
+		for (Observer o : observers) {
+			o.update(entity.getId(), entity.getState());
+		}
 	}
 }
