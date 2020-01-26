@@ -43,15 +43,15 @@ public class Emac implements Observer {
 	
 
 	
-	public void filter(Entity entity) {
+	public void filter(int entityId) {
 		//tutte le richieste relative ad entity
-		List<Request> requests = idToRequests.get(entity.getId());
+		List<Request> requests = idToRequests.get(entityId);
 		List<Request> validRequests = new ArrayList<>();
 		//filtra le sole valide
 		for (Request r : requests) {
 			boolean verified = true;
 			for (int i = 0; i < r.getCondition().length; i++) {
-				if (!r.getCondition()[i].getState().equals(EntityManager.getInstance().getEntityState(entity.getId()))) {
+				if (!r.getCondition()[i].getState().equals(EntityManager.getInstance().getEntityState(entityId))) {
 					verified = false;
 				}
 			}
@@ -62,9 +62,10 @@ public class Emac implements Observer {
 	}
 
 	@Override
-	public void update(Integer subjectId, String subjectState) {
+	public void update(Integer entityId, String entityState) {
 		// TODO Auto-generated method stub
-		Observer.super.update(subjectId, subjectState);
+		Observer.super.update(entityId, entityState);
+		this.filter(entityId);
 		
 	}
 	
