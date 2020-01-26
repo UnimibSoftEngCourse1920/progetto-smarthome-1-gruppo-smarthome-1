@@ -1,6 +1,7 @@
 package com.unimib.smarthome.entity;
 
 import com.unimib.smarthome.entity.enums.EntityType;
+import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 /**
  * Classe che rappresenta in astratto un'entita
@@ -19,7 +20,7 @@ public abstract class Entity {
 	}
 	
 	//Metodo per permettere all'entita di comunicare con l'esterno
-	abstract void onIncomingMessage(String newState);
+	protected abstract void onIncomingMessage(String newState) throws EntityIncomingMessageException;
 	
 	public int getId() {
 		return this.id;

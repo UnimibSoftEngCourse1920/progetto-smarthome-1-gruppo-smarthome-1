@@ -73,14 +73,12 @@ public class EntityManager implements Subject {
 			
 	}
 	
-	
 	public String getEntityState(int entityID) {
 		return entityList.get(entityID).getState();
 	}
 	
 	public Map<Integer, Entity> getEntityMap(){
 		return Map.copyOf(entityList);
-		
 	}
 	
 	/** OBSERVER PATTERN **/

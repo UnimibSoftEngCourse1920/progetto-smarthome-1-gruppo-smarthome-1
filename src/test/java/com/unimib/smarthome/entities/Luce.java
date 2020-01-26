@@ -12,7 +12,6 @@ public class Luce extends CommandableEntity{
 			super(EntityType.BINARY, id, name, topic, "0");
 		}
 
-		@Override
 		protected void onIncomingMessage(String newState) throws EntityIncomingMessageException {
 			System.out.println("Setto nuovo stato su " + newState);
 			this.setState(newState);

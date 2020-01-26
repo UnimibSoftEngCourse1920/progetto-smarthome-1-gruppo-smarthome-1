@@ -15,8 +15,6 @@ public class Emac implements Observer {
 
 	private Map<Integer, List<Request>> requests = new HashMap<>();
 	
-	
-
 	//Singleton
 	public static Emac getInstance() {
 		if(instance == null) {				
@@ -26,8 +24,7 @@ public class Emac implements Observer {
 	}
 	
 	public void registerAutomation(Request r) {
-		//r.conditions.getEntityID();
-		
+		//r.conditions.getEntityID();	
 	}
 
 	
