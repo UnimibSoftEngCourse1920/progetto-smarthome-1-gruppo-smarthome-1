@@ -7,15 +7,22 @@ public class CLIEvaluation {
 	
 	
 	public void evaluation(String eval) {
+		//divido la richiesta in base agli spazi.
 		String[] e = eval.split(" ");
 		CLIService s = new CLIService();
 		CLIRequest r = new CLIRequest();
+		/*
+		 * se è list, richiamo la visualizzazione che è effettuata da CLIService.
+		 * se è set, richiamo createRequest, bisogna vedere se retain e priority sono vuoti.
+		 * se è get richiamo la visualizzazione dello stato di quell'entità.
+		 */
 		
 		switch(e[0]) {
 		case "list":
 			Map<Integer, Entity> lista = EntityManager.getInstance().getEntityMap();
 			s.entityVisualization(lista);
 			break;
+			
 		case "set": 
 			if(e[3] != null && e[4] != null)
 				r.createRequest(Integer.parseInt(e[1]), e[2], 
