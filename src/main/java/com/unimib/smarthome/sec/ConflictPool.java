@@ -6,7 +6,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.unimib.smarthome.temp.Request;
+import com.unimib.smarthome.request.Request;
+
 
 public class ConflictPool extends Thread{
 	Logger logger = LogManager.getLogger();

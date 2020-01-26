@@ -23,6 +23,4 @@ public abstract class SimulatorEntity extends Entity{
 		//Controllo topic valido
 		this.topic = topic;
 	}
-
-
 }

@@ -1,9 +1,8 @@
 package com.unimib.smarthome.util;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import com.unimib.smarthome.temp.*;
 import com.unimib.smarthome.entity.EntityManager;
+import com.unimib.smarthome.request.EntityCondition;
+import com.unimib.smarthome.request.Request;
 
 public class RequestValidator {
 	
@@ -20,27 +19,24 @@ public class RequestValidator {
 	
 	public static boolean controlRequestConditions(Request request) {
 		//Prendo la lista di tutte le condizioni della richiesta
-		LinkedList<EC> conditions = request.conditions;
-		Iterator<EC> iterator = conditions.iterator();
-		
+		EntityCondition[] conditions = request.getCondition();
+
+		for(EntityCondition entityCondition : conditions){
 		//Itero tutte le condizioni
-		while(iterator.hasNext()) {
-			
-			//Per ogni condizione controllo se essa è verificata (le condizioni sono tutte in AND)
-			EC entityCondition = iterator.next();
-			String entityRealStatus = em.getEntityState(entityCondition.id);
-			switch(entityCondition.relation) {
-				case "=":
-					if(!entityRealStatus.equals(entityCondition.state))
+
+			String entityRealStatus = em.getEntityState(entityCondition.getEntityID());
+			switch(entityCondition.getRel()) {
+				case '=':
+					if(!entityRealStatus.equals(entityCondition.getState()))
 						return false;
 				break;
-				case ">":
-					//Controllo in double così copro sia int che double
-					if(Double.valueOf(entityRealStatus) <= Double.valueOf(entityCondition.state))
+				case '>':
+					//Controllo in double cosï¿½ copro sia int che double
+					if(Double.valueOf(entityRealStatus) <= Double.valueOf(entityCondition.getState()))
 						return false;
 				break;
-				case "<":
-					if(Double.valueOf(entityRealStatus) >= Double.valueOf(entityCondition.state))
+				case '<':
+					if(Double.valueOf(entityRealStatus) >= Double.valueOf(entityCondition.getState()))
 						return false;
 				break;
 				default: 

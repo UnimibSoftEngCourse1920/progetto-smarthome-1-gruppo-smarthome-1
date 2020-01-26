@@ -4,22 +4,45 @@
 			"if" : [
 				{
 					"id": 1, 
-					"value" : 0
+					"value" : 0,
+					"rel": "<"
 				},
 				{
 					"id": 2,
-					"value": 1 
+					"value": 1,
+					"rel": "<"
 				}			
 			],
 			"then": [
 				{
 					"id": 2, 
-					"value" : 0
+					"value" : 50
 				}
-			]		
-		},{
-			"if" : [],
-			"then": []	
+			],
+			"retain": true,
+			"retain_level": 1		
+		},
+		{
+			"if" : [
+				{
+					"id": 20, 
+					"value" : 0,
+					"rel": "<"
+				},
+				{
+					"id": 10,
+					"value": 1,
+					"rel": "<"
+				}			
+			],
+			"then": [
+				{
+					"id": 2, 
+					"value" : 1
+				}
+			],
+			"retain": false,
+			"retain_level": 10		
 		}
 	
 	]
