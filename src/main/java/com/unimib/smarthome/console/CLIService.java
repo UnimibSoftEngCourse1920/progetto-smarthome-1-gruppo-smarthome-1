@@ -47,7 +47,7 @@ public class CLIService extends Thread {
 	}
 	// visualizzo lo stato dell'entità che l'utente richiede.
 	public void stateVisualization(int id, String state) {
-		logger.printf(CLI, "L'entità con ID: %s", id, " ha come stato: %s", state);
+		logger.printf(CLI, "L'entità con ID: %d", id, " ha come stato: %s", state);
 	}
 
 }
