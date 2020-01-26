@@ -17,6 +17,7 @@ public abstract class Entity {
 	public Entity(EntityType type, int id, String name) {
 		this.id = id;
 		this.name = name;
+		this.type = type;
 	}
 	
 	//Metodo per permettere all'entita di comunicare con l'esterno
@@ -32,6 +33,10 @@ public abstract class Entity {
 	
 	public String getState() {
 		return this.state;
+	}
+	
+	public String getType() {
+		return this.type.getName();
 	}
 
 }

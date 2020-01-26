@@ -34,11 +34,14 @@ public class CLIService extends Thread {
 			}
 		}
 	}
-	
+	//Visualizzo tutte le entità
 	public void list() {
 		Map<Integer, Entity> lista = EntityManager.getInstance().getEntityMap();
 		for(Integer key : lista.keySet()) {
-			System.out.println(lista.get(key));
+			System.out.println(lista.get(key).getId());
+			System.out.println(lista.get(key).getName());
+			System.out.println(lista.get(key).getState());
+			System.out.println(lista.get(key).getType());
 	  }
 	}
 
