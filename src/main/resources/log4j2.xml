@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
-  <CustomLevels>
-    <CustomLevel name="SEC" intLevel="250" />
-    <CustomLevel name="BROKER" intLevel="350" />
-    <CustomLevel name="MONITOR" intLevel="5" />
-    <CustomLevel name="EMAC" intLevel="350" />
-    <CustomLevel name="CLI" intLevel="350" />
-  </CustomLevels>
-
-  <Appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout disableAnsi="false" pattern="%d{HH:mm:ss} %highlight{[%level]}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, SEC=blue, BROKER=yellow, MONITOR=cyan, EMAC=Bright, EMAC=green, CLI=magenta}: %msg%n" />
-    </Console>
-    
-    <File name="MyFile" fileName="logs/monitor.log">
-      <PatternLayout pattern="%d %-7level %logger{36} - %msg%n"/>
-    </File>
-  </Appenders>
-  
-
-  
-  <Loggers>
-    <Logger name="FileLogger" level="MONITOR">
-      <AppenderRef ref="MyFile" level="info" />
-    </Logger>
-    
-    <Root level="info">
-      <AppenderRef ref="Console"/>
-    </Root>
-  </Loggers>
-  
-  
+    <CustomLevels>
+        <CustomLevel name="SEC" intLevel="200" />
+        <CustomLevel name="BROKER" intLevel="400" />
+        <CustomLevel name="MONITOR" intLevel="1" />
+        <CustomLevel name="EMAC" intLevel="200" />
+        <CustomLevel name="CLI" intLevel="50" />
+        <CustomLevel name="EM" intLevel="200" />
+    </CustomLevels>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+        	<ThresholdFilter level="MONITOR" onMatch="DENY" onMismatch="ACCEPT"/>
+            <PatternLayout disableAnsi="false" pattern="%d{HH:mm:ss} %highlight{[%level]}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, SEC=red, BROKER=yellow, MONITOR=cyan, EMAC=Bright, EMAC=green, CLI=magenta, EM=cyan}: %msg%n" />
+        </Console>
+        <File name="EntityHistoryLog" fileName="logs/entityHistory.log">
+            <PatternLayout>
+                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] %msg%n</Pattern>
+            </PatternLayout>
+        </File>
+        <File name="SmartHomeLog" fileName="logs/smarthome.log">
+        	<ThresholdFilter level="MONITOR" onMatch="DENY" onMismatch="ACCEPT"/>
+            <PatternLayout>
+                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] %msg%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="Console" level="INFO"/>
+            <AppenderRef ref="EntityHistoryLog" level="MONITOR" />
+            <AppenderRef ref="SmartHomeLog" level="INFO" />
+        </Root>
+    </Loggers>
 </Configuration>

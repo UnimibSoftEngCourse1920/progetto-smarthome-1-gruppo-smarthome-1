@@ -8,28 +8,27 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class CLIService extends Thread{
+public class CLIService extends Thread {
 
 	private Logger logger = LogManager.getLogger();
-	final static Level CLI = Level.forName("CLI", 350);
-	
+	final static Level CLI = Level.getLevel("CLI");
+
 	@Override
 	public void run() {
-		super.run();
-		
-		logger.log(CLI, "Starting cli interface");
-        BufferedReader reader =
-                   new BufferedReader(new InputStreamReader(System.in));
-        String input;
-        while(!Thread.interrupted()) {
-        	try {
-        		logger.log(CLI, "Enter the entity identifier:");
-        		input = reader.readLine();
-        		logger.log(CLI, "Entity selected: " + input);
-        	} catch (IOException e) {
+		logger.info("Starting cli interface");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String input;
+		while (!Thread.interrupted()) {
+			try {
+				
+				logger.log(CLI, "Enter the entity identifier:");
+				input = reader.readLine();
+				logger.printf(CLI, "Entity selected: %s", input);
+				
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-        }  
+		}
 	}
-	
+
 }

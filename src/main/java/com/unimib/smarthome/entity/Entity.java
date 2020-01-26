@@ -13,12 +13,6 @@ public abstract class Entity {
 	private String name;
 	private String state;
 	
-	
-	
-	public String getState() {
-		return state;
-	}
-
 	public Entity(EntityType type, int id, String name) {
 		this.id = id;
 		this.name = name;
@@ -33,6 +27,10 @@ public abstract class Entity {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public String getState() {
+		return state;
 	}
 
 }
