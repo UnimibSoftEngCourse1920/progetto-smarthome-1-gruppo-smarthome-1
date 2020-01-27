@@ -40,10 +40,12 @@ public class CLIService extends Thread {
 		
 		for(Integer key : lista.keySet()) {
 
+
 			logger.printf(CLI, "ID entita': %d", lista.get(key).getID());
 			logger.printf(CLI, "Nome entita': %s", lista.get(key).getName());
 			logger.printf(CLI, "Stato entita': %s", lista.get(key).getState());
 			logger.printf(CLI, "Tipo entita': %s", lista.get(key).getType());
+
 
 	  }
 	}
