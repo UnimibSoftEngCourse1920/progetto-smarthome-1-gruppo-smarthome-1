@@ -1,7 +1,7 @@
 package com.unimib.smarthome.systeminit;
 
 import com.unimib.smarthome.entity.EntityManager;
-
+import com.unimib.smarthome.emac.*;
 import com.unimib.smarthome.entity.Device;
 import com.unimib.smarthome.entity.Sensor;
 import com.unimib.smarthome.entity.enums.EntityType;
@@ -72,6 +72,7 @@ public class SystemInit {
 			while (iterator.hasNext()) {
 				EntityCondition[] condition = new EntityCondition[1000];
 				EntityStatus[] then = new EntityStatus[1000];
+				Emac emac = new Emac();
 				i = 0;
 				j = 0;
 				JSONObject list = iterator.next();
@@ -99,11 +100,11 @@ public class SystemInit {
 					j++;
 				}
 
-				// boolean retain = (boolean) list.get("retain");
-				// int retain_level = (int) ((long) list.get("retain_level"));
+				boolean retain = (boolean) list.get("retain");
+				int retain_level = (int) ((long) list.get("retain_level"));
 
 				// chiamo registerAutomation in emac, per registrare l'automazione.
-				// registerAutomation(new Request(condition, then, retain, retain_level));
+				 emac.registerAutomation(new Request(condition, then, retain, retain_level));
 
 			}
 
