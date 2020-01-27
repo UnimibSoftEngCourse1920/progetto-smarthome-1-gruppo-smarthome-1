@@ -1,8 +1,9 @@
 package com.unimib.smarthome.entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,7 @@ public class EntityManager implements Subject {
 
 	static EntityManager instance;
 	private BrokerManager brokerManager = BrokerManager.getInstance();
-	private Map<Integer, Entity> entityList = new HashMap<>();
+	private ConcurrentMap<Integer, Entity> entityList = new ConcurrentHashMap<>();
 	protected ArrayList<Observer> observers;
 
 	private Logger logger = LogManager.getLogger();
@@ -40,7 +41,7 @@ public class EntityManager implements Subject {
 	
 	//Registra una nuova entita
 	public void registerEntity(Entity entity) throws DuplicatedEntityException {		
-		int entityID = entity.getId();
+		int entityID = entity.getID();
 		
 
 		if(entityList.containsKey(entityID)) //Controllo che non ci siano entita con lo stesso id
@@ -62,10 +63,10 @@ public class EntityManager implements Subject {
 	public void notifyEntityChange(Entity entity) {		
 		
 		//NOTIFICA OSSERVATORI
-		this.notifyObservers(entity);
+		notifyObservers(entity);
 		
 		//Aggiorno l'entita nella lista
-		entityList.put(entity.getId(), entity);
+		entityList.put(entity.getID(), entity);
 		
 		//Se sono le entita del simulatore notifico attraverso il server MQTT
 		if(entity instanceof SimulatorEntity) {
@@ -85,8 +86,6 @@ public class EntityManager implements Subject {
 	
 	/** OBSERVER PATTERN **/
 	
-
-
 	public void attach(Observer o) {
 		observers.add(o);
 	}
@@ -98,7 +97,7 @@ public class EntityManager implements Subject {
 	@Override
 	public void notifyObservers(Entity entity) {
 		for (Observer o : observers) {
-			o.update(entity.getId(), entity.getState());
+			o.update(entity);
 		}
 	}
 }

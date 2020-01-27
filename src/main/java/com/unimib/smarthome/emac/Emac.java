@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.unimib.smarthome.common.Observer;
+import com.unimib.smarthome.entity.Entity;
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.request.Request;
 
@@ -42,9 +42,7 @@ public class Emac implements Observer {
 		}
 	}
 	
-	
 
-	
 	private List<Request> filter(int entityId) {
 		//tutte le richieste relative ad entity
 		List<Request> requests = idToRequests.get(entityId);
@@ -53,6 +51,7 @@ public class Emac implements Observer {
 		for (Request r : requests) {
 			boolean verified = true;
 			for (int i = 0; i < r.getConditions().length; i++) {
+				//verifico che le condizioni di una richiesta siano tutte soddisfatte
 				if (!r.getConditions()[i].getState().equals(EntityManager.getInstance().getEntityState(entityId))) {
 					verified = false;
 				}
@@ -63,6 +62,8 @@ public class Emac implements Observer {
 		}
 		return validRequests;
 	}
+	
+	
 	
 	private void execute(int entityId) {
 		List<Request> validRequests = filter(entityId);
@@ -80,10 +81,9 @@ public class Emac implements Observer {
 	}
 
 	@Override
-	public void update(Integer entityId, String entityState) {
-		// TODO Auto-generated method stub
-		Observer.super.update(entityId, entityState);
-		this.execute(entityId);
+	public void update(Entity entity) {
+		
+		this.execute(entity.getID());
 		
 		
 	}
