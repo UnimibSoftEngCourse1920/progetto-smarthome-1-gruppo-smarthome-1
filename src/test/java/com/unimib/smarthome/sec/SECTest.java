@@ -42,7 +42,7 @@ public class SECTest {
 	
 	public static void initEntityManager() {
 		try {
-			Luce luce = new Luce(ENTITY_TEST_ID, "Luce1", "/luce", "0");
+			Luce luce = new Luce(ENTITY_TEST_ID, "Luce1", "/luce");
 			em.registerEntity(luce);
 		} catch (DuplicatedEntityException e) {
 			e.printStackTrace();
@@ -61,7 +61,7 @@ public class SECTest {
 	@Test
 	@Order(0)
 	void testFailRequestExecution() {
-		System.out.println("---------------------------------------- testEasyRequestExecution");
+		System.out.println("---------------------------------------- testFailRequestExecution");
 		 
 		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "2", '=')};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "1")};
@@ -90,7 +90,7 @@ public class SECTest {
 	@Test
 	@Order(2)
 	public void testSimpleRetainedRequestExecution() throws InterruptedException {
-		System.out.println("---------------------------------------- testRetainedRequestExecution");
+		System.out.println("---------------------------------------- testSimpleRetainedRequestExecution");
 		
 		EntityCondition[] conditions = {};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "2")};
@@ -105,7 +105,7 @@ public class SECTest {
 	@Test
 	@Order(3)
 	public void testPrioritedRequestExecution() throws InterruptedException {
-		System.out.println("---------------------------------------- testPrioritedRetainedRequestExecution");
+		System.out.println("---------------------------------------- testPrioritedRequestExecution");
 		
 		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "2", '=')};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "3")};
@@ -160,7 +160,7 @@ public class SECTest {
 	@Test
 	@Order(6)
 	public void testConflictPoolExecution() throws InterruptedException {
-		System.out.println("---------------------------------------- testConflictPoolFailExecution");
+		System.out.println("---------------------------------------- testConflictPoolExecution");
 		await().atMost(11, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "4")); 
 	}
 

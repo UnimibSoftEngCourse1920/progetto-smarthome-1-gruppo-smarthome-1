@@ -42,9 +42,7 @@ public class Emac implements Observer {
 		}
 	}
 	
-	
 
-	
 	private List<Request> filter(int entityId) {
 		//tutte le richieste relative ad entity
 		List<Request> requests = idToRequests.get(entityId);
@@ -65,6 +63,8 @@ public class Emac implements Observer {
 		return validRequests;
 	}
 	
+	
+	
 	private void execute(int entityId) {
 		List<Request> validRequests = filter(entityId);
 		Collections.sort(validRequests);
@@ -83,7 +83,7 @@ public class Emac implements Observer {
 	@Override
 	public void update(Entity entity) {
 		
-		this.execute(entity.getId());
+		this.execute(entity.getID());
 		
 		
 	}
