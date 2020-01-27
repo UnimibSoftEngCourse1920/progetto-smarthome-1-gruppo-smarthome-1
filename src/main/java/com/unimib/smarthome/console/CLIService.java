@@ -50,10 +50,10 @@ public class CLIService extends Thread {
 		logger.printf(CLI, "L'entità con ID: %d ha come stato %s", id,state);
 	}
 	
-	public void ErrorInput(String input) {
+	public void errorInput(String input) {
 		logger.printf(CLI, "L'input %s non è corretto.", input);
 	}
-	public void Error(int input) {
+	public void error(int input) {
 		logger.printf(CLI, "l'id %d inserito non è corretto.", input);
 	}
 

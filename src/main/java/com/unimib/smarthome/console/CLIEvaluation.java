@@ -35,11 +35,11 @@ public class CLIEvaluation {
 				break;
 			default:
 				//Nel caso in cui il comando inserito non è presente tra questi tre. 
-				s.ErrorInput(eval);
+				s.errorInput(eval);
 			}
 			
 		} //Nel caso in cui abbia inserito un id non valido
-		catch(Exception error) { s.Error(Integer.parseInt(e[1]));}
+		catch(Exception error) { s.error(Integer.parseInt(e[1]));}
 	}
 }
 	
