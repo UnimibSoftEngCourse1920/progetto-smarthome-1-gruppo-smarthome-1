@@ -98,7 +98,7 @@ public class EntityManager implements Subject {
 	@Override
 	public void notifyObservers(Entity entity) {
 		for (Observer o : observers) {
-			o.update(entity.getId(), entity.getState());
+			o.update(entity);
 		}
 	}
 }
