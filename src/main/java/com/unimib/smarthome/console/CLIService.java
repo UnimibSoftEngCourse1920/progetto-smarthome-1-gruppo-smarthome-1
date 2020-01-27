@@ -49,5 +49,9 @@ public class CLIService extends Thread {
 	public void stateVisualization(int id, String state) {
 		logger.printf(CLI, "L'entità con ID: %d", id, " ha come stato: %s", state);
 	}
+	
+	public void Error(String input) {
+		logger.printf(CLI, "L'input %s non è corretto.", input);
+	}
 
 }
