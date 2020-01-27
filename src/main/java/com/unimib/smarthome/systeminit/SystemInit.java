@@ -7,26 +7,43 @@ import com.unimib.smarthome.entity.Sensor;
 import com.unimib.smarthome.entity.enums.EntityType;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
 import com.unimib.smarthome.request.*;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class SystemInit {
-
+	private static Logger logger = LogManager.getLogger();
+	
+	public static void Initilizer() {
+		try {
+			initEntities();
+			initAutomatations();
+		}catch(Exception e) {
+			
+		}
+	}
+	
+	
+	
+	
+	
 	// leggo da un file json le varie entità che devo registrare nel sistema.
 	@SuppressWarnings("unchecked")
 	public static void initEntities() throws IOException, ParseException, DuplicatedEntityException {
 		JSONParser parser = new JSONParser();
 		EntityManager Entity = EntityManager.getInstance();
+		logger.info("Inizializzazione delle entità.");
 
 		try {
 			// leggo il file.
+			
 			Object obj = parser.parse(new FileReader("src/main/resources/Entities.json"));
 
 			JSONObject jsonObject = (JSONObject) obj;
@@ -42,10 +59,10 @@ public class SystemInit {
 				String type = ((String) list.get("Type"));
 				int id = (int) ((long) list.get("Id"));
 				//setto lo stato solo dei sensori commandable, i sensor avranno un loro stato in automatico.
-				String state = ((String) list.get("State"));
+				//String state = ((String) list.get("State"));
 				// se è commandable, creo una classe device, altrimenti creo Sensor.
 				if ((Boolean) list.get("Commandable")) {
-					Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic, state));
+					Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
 				} else
 					Entity.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
 			}
@@ -59,7 +76,7 @@ public class SystemInit {
 	@SuppressWarnings("unchecked")
 	public static void initAutomatations() throws IOException, ParseException {
 		JSONParser parser = new JSONParser();
-
+		logger.info("Inizializzazione delle automazioni.");
 		try {
 
 			Object obj = parser.parse(new FileReader("src/main/resources/Automatations.json"));
