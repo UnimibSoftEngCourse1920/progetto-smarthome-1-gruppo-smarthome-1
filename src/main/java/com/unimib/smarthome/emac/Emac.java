@@ -1,4 +1,4 @@
-package com.unimib.emac;
+package com.unimib.smarthome.emac;
 
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.unimib.common.Observer;
+import com.unimib.smarthome.common.Observer;
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.request.Request;
 
@@ -15,7 +15,6 @@ import com.unimib.smarthome.request.Request;
 public class Emac implements Observer {
 
 	static Emac instance;
-
 	
 	
 	private Map<Integer, List<Request>> idToRequests = new HashMap<>();
