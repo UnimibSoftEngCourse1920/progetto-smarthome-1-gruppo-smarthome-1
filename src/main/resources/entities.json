@@ -3,14 +3,14 @@
       { 
          "Name":"Sensore temperatura",
          "Topic":"192.168.1.22",
-         "Type":"Sensore",
+         "Type":"BINARY",
          "Id": 1,
          "Commandable": false
       },
       { 
 	     "Name":"Sensore gas",
 	     "Topic": "192.168.1.26",
-	     "Type":"Sensore",
+	     "Type":"STATE",
 	     "Id": 2,
 	     "Commandable": false
       }

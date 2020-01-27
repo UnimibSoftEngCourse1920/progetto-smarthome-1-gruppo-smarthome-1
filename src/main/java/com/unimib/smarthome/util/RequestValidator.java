@@ -20,7 +20,8 @@ public class RequestValidator {
 	public static boolean controlRequestConditions(Request request) {
 		//Prendo la lista di tutte le condizioni della richiesta
 		EntityCondition[] conditions = request.getConditions();
-
+		//Se è nullo, è un comando utente, quindi va eseguito, senza condizioni.
+		if(conditions != null)
 		for(EntityCondition entityCondition : conditions){
 		//Itero tutte le condizioni
 
@@ -31,7 +32,7 @@ public class RequestValidator {
 						return false;
 				break;
 				case '>':
-					//Controllo in double cos� copro sia int che double
+					//Controllo in double così copro sia int che double
 					if(Double.valueOf(entityRealStatus) <= Double.valueOf(entityCondition.getState()))
 						return false;
 				break;

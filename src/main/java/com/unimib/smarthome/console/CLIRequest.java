@@ -9,7 +9,6 @@ public class CLIRequest {
 		EntityStatus[] s = new EntityStatus[1];
 		s[0] = new EntityStatus(id, state);
 		Request r1 = new Request(null, s,false, priority);
-		System.out.print(r1.toString());
 		r1.executeRequest();
 		
 		

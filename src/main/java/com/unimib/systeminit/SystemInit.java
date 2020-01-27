@@ -18,11 +18,7 @@ import org.json.simple.parser.ParseException;
 
 public class SystemInit {
 
-	public static void main(String arg[]) throws IOException, ParseException, DuplicatedEntityException {
-		
-		InitEntities();
-		InitAutomatations();
-	}
+	
 	//leggo da un file json le varie entità che devo registrare nel sistema.
 	public static void InitEntities() throws IOException, ParseException, DuplicatedEntityException {
 		JSONParser parser = new JSONParser();
