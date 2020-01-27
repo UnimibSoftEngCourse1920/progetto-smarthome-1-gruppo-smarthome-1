@@ -19,6 +19,14 @@ public class Emac implements Observer {
 	
 	private Map<Integer, List<Request>> idToRequests = new HashMap<>();
 	
+	
+	
+
+	public Map<Integer, List<Request>> getIdToRequests() {
+		return Map.copyOf(idToRequests);
+	}
+
+	
 
 	//Singleton
 	public static Emac getInstance() {
@@ -39,6 +47,8 @@ public class Emac implements Observer {
 			requests.add(r);
 			//aggiungo la lista aggiornata alla mappa
 			idToRequests.put(entityId, requests);
+			
+			System.out.println(idToRequests.toString());
 		}
 	}
 	
