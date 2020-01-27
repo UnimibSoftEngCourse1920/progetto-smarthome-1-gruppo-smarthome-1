@@ -1,11 +1,8 @@
 package com.unimib.emac;
 
-<<<<<<< HEAD
+
 import java.util.ArrayList;
 import java.util.Collections;
-=======
-
->>>>>>> refs/remotes/origin/master
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,16 +15,12 @@ import com.unimib.smarthome.request.Request;
 public class Emac implements Observer {
 
 	static Emac instance;
-<<<<<<< HEAD
+
 	
 	
 	private Map<Integer, List<Request>> idToRequests = new HashMap<>();
 	
-=======
 
-	private Map<Integer, List<Request>> requests = new HashMap<>();
-
->>>>>>> refs/remotes/origin/master
 	//Singleton
 	public static Emac getInstance() {
 		if(instance == null) {				
@@ -38,9 +31,9 @@ public class Emac implements Observer {
 	
 	public void registerAutomation(Request r) {
 		
-		for (int i = 0; i < r.getCondition().length; i++) {
+		for (int i = 0; i < r.getConditions().length; i++) {
 			//id di un'entità tra le condition di r
-			int entityId = r.getCondition()[i].getEntityID();
+			int entityId = r.getConditions()[i].getEntityID();
 			//lista di richieste già salvate relative a quell'entità
 			List<Request> requests = idToRequests.get(entityId);
 			//aggiungo r alla lista
@@ -60,8 +53,8 @@ public class Emac implements Observer {
 		//filtra le sole valide
 		for (Request r : requests) {
 			boolean verified = true;
-			for (int i = 0; i < r.getCondition().length; i++) {
-				if (!r.getCondition()[i].getState().equals(EntityManager.getInstance().getEntityState(entityId))) {
+			for (int i = 0; i < r.getConditions().length; i++) {
+				if (!r.getConditions()[i].getState().equals(EntityManager.getInstance().getEntityState(entityId))) {
 					verified = false;
 				}
 			}
