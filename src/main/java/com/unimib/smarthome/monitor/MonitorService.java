@@ -6,19 +6,14 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.unimib.common.Observer;
-
-class EntityInfo{
-	public int id;
-	public String state;
-	public String name;
-}
+import com.unimib.smarthome.common.Observer;
+import com.unimib.smarthome.entity.Entity;
 
 public class MonitorService extends Thread implements Observer  {
 	private Logger logger = LogManager.getLogger();
-	private final Level MONITOR = Level.getLevel("MONITOR");
-	private ConcurrentLinkedQueue<EntityInfo> monitorQueue = new ConcurrentLinkedQueue<>();
-	EntityInfo lastInfo = null;
+	private final Level MONITOR_LEVEL = Level.getLevel("MONITOR");
+	private ConcurrentLinkedQueue<Entity> monitorQueue = new ConcurrentLinkedQueue<>();
+	Entity lastInfo = null;
 
 
 	@Override
@@ -27,7 +22,7 @@ public class MonitorService extends Thread implements Observer  {
 		while(!Thread.interrupted()) {
 			
 			if((lastInfo = monitorQueue.poll()) != null ) {
-					logger.printf(MONITOR, "Sensor id %i named %s has a new state: %s", lastInfo.id, lastInfo.name, lastInfo.state);
+					logger.printf(MONITOR_LEVEL, "Sensor id %i named %s has a new state: %s", lastInfo.getId(), lastInfo.getName(), lastInfo.getState());
 			}
 			
 			//DO OTHER ANALISYS STUFF...

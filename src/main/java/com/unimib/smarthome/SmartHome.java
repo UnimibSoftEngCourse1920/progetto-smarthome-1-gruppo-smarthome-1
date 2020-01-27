@@ -7,6 +7,7 @@ import com.unimib.smarthome.broker.BrokerService;
 import com.unimib.smarthome.console.CLIService;
 import com.unimib.smarthome.monitor.MonitorService;
 import com.unimib.smarthome.sec.SECService;
+import com.unimib.smarthome.systeminit.SystemInit;
 
 public class SmartHome {
 	
@@ -17,8 +18,16 @@ public class SmartHome {
 	private static SECService secService;
 	
 	public static void main(String[] args) {		
-		logger.printf(Level.INFO, "Starting SmartHome");
+		logger.info("Starting SmartHome");
 		
+		try {
+			SystemInit.initEntities();
+			SystemInit.initAutomatations();
+		} catch (Exception e) {
+			
+		}
+		
+	
 		brokerService = new BrokerService();
 		cliService = new CLIService();
 		monitorService = new MonitorService();

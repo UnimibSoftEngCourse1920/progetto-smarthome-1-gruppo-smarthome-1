@@ -1,4 +1,4 @@
-package com.unimib.common;
+package com.unimib.smarthome.common;
 
 import java.util.HashMap;
 import java.util.Map;

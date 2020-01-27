@@ -20,7 +20,7 @@ public class Request implements Comparable<Request>{
 
 	
 	public void executeRequest() {
- 		SEC.getInstance().evaluateRequest(this);
+ 		SEC.getInstance().addRequestToSECQueue(this); //TODO INUTILE
  	}
 
 	public EntityCondition[] getConditions() {

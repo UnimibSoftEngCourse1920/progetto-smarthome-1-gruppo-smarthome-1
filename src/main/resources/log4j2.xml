@@ -27,7 +27,7 @@
     </Appenders>
     <Loggers>
         <Root level="all">
-            <AppenderRef ref="Console" level="CLI"/>
+            <AppenderRef ref="Console" level="INFO"/>
             <AppenderRef ref="EntityHistoryLog" level="MONITOR" />
             <AppenderRef ref="SmartHomeLog" level="INFO" />
         </Root>

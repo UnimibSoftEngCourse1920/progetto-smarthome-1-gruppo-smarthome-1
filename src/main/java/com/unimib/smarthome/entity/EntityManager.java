@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.unimib.common.Observer;
-import com.unimib.common.Subject;
 import com.unimib.smarthome.broker.BrokerManager;
+import com.unimib.smarthome.common.Observer;
+import com.unimib.smarthome.common.Subject;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
 import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 

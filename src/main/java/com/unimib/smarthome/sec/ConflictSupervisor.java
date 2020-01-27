@@ -13,21 +13,6 @@ import com.unimib.smarthome.request.EntityStatus;
 import com.unimib.smarthome.request.Request;
 import com.unimib.smarthome.util.RequestValidator;
 
-/*
- * ESEMPIO DI CONFLITTO:
- * 	Request {
- * 			if: [GAS > 20, persone = 0]
- * 			then: [finestra = Aperta, allarme = disattivato]
- * 			retain: true
- * 			retain_level: 5
- * }
- * 	Request {
- * 			if: [Temperatura < 25, Finestra = Aperta]
- * 			then: [finestra = Chiusa]
- * }
- * 
- */
-
 public class ConflictSupervisor {
 	Logger logger = LogManager.getLogger();
 	Level SEC = Level.getLevel("SEC");
@@ -53,7 +38,7 @@ public class ConflictSupervisor {
 					
 					if(request.getPriority() > conflictingRequest.getPriority()) {
 						
-						logger.printf(SEC, "Found retained request with lower priority. Removing it from memory [request: %d, priority: %d, lowerRequest: %d, lowerRequestPriority: %d]", request.hashCode(), request.getPriority(), conflictingRequest.hashCode(), conflictingRequest.getPriority());
+						logger.printf(SEC, "Found retained request with lower priority. Removing it from memory [request: %d, lowerRequest: %d]", request.hashCode(), conflictingRequest.hashCode());
 						removeRetainRequest(conflictingRequest);
 						
 					}else if(RequestValidator.controlRequestConditions(conflictingRequest)) {  //Se tutte le condizioni di questa richiesta sono ancora rispettate

@@ -13,7 +13,7 @@ import com.unimib.smarthome.util.RequestValidator;
 
 public class SEC {
 	Logger logger = LogManager.getLogger();
-	Level SEC = Level.getLevel("SEC");
+	Level SEC_LEVEL = Level.getLevel("SEC");
 	
 	private ConcurrentLinkedQueue<Request> secQueue = new ConcurrentLinkedQueue<>();
 	private ConflictSupervisor conflictSupervisor;
@@ -35,7 +35,7 @@ public class SEC {
 	}
 	
 	//Mette una richiesta in coda per essere valutata
-	public void evaluateRequest(Request request) {
+	public void addRequestToSECQueue(Request request) { //TODO migliora nome
 		secQueue.add(request);
 	}
 	
@@ -43,32 +43,32 @@ public class SEC {
 	protected void controlIncomingRequest() {
 		Request r;
 		if((r = secQueue.poll()) != null) { //Se ci sono nuove richieste
-			
-			logger.printf(SEC, "Evaluating request %s", r);
-			
-			if(RequestValidator.controlRequestConditions(r)) {
-				if(conflictSupervisor.controlRequest(r)) {
-					boolean status = errorSupervisor.executeRequest(r);
+			evaluateRequest(r);
+		}
+	}
+	
+	protected void evaluateRequest(Request r) {
+		logger.printf(SEC_LEVEL, "Evaluating %s", r);
+		
+		if(RequestValidator.controlRequestConditions(r)) {
+			if(conflictSupervisor.controlRequest(r)) {
+				if(errorSupervisor.executeRequest(r)) {
+					//Se la richiesta � andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
 					
-					if(status) {
-						//Se la richiesta � andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
-						
-						logger.printf(SEC, "No conflicts detected on request %s", r);
-						
-					} //Se la richiesta ha lanciato un errore il supervisore dei conflitti avra gia gestito la situazione
+					logger.printf(SEC_LEVEL, "No conflicts detected on request %d", r.hashCode());
 					
-					if(r.getRetain()) {
-						conflictSupervisor.addRetainedRequest(r);
-					}
-					
-				}else {
-					logger.printf(SEC, "Putting request %s in the ConflictPool", r);
-					conflictPool.addRequestToPool(r);
+				} //Se la richiesta ha lanciato un errore il supervisore dei conflitti avra gia gestito la situazione
+				
+				if(r.getRetain()) {
+					conflictSupervisor.addRetainedRequest(r);
 				}
+				
 			}else {
-				logger.printf(SEC, "Conditions of request %s aren't satisfied", r);  
+				logger.printf(SEC_LEVEL, "Putting the request %d into the ConflictPool", r.hashCode());
+				conflictPool.addRequestToPool(r);
 			}
-
+		}else {
+			logger.printf(SEC_LEVEL, "Conditions of request %d aren't satisfied", r.hashCode());  
 		}
 	}
 	

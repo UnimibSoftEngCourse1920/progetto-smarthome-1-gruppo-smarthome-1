@@ -10,7 +10,7 @@ import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 public abstract class Entity {
 
 	private int id;
-	public EntityType type;
+	private EntityType type;
 	private String name;
 	private String state;
 	

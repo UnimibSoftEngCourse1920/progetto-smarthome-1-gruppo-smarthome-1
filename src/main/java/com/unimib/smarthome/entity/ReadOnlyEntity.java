@@ -14,7 +14,7 @@ public abstract class ReadOnlyEntity extends SimulatorEntity{
 	
 	@Override
 	public String toString() {
-		return "ReadOnlyEntity [id = " + this.getId() + " type=" + this.type + ", name= " + this.getName() + ", topic= " + this.getTopic() + ",state=" + this.getState() + "]";
+		return "ReadOnlyEntity [id = " + this.getId() + " type=" + this.getType() + ", name= " + this.getName() + ", topic= " + this.getTopic() + ",state=" + this.getState() + "]";
 	}
 	
 }

@@ -1,8 +1,8 @@
 { 
    "entities":[ 
       { 
-         "Name":"Sensore temperatura",
-         "Topic":"192.168.1.22",
+         "Name":"Luce1",
+         "Topic":"/light",
          "Type":"BINARY",
          "Id": 1,
          "Commandable": false

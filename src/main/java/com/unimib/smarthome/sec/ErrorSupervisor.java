@@ -20,7 +20,7 @@ import com.unimib.smarthome.request.Request;
 public class ErrorSupervisor {
 	
 	Logger logger = LogManager.getLogger();
-	Level SEC = Level.getLevel("SEC");
+	Level SEC_LEVEL = Level.getLevel("SEC");
 
 	private EntityManager entityManager = EntityManager.getInstance();
 	
@@ -28,13 +28,11 @@ public class ErrorSupervisor {
 		boolean noError = true;
 		
 		for(EntityStatus es : r.getConsequences()) {
-			
-			System.out.println(es);
-			
+
 			try {
 				entityManager.sendEntityMessage(es.getEntityID(), es.getState());
 			} catch (EntityIncomingMessageException e) {
-				logger.printf(SEC, e.getMessage());
+				logger.printf(SEC_LEVEL, e.getMessage());
 				noError = true;
 				//PRENDE DECISIONE IN AUTOMATICO
 			}
