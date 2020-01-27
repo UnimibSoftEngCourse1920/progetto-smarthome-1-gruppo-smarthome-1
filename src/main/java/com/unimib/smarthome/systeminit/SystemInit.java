@@ -41,9 +41,11 @@ public class SystemInit {
 				String topic = ((String) list.get("Topic"));
 				String type = ((String) list.get("Type"));
 				int id = (int) ((long) list.get("Id"));
+				//setto lo stato solo dei sensori commandable, i sensor avranno un loro stato in automatico.
+				String state = ((String) list.get("State"));
 				// se è commandable, creo una classe device, altrimenti creo Sensor.
 				if ((Boolean) list.get("Commandable")) {
-					Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
+					Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic, state));
 				} else
 					Entity.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
 			}
