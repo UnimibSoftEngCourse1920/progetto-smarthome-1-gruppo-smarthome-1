@@ -26,12 +26,21 @@ public class CLIEvaluation {
 				if(e.length == 5)
 					r.createRequest(Integer.parseInt(e[1]), e[2], 
 							Boolean.parseBoolean(e[3]), Integer.parseInt(e[4]));
-				else
-					r.createRequest(Integer.parseInt(e[1]), e[2]);
+				else 
+					if(e.length == 3)
+						r.createRequest(Integer.parseInt(e[1]), e[2]);
+					else
+						s.errorSet();
+					
 				break;
 			case "get": 
-				String state = EntityManager.getInstance().getEntityState(Integer.parseInt(e[1]));
-				s.stateVisualization(Integer.parseInt(e[1]), state);
+				if(e[1] != null) {
+					String state = EntityManager.getInstance().getEntityState(Integer.parseInt(e[1]));
+					s.stateVisualization(Integer.parseInt(e[1]), state);
+				}
+				else
+					s.errorGet();
+					
 				break;
 			default:
 				//Nel caso in cui il comando inserito non è presente tra questi tre. 
