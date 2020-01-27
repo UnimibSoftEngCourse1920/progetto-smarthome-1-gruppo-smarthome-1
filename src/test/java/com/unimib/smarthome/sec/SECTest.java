@@ -1,11 +1,19 @@
 package com.unimib.smarthome.sec;
+import static org.junit.Assert.assertEquals;
+
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.unimib.smarthome.SmartHome;
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
+import com.unimib.smarthome.request.EntityCondition;
+import com.unimib.smarthome.request.EntityStatus;
+import com.unimib.smarthome.request.Request;
 import com.unimib.smarthome.sec.SEC;
 import com.unimib.smarthome.entities.*;
 
@@ -39,147 +47,143 @@ public class SECTest {
 	
 	public static void initEntityManager() {
 		try {
-			em.registerEntity(new Luce(1, "Luce1", "/luce", "0"));
+			Luce luce = new Luce(1, "Luce1", "/luce", "0");
+			em.registerEntity(luce);
 		} catch (DuplicatedEntityException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	
-//	@Test
-//	@Order(1)
-//	void testEasyRequestExecution() {
-//		System.out.println("---------------------------------------- testEasyRequestExecution");
-//		Request r1 = new Request();
-//		EC ec = new EC();
-//		ec.id = 1;
-//		ec.state = "0";
-//		ec.relation = "=";
-//		
-//		EA ea = new EA();
-//		ea.id = 1;
-//		ea.state = "1";
-//		
-//		r1.conditions = new LinkedList<EC>();
-//		r1.consequences = new LinkedList<EA>();
-//		r1.conditions.add(ec);
-//		r1.consequences.add(ea);
-//		r1.retain = true;
-//		
-//		sec.evaluateRequest(r1);
-//		
-//		try {
-//			Thread.sleep(1000);  //Aspetto che il sec setti in nuovo stato
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-// 
-//		assertEquals(em.getEntityState(1), "1");	
-//	}
-//	
-//	@Test
-//	@Order(2)
-//	public void testSimpleRetainedRequestExecution() throws InterruptedException {
-//		System.out.println("---------------------------------------- testRetainedRequestExecution");
-//		Request r2 = new Request();
-//		
-//		EA ea = new EA();
-//		ea.id = 1;
-//		ea.state = "2";
-//		
-//		r2.conditions = new LinkedList<EC>();
-//		r2.consequences = new LinkedList<EA>();
-//		r2.consequences.add(ea);
-//		r2.retain = true;
-//		
-//		//
-//		
-//		//Richiesta di spegnere la luce
-//		Request r3 = new Request();
-//		
-//		EA ea1 = new EA();
-//		ea1.id = 1;
-//		ea1.state = "1";
-//		
-//		r3.conditions = new LinkedList<EC>();
-//		r3.consequences = new LinkedList<EA>();
-//		r3.consequences.add(ea1);
-//		
-//		sec.evaluateRequest(r2);
-//		Thread.sleep(1000);
-//		assertEquals(em.getEntityState(1), "0");
-//		
-//		sec.evaluateRequest(r3);
-//		
-//		assertEquals(em.getEntityState(1), "0");
-//		
-//		
-//	}
-//	
-//	@Test
-//	@Order(3)
-//	public void testPrioritedRetainedRequestExecution() throws InterruptedException {
-//		System.out.println("---------------------------------------- testPrioritedRetainedRequestExecution");
-//		//Richiesta di spegnere la luce
-//		Request r1 = new Request();
-//		
-//		EA ea1 = new EA();
-//		ea1.id = 1;
-//		ea1.state = "1";
-//		
-//		r1.conditions = new LinkedList<EC>();
-//		r1.consequences = new LinkedList<EA>();
-//		r1.consequences.add(ea1);
-//		r1.priority = 2;
-//		
-//	
-//		sec.evaluateRequest(r1);	
-//		Thread.sleep(1000);
-//		assertEquals(em.getEntityState(1), "1");
-//		
-//		
-//	}
-//	
-//	@Test
-//	@Order(4)
-//	public void testConflictPoolRequestExecution() throws InterruptedException {
-//		System.out.println("---------------------------------------- testConflictPoolRequestExecution");
-//		
-//		//Richiesta di accendere la luce retained
-//		Request r = new Request();
-//		
-//		EA ea = new EA();
-//		ea.id = 1;
-//		ea.state = "0";
-//		
-//		r.conditions = new LinkedList<EC>();
-//		r.consequences = new LinkedList<EA>();
-//		r.consequences.add(ea);
-//		r.retain = true;
-//		r.priority = 0;
-//		
-//		//Richiesta di spegnere la luce
-//		Request r1 = new Request();
-//		
-//		EA ea1 = new EA();
-//		ea1.id = 1;
-//		ea1.state = "1";
-//		
-//		r1.conditions = new LinkedList<EC>();
-//		r1.consequences = new LinkedList<EA>();
-//		r1.consequences.add(ea1);
-//		r1.priority = 2;
-//		
-//		sec.evaluateRequest(r);
-//		Thread.sleep(1000);
-//		assertEquals(em.getEntityState(1), "0");
-//	
-//		sec.evaluateRequest(r1);	
-//		Thread.sleep(1000);
-//		assertEquals(em.getEntityState(1), "1");
-//		
-////		
-//	}
+	@Test
+	@Order(0)
+	void testFailRequestExecution() {
+		System.out.println("---------------------------------------- testEasyRequestExecution");
+		 
+		EntityCondition[] conditions = {new EntityCondition(1, "2", '=')};
+		EntityStatus[] consequences = {new EntityStatus(1, "1")};
+		Request r1 = new Request(conditions, consequences, true, 0);
+
+		sec.evaluateRequest(r1);
+		
+		try {
+			Thread.sleep(1000);  //Aspetto che il sec setti in nuovo stato
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+ 
+		assertEquals(em.getEntityState(1), "0");	
+	}
 	
+	@Test
+	@Order(1)
+	void testEasyRequestExecution() {
+		System.out.println("---------------------------------------- testEasyRequestExecution");
+		 
+		EntityCondition[] conditions = {new EntityCondition(1, "0", '=')};
+		EntityStatus[] consequences = {new EntityStatus(1, "1")};
+		Request r1 = new Request(conditions, consequences, true, 3);
+
+		sec.evaluateRequest(r1);
+		
+		try {
+			Thread.sleep(1000);  //Aspetto che il sec setti in nuovo stato
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+ 
+		assertEquals(em.getEntityState(1), "1");	
+	}
+	
+	@Test
+	@Order(2)
+	public void testSimpleRetainedRequestExecution() throws InterruptedException {
+		System.out.println("---------------------------------------- testRetainedRequestExecution");
+		
+		EntityCondition[] conditions = {};
+		EntityStatus[] consequences = {new EntityStatus(1, "2")};
+		Request r2 = new Request(conditions, consequences, true, 3);
+		
+		sec.evaluateRequest(r2);
+		Thread.sleep(1000);
+		
+		assertEquals(em.getEntityState(1), "2");
+		
+	}
+
+	@Test
+	@Order(3)
+	public void testPrioritedRequestExecution() throws InterruptedException {
+		System.out.println("---------------------------------------- testPrioritedRetainedRequestExecution");
+		
+		EntityCondition[] conditions = {new EntityCondition(1, "2", '=')};
+		EntityStatus[] consequences = {new EntityStatus(1, "3")};
+		Request r3 = new Request(conditions, consequences, false, 10);
+		
+		;
+		sec.evaluateRequest(r3);
+		
+		Thread.sleep(1000);
+		assertEquals(em.getEntityState(1), "3");
+		
+		
+	}
+	
+	@Test
+	@Order(4)
+	public void testLowPrioritedRequestExecution() throws InterruptedException {
+		System.out.println("---------------------------------------- testLowPrioritedRequestExecution");
+		
+		EntityCondition[] conditions = {};
+		EntityStatus[] consequences = {new EntityStatus(1, "2")};
+		Request r4a = new Request(conditions, consequences, true, 5);
+		
+		sec.evaluateRequest(r4a);
+		
+		Thread.sleep(1000);
+		assertEquals(em.getEntityState(1), "2");
+		
+		EntityCondition[] conditionsb = {new EntityCondition(1, "2", '=')};
+		EntityStatus[] consequencesb = {new EntityStatus(1, "4")};
+		Request r4b = new Request(conditionsb, consequencesb, false, 2);
+		
+		//sec.getConflictPool().wait();
+		sec.evaluateRequest(r4b);	
+		Thread.sleep(500);
+		assertEquals(sec.getConflictPool().countRequestOnPool(), 1);
+		assertEquals(em.getEntityState(1), "2");
+		//sec.getConflictPool().notify();
+	}
+	
+	@Test
+	@Order(5)
+	public void testHighPrioritedRequestExecution() throws InterruptedException {
+		System.out.println("---------------------------------------- testHighPrioritedRequestExecution");
+		
+		EntityCondition[] conditions = {};
+		EntityStatus[] consequences = {new EntityStatus(1, "2")};
+		Request r5 = new Request(conditions, consequences, false, 6);
+		
+		assertEquals(sec.getConflictPool().countRequestOnPool(), 1);
+		//sec.getConflictPool().wait();
+		sec.evaluateRequest(r5);
+		assertEquals(sec.getConflictPool().countRequestOnPool(), 1);
+		
+		Thread.sleep(1000);
+		assertEquals(em.getEntityState(1), "2");
+		
+	}
+	
+	@Test
+	@Order(6)
+	public void testConflictPoolExecution() throws InterruptedException {
+		System.out.println("---------------------------------------- testConflictPoolFailExecution");
+		
+		
+		//sec.getConflictPool().notify();
+		Thread.sleep(21000);
+		assertEquals(em.getEntityState(1), "4");
+		
+	}
 
 }

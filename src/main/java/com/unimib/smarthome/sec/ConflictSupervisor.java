@@ -42,7 +42,7 @@ public class ConflictSupervisor {
 		
 		EntityStatus[] consequences = request.getConsequences();
 		var wrapper = new Object(){ boolean requestCanBeExecuted; };
-		
+		wrapper.requestCanBeExecuted = true;
 
 		for(EntityStatus ea : consequences){
 			if(retainedRequests.get(ea.getEntityID()) != null) {
@@ -100,6 +100,7 @@ public class ConflictSupervisor {
 		retainedRequests.forEach((entityID, retainedSet) -> {
 			if(retainedSet.contains(request)) {
 				logger.printf(SEC, "Removing retained request to entity [request: %d, entity: %d]", request.hashCode(), entityID);
+				retainedSet.remove(request);
 			}
 		});
 		

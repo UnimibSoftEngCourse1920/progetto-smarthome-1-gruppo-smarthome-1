@@ -1,11 +1,12 @@
 package com.unimib.smarthome.request;
-import com.unimib.smarthome.sec.*;
+
+import java.util.Arrays;
+
 public class Request {
 	private EntityCondition[] conditions;
 	private EntityStatus[] consequences;
 	private boolean retain;
 	private int priority;
-	
 	
 	
 	public Request(EntityCondition[] condition, EntityStatus[] then,boolean retain,int priority ){
@@ -15,15 +16,11 @@ public class Request {
 		this.setPriority(priority);
 	}
 
-	public void addEntityStatus(EntityStatus action) {
-		//che deve fare?
-	}
+	public void addAction(EntityStatus action) {}
 	
-	public void executeRequest() {
-		SEC.getInstance().evaluateRequest(this);
-	}
+	public void executeRequest() {}
 
-	public EntityCondition[] getCondition() {
+	public EntityCondition[] getConditions() {
 		return conditions;
 	}
 
@@ -56,6 +53,10 @@ public class Request {
 	};
 	
 	
+	@Override
+	public String toString() {
+		return "Request " + this.hashCode() + " [conditions: " + Arrays.toString(getConditions()) + ", consequences: " + Arrays.toString(getConsequences()) + ", retain: " + this.getRetain() + ", priority: " + this.getPriority() + "]";
+	}
 	
 	
 	

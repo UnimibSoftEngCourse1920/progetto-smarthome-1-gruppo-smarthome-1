@@ -32,7 +32,7 @@ public abstract class CommandableEntity extends SimulatorEntity{
 
 	@Override
 	public String toString() {
-		return "CommandableEntity [id = " + this.getId() + " type=" + this.type + ", name= " + this.getName() + ", topic= " + this.getTopic() + ",state=" + state + "]";
+		return "CommandableEntity [id = " + this.getId() + " type=" + this.type + ", name= " + this.getName() + ", topic= " + this.getTopic() + ", state=" + state + "]";
 	}
 
 	

@@ -28,6 +28,9 @@ public class ErrorSupervisor {
 		boolean noError = true;
 		
 		for(EntityStatus es : r.getConsequences()) {
+			
+			System.out.println(es);
+			
 			try {
 				entityManager.sendEntityMessage(es.getEntityID(), es.getState());
 			} catch (EntityIncomingMessageException e) {

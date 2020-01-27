@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.unimib.smarthome.request.Request;
+import com.unimib.smarthome.util.RequestValidator;
 
 
 
@@ -43,26 +44,31 @@ public class SEC {
 		Request r;
 		if((r = secQueue.poll()) != null) { //Se ci sono nuove richieste
 			
-			logger.printf(SEC, "Evaluating request [id: %d]", r.hashCode());
+			logger.printf(SEC, "Evaluating request %s", r);
 			
-			if(conflictSupervisor.controlRequest(r)) {
-				boolean status = errorSupervisor.executeRequest(r);
-				
-				if(status) {
-					//Se la richiesta � andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
+			if(RequestValidator.controlRequestConditions(r)) {
+				if(conflictSupervisor.controlRequest(r)) {
+					boolean status = errorSupervisor.executeRequest(r);
 					
-					logger.printf(SEC, "No conflicts detected on request %d", r.hashCode());
+					if(status) {
+						//Se la richiesta � andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
+						
+						logger.printf(SEC, "No conflicts detected on request %s", r);
+						
+					} //Se la richiesta ha lanciato un errore il supervisore dei conflitti avra gia gestito la situazione
 					
-				} //Se la richiesta ha lanciato un errore il supervisore dei conflitti avra gia gestito la situazione
-				
-				if(r.getRetain()) {
-					conflictSupervisor.addRetainedRequest(r);
+					if(r.getRetain()) {
+						conflictSupervisor.addRetainedRequest(r);
+					}
+					
+				}else {
+					logger.printf(SEC, "Putting request %s in the ConflictPool", r);
+					conflictPool.addRequestToPool(r);
 				}
-				
 			}else {
-				logger.printf(SEC, "Putting request %d in the ConflictPool", r.hashCode());
-				conflictPool.addRequestToPool(r);
+				logger.printf(SEC, "Conditions of request %s aren't satisfied", r);  
 			}
+
 		}
 	}
 	
@@ -74,5 +80,8 @@ public class SEC {
 		conflictPool.interrupt();
 	}
 	
+	public ConflictPool getConflictPool() {
+		return conflictPool;
+	}
 	
 }
