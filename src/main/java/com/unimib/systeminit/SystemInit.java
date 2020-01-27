@@ -1,5 +1,6 @@
 package com.unimib.systeminit;
 import com.unimib.smarthome.entity.EntityManager;
+
 import com.unimib.smarthome.entity.Device;
 import com.unimib.smarthome.entity.Sensor;
 import com.unimib.smarthome.entity.enums.EntityType;
@@ -17,21 +18,18 @@ import org.json.simple.parser.ParseException;
 
 public class SystemInit {
 
-	public static void main(String arg[]) throws IOException, ParseException, DuplicatedEntityException {
-		
-		InitEntities();
-		InitAutomatations();
-	}
 	
+	//leggo da un file json le varie entità che devo registrare nel sistema.
 	public static void InitEntities() throws IOException, ParseException, DuplicatedEntityException {
 		JSONParser parser = new JSONParser();
 		EntityManager Entity = EntityManager.getInstance();
 		
 		try {
-			 
+			 //leggo il file.
             Object obj = parser.parse(new FileReader("src/main/resources/Entities.json"));
  
             JSONObject jsonObject = (JSONObject) obj;
+            
             JSONArray entitiesList = (JSONArray) jsonObject.get("entities");
             @SuppressWarnings("unchecked")
 			Iterator<JSONObject> iterator = entitiesList.iterator();
@@ -42,6 +40,7 @@ public class SystemInit {
 	            String topic = ((String) list.get("Topic"));
 	            String type = ((String) list.get("Type"));
 	            int id = (int) ((long) list.get("Id"));
+	            //se è commandable, creo una classe device, altrimenti creo Sensor.
 	            if ((Boolean) list.get("Commandable")) {
 	            	Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
 	            }
@@ -76,6 +75,7 @@ public class SystemInit {
         		i = 0;
         		j = 0;
 	            JSONObject list = iterator.next();
+	            // L'if è un array di condizioni.
 	            JSONArray ifList = (JSONArray) list.get("if");
 	            Iterator<JSONObject> ifIterator = ifList.iterator();
 	            while(ifIterator.hasNext()) {
@@ -87,7 +87,7 @@ public class SystemInit {
 	            	condition[i] = cond;
 	            	i++;
 	            }
-	            
+	            // Anche le conseguenze, possono contenere più azioni.
 	            JSONArray thenList = (JSONArray) list.get("then");
 	            Iterator<JSONObject> thenIterator = thenList.iterator();
 	            while(thenIterator.hasNext()) {
@@ -103,8 +103,7 @@ public class SystemInit {
 	            boolean retain = (boolean) list.get("retain");
 	            int retain_level = (int) ((long) list.get("retain_level"));
 	            
-	          
-	            //Request r = new Request(condition, then, retain, retain_level);
+	            // chiamo registerAutomation in emac, per registrare l'automazione.
 	            //registerAutomation(new Request(condition, then, retain, retain_level));
 	            
 	          

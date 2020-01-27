@@ -20,31 +20,32 @@ public class RequestValidator {
 	public static boolean controlRequestConditions(Request request) {
 		//Prendo la lista di tutte le condizioni della richiesta
 		EntityCondition[] conditions = request.getConditions();
-
-		for(EntityCondition entityCondition : conditions){
-		//Itero tutte le condizioni
-
-			String entityRealStatus = em.getEntityState(entityCondition.getEntityID());
-			switch(entityCondition.getRel()) {
-				case '=':
-					if(!entityRealStatus.equals(entityCondition.getState()))
+		//Se è nullo, è un comando utente, quindi va eseguito, senza condizioni.
+		if(conditions != null)
+			for(EntityCondition entityCondition : conditions){
+			//Itero tutte le condizioni
+	
+				String entityRealStatus = em.getEntityState(entityCondition.getEntityID());
+				switch(entityCondition.getRel()) {
+					case '=':
+						if(!entityRealStatus.equals(entityCondition.getState()))
+							return false;
+					break;
+					case '>':
+						//Controllo in double così copro sia int che double
+						if(Double.valueOf(entityRealStatus) <= Double.valueOf(entityCondition.getState()))
+							return false;
+					break;
+					case '<':
+						if(Double.valueOf(entityRealStatus) >= Double.valueOf(entityCondition.getState()))
+							return false;
+					break;
+					default: 
+						//Operatore relazione non supportato
 						return false;
-				break;
-				case '>':
-					//Controllo in double cos� copro sia int che double
-					if(Double.valueOf(entityRealStatus) <= Double.valueOf(entityCondition.getState()))
-						return false;
-				break;
-				case '<':
-					if(Double.valueOf(entityRealStatus) >= Double.valueOf(entityCondition.getState()))
-						return false;
-				break;
-				default: 
-					//Operatore relazione non supportato
-					return false;
+				}
+				
 			}
-			
-		}
 		
 		//Tutte le condizioni della richiesta sono rispettate
 		return true;
