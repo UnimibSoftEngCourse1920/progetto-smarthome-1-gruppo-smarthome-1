@@ -1,15 +1,19 @@
 package com.unimib.smarthome.request;
+import java.util.Arrays;
 
 public class Request implements Comparable<Request>{
+
+
+
 	private EntityCondition[] conditions;
 	private EntityStatus[] consequences;
 	private boolean retain;
 	private int priority;
 	
 	
-	public Request(EntityCondition[] condition, EntityStatus[] then,boolean retain,int priority ){
-		this.setCondition(condition);
-		this.setConsequences(then);
+	public Request(EntityCondition[] conditions, EntityStatus[] consequences, boolean retain, int priority ){
+		this.setCondition(conditions);
+		this.setConsequences(consequences);
 		this.setRetain(retain);
 		this.setPriority(priority);
 	}
@@ -18,7 +22,7 @@ public class Request implements Comparable<Request>{
 	
 	public void executeRequest() {}
 
-	public EntityCondition[] getCondition() {
+	public EntityCondition[] getConditions() {
 		return conditions;
 	}
 
@@ -52,6 +56,7 @@ public class Request implements Comparable<Request>{
 	
 	
 
+
 	@Override
 	public int compareTo(Request r2) {
 		Integer p1 = Integer.valueOf(this.getPriority());
@@ -60,6 +65,12 @@ public class Request implements Comparable<Request>{
 	}
 	
 	
+
+	@Override
+	public String toString() {
+		return "Request " + this.hashCode() + " [conditions: " + Arrays.toString(getConditions()) + ", consequences: " + Arrays.toString(getConsequences()) + ", retain: " + this.getRetain() + ", priority: " + this.getPriority() + "]";
+	}
+
 	
 	
 	

@@ -6,10 +6,11 @@ import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 public class Luce extends CommandableEntity{
 
-		String state;
+		private String state;
 		
 		public Luce(int id, String name, String topic, String initialState) {
 			super(EntityType.BINARY, id, name, topic, "0");
+			setState(initialState);
 		}
 
 		protected void onIncomingMessage(String newState) throws EntityIncomingMessageException {
@@ -28,7 +29,7 @@ public class Luce extends CommandableEntity{
 		
 		@Override
 		public String getState() {
-			return state;
+			return this.state;
 		}
 		
 	}

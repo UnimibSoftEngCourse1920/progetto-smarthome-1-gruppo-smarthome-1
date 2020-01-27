@@ -42,7 +42,9 @@ public class EntityManager implements Subject {
 	public void registerEntity(Entity entity) throws DuplicatedEntityException {		
 		int entityID = entity.getId();
 		
+
 		if(entityList.containsKey(entityID)) //Controllo che non ci siano entita con lo stesso id
+
 			throw new DuplicatedEntityException(entity, entityList.get(entityID));
 		
 		logger.printf(EM, "Registered entity [id: %d, name: %s]", entityID, entity.getName());
@@ -99,5 +101,4 @@ public class EntityManager implements Subject {
 			o.update(entity.getId(), entity.getState());
 		}
 	}
-
 }

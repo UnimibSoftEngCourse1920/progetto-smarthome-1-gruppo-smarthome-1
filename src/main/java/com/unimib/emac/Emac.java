@@ -1,7 +1,11 @@
 package com.unimib.emac;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Collections;
+=======
+
+>>>>>>> refs/remotes/origin/master
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +18,16 @@ import com.unimib.smarthome.request.Request;
 public class Emac implements Observer {
 
 	static Emac instance;
+<<<<<<< HEAD
 	
 	
 	private Map<Integer, List<Request>> idToRequests = new HashMap<>();
 	
+=======
+
+	private Map<Integer, List<Request>> requests = new HashMap<>();
+
+>>>>>>> refs/remotes/origin/master
 	//Singleton
 	public static Emac getInstance() {
 		if(instance == null) {				

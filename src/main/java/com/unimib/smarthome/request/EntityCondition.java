@@ -15,5 +15,10 @@ public class EntityCondition extends EntityStatus {
 	public void setRel(char rel) {
 		this.rel = rel;
 	}
+	
+	@Override
+	public String toString() {
+		return "EntityCondition [entityID: " + getEntityID() + ", state: " + getState() + ", relation: " + this.getRel() + "]";
+	}
 
 }

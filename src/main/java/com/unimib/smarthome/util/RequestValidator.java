@@ -19,7 +19,7 @@ public class RequestValidator {
 	
 	public static boolean controlRequestConditions(Request request) {
 		//Prendo la lista di tutte le condizioni della richiesta
-		EntityCondition[] conditions = request.getCondition();
+		EntityCondition[] conditions = request.getConditions();
 
 		for(EntityCondition entityCondition : conditions){
 		//Itero tutte le condizioni

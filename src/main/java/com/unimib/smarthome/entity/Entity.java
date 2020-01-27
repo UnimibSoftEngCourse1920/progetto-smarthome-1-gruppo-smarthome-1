@@ -21,6 +21,7 @@ public abstract class Entity {
 	
 	//Metodo per permettere all'entita di comunicare con l'esterno
 	protected abstract void onIncomingMessage(String newState) throws EntityIncomingMessageException;
+
 	
 	public int getId() {
 		return this.id;
@@ -32,6 +33,7 @@ public abstract class Entity {
 	
 	public String getState() {
 		return state;
+
 	}
 
 }

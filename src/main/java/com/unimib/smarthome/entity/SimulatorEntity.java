@@ -9,6 +9,7 @@ import com.unimib.smarthome.entity.enums.EntityType;
 public abstract class SimulatorEntity extends Entity{
 
 	private String topic;
+
 	public SimulatorEntity(EntityType type, int id, String name, String topic) {
 		super(type, id, name);
 		setTopic(topic);

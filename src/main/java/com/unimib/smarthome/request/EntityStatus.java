@@ -4,7 +4,7 @@ public class EntityStatus {
 	private int entityID;
 	private String state;
 	
-	public EntityStatus(int entityId, String state) {
+	public EntityStatus(int entityID, String state) {
 		this.setEntityID(entityID);
 		this.setState(state);
 	}
@@ -24,4 +24,9 @@ public class EntityStatus {
 	}
 	
 	public void esegui() {}
+	
+	@Override
+	public String toString() {
+		return "EntityStatus [entityID: " + this.getEntityID() + ", state: " + this.getState() + "]";
+	}
 }

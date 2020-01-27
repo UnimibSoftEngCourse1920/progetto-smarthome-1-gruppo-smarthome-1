@@ -38,11 +38,17 @@ public class ConflictPool extends Thread{
 		}
 	}
 	
-	public void addRequestToPool(Request r) {
+	protected void addRequestToPool(Request r) {
 		if(!conflictPool.contains(r))
 			conflictPool.add(r);
 	}
 	
-
+	public int countRequestOnPool() {
+		return conflictPool.size();
+	}
+	
+	public void clearPool() {
+		conflictPool.clear();
+	}
 
 }
