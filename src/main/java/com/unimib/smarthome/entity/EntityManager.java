@@ -1,7 +1,8 @@
 package com.unimib.smarthome.entity;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Level;
@@ -23,7 +24,7 @@ public class EntityManager implements Subject {
 	static EntityManager instance;
 	private BrokerManager brokerManager = BrokerManager.getInstance();
 	private Map<Integer, Entity> entityList = new HashMap<>();
-	protected ArrayList<Observer> observers;
+	protected List<Observer> observers;
 
 	private Logger logger = LogManager.getLogger();
 	final Level EM = Level.getLevel("EM");
