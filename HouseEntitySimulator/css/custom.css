@@ -11,26 +11,49 @@
     padding: 1em 0;
 }
 
+.page-title{
+    color: white;
+    text-align: center;
+    font-size: 70px;
+}
+
 input {
     width: 100%;
 }
 
-html{
-    background-color: #3c91e6;
-}
-
 .entities {
     padding: 2em;
+    text-align: center;
 }
 
-.container-fluid {
-    background-color: #3c91e6;
+html {
+    background: rgb(63,94,251);
+    background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+}
+
+body{
+    background: transparent;
 }
 
 .jumbotron {
     color: white;
     background-color: transparent !important;
     padding: 0 !important;
+}
+.simulator-status {
+    display: inline-block;
+    float: right;
+    background: white;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 8px;
+}
+.simulator-status > .connected{
+    color: green;
+}
+
+.simulator-status > .disconnected{
+    color: red;
 }
 
 .entity{
