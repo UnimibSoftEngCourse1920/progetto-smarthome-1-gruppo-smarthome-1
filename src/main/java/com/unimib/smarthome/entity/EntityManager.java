@@ -85,8 +85,6 @@ public class EntityManager implements Subject {
 	
 	/** OBSERVER PATTERN **/
 	
-
-
 	public void attach(Observer o) {
 		observers.add(o);
 	}
