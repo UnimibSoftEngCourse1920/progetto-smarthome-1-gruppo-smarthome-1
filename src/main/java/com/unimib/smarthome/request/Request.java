@@ -11,9 +11,9 @@ public class Request {
 	private int priority;
 	
 	
-	public Request(EntityCondition[] condition, EntityStatus[] then,boolean retain,int priority ){
-		this.setConditions(condition);
-		this.setConsequences(then);
+	public Request(EntityCondition[] conditions, EntityStatus[] consequences, boolean retain, int priority ){
+		this.setConditions(conditions);
+		this.setConsequences(consequences);
 		this.setRetain(retain);
 		this.setPriority(priority);
 	}
