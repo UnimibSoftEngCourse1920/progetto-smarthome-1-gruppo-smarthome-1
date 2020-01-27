@@ -1,12 +1,12 @@
 package com.unimib.emac;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.unimib.common.Observer;
-import com.unimib.smarthome.entity.Entity;
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.request.Request;
 
@@ -43,7 +43,7 @@ public class Emac implements Observer {
 	
 
 	
-	public void filter(int entityId) {
+	private List<Request> filter(int entityId) {
 		//tutte le richieste relative ad entity
 		List<Request> requests = idToRequests.get(entityId);
 		List<Request> validRequests = new ArrayList<>();
@@ -59,13 +59,30 @@ public class Emac implements Observer {
 				validRequests.add(r);
 			}
 		}
+		return validRequests;
+	}
+	
+	private void execute(int entityId) {
+		List<Request> validRequests = filter(entityId);
+		Collections.sort(validRequests);
+		Collections.reverse(validRequests);
+		for (Request r : validRequests) {
+			if (r.getRetain()) {
+				r.executeRequest();
+				validRequests.remove(r);
+			}
+		}
+		for (Request r : validRequests) {
+			r.executeRequest();
+		}	
 	}
 
 	@Override
 	public void update(Integer entityId, String entityState) {
 		// TODO Auto-generated method stub
 		Observer.super.update(entityId, entityState);
-		this.filter(entityId);
+		this.execute(entityId);
+		
 		
 	}
 	

@@ -1,6 +1,6 @@
 package com.unimib.smarthome.request;
 
-public class Request {
+public class Request implements Comparable<Request>{
 	private EntityCondition[] conditions;
 	private EntityStatus[] consequences;
 	private boolean retain;
@@ -50,6 +50,14 @@ public class Request {
 		this.priority = priority;
 	};
 	
+	
+
+	@Override
+	public int compareTo(Request r2) {
+		Integer p1 = Integer.valueOf(this.getPriority());
+		Integer p2 = Integer.valueOf(r2.getPriority());
+		return p1.compareTo(p2);
+	}
 	
 	
 	
