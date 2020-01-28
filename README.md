@@ -1,7 +1,3 @@
 # Progetto SmartHome 1 🏠
 
-Tipi di sensori supportati: 
-* Item 1
-* Item 2
-
-![Smarthome](https://wips.plug.it/cips/paginegiallecasa/cms/2018/03/smart-home-2769210_1280.jpg?a=c)
+<img src="https://user-images.githubusercontent.com/7064130/73291894-624f8300-4201-11ea-8eaa-ebd266fc2331.gif" alt="alt text" width="900" height="whatever">
