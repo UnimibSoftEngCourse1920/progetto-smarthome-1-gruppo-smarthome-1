@@ -27,11 +27,11 @@ public class SystemInit {
 			initEntities();
 			initAutomatations();
 		} catch (Exception e) {
-			logger.printf(Level.INFO, "%s", e.toString());
+			logger.error( "%s", e.toString());
 		}
 	}
 
-	// leggo da un file json le varie entita'� che devo registrare nel sistema.
+	// leggo da un file json le varie entita'� che devo registrare nel sistema.
 	@SuppressWarnings("unchecked")
 	public static void initEntities() throws IOException, ParseException, DuplicatedEntityException {
 		JSONParser parser = new JSONParser();
@@ -92,7 +92,7 @@ public class SystemInit {
 				LinkedList<EntityStatus> then = new LinkedList<EntityStatus>();
 				Emac emac = Emac.getInstance();
 				// L'if è un array di condizioni.
-				JSONArray ifList = (JSONArray) list.get("if");
+				JSONArray ifList = (JSONArray) list.get("conditions");
 
 				ifList.forEach((condList) -> {
 					String a;
@@ -100,13 +100,15 @@ public class SystemInit {
 					JSONObject conditionList = (JSONObject) condList;
 					a = ((String) conditionList.get("rel"));
 					value = Integer.toString((int) ((long) conditionList.get("value")));
+					logger.printf(Level.INFO, "%s", a);
 					EntityCondition cond = new EntityCondition((int) ((long) conditionList.get("id")), value,
 							a.charAt(0));
+					
 					condition.add(cond);
 
 				});
 				// Anche le conseguenze, possono contenere più azioni.
-				JSONArray thenList = (JSONArray) list.get("then");
+				JSONArray thenList = (JSONArray) list.get("consequences");
 
 				thenList.forEach((thenL) -> {
 					String value;

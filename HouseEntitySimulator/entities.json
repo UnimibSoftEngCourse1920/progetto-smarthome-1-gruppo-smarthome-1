@@ -85,16 +85,12 @@
       "type": "state",
       "states" : [
         {
-          "value": 2,
-          "name": "Impostato"
+          "value": 0,
+          "name": "Disattivato"
         },
         {
           "value": 1,
           "name": "Attivato"
-        },
-        {
-          "value": 0,
-          "name": "Disattivato"
         }
       ]
     },
@@ -104,12 +100,12 @@
       "type": "state",
       "states" : [
         {
-          "value": 1,
-          "name": "Attivo"
-        },
-        {
           "value": 0,
           "name": "Spento"
+        },
+        {
+          "value": 1,
+          "name": "Attivo"
         }
       ]
     },
@@ -126,10 +122,6 @@
       },
       {
         "value": 1,
-        "name": "Movimento"
-      },
-      {
-        "value": 2,
         "name": "Aperto"
       }
     ]
