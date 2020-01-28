@@ -1,8 +1,8 @@
 package com.unimib.smarthome.broker;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -18,14 +18,14 @@ import io.vertx.mqtt.messages.MqttPublishMessage;
 public class BrokerManager {
 
 	private Logger logger = LogManager.getLogger();
-	final static Level BROKER = Level.getLevel("BROKER");
+	final static Level BROKER_LEVEL = Level.getLevel("BROKER");
 	
-	static BrokerManager instance;
 	private BrokerServer brokerServer;
-	private EntityManager entityManager;
+	private EntityManager entityManager = EntityManager.getInstance();
 
-	private Map<String, Integer> brokerMap = new HashMap<>();
-	private ConcurrentLinkedQueue<EntityStatus> monitorQueue = new ConcurrentLinkedQueue<>();
+	private ConcurrentMap<String, Integer> brokerMap = new ConcurrentHashMap<>();
+	private ConcurrentLinkedQueue<EntityStatus> simulatorMessageQueue = new ConcurrentLinkedQueue<>();
+	private ConcurrentLinkedQueue<MqttPublishMessage> entityMessageQueue = new ConcurrentLinkedQueue<>();
 	
 	class EntityStatus{
 		public EntityStatus(String topic, String message) {
@@ -36,15 +36,16 @@ public class BrokerManager {
 		String message;
 	}
 	
-	private BrokerManager() {
-	}
+	private BrokerManager() {}
+	
+	private static class LazyHolder {
+        private static final BrokerManager instance = new BrokerManager();
+    }
 
-	public static BrokerManager getInstance() {
-		if (instance == null) {
-			instance = new BrokerManager();
-		}
-		return instance;
-	}
+    public static BrokerManager getInstance() {
+        return LazyHolder.instance;
+    }
+
 
 	public void startBrokerServer() {
 		try {
@@ -55,40 +56,53 @@ public class BrokerManager {
 		}
 	}
 
-	public void registryEntityTopic(String topic, int entityID) throws Exception {
+	public void registryEntityTopic(int entityID, String topic){
 		if(!brokerMap.containsKey(topic)) {
-			logger.log(BROKER, "Associated topic [" + topic + "] to entity [" + entityID + "]");
+			logger.log(BROKER_LEVEL, "Associated topic [" + topic + "] to entity [" + entityID + "]");
 			brokerMap.put(topic, entityID);
 		}else {
-			throw new Exception("Multiple topic");
+			logger.log(BROKER_LEVEL, "Topic %s has yet an entity associated ", topic);
 		}	
+	}
+	
+	public void sendMessageToEntity() {
+		MqttPublishMessage message;
+		if((message = entityMessageQueue.poll()) != null ) {
+			logger.printf(BROKER_LEVEL, message.topicName());
+			if(brokerMap.containsKey(message.topicName())) {
+				
+				int entityID = brokerMap.get(message.topicName());
+				logger.printf(BROKER_LEVEL, "Dispaching message [%s] to entity %d", message.payload(), entityID);
+				try {
+					entityManager.sendEntityMessage(entityID, message.payload().toString());
+				} catch (EntityIncomingMessageException e) {
+					e.printStackTrace();
+				}
+			}else {
+				logger.printf(BROKER_LEVEL, "Incoming message from topic %s but there aren't any entity associated with that.", message.topicName());
+			}
+			
+		}
+	}
+
+	protected void sendMessageToSimulator() {
+		EntityStatus es;
+		if((es = simulatorMessageQueue.poll()) != null ) {
+			logger.printf(BROKER_LEVEL, "Sending  message [%s] to topic %s", es.message, es.topic);
+			brokerServer.simulatorEndpoint.publish(es.topic, Buffer.buffer(es.message), MqttQoS.AT_MOST_ONCE, false,
+					false);
+		}
 	}
 	
 	
 	//Chiamato quando ricevo un messaggio dal simulatore
-	public void dispatchMessage(MqttPublishMessage message) {		
-		int entityID = brokerMap.get(message.topicName());
-		logger.log(BROKER, "Dispaching message [" + message.payload() + "] to entity " +  entityID);
-		try {
-			entityManager.sendEntityMessage(entityID, message.payload().toString());
-		} catch (EntityIncomingMessageException e) {
-			e.printStackTrace();
-		}
+	public void enqueueMessageToEntity(MqttPublishMessage message) {		
+		entityMessageQueue.add(message);
 	}
 
 	//Chiamato per mandare un messaggio al simulatore
-	public void sendMessageToClient(String topic, String message) {
-		monitorQueue.add(new EntityStatus(topic, message));
-		
-	}
-
-	protected void sendNewMessageToClients() {
-		EntityStatus es;
-		if((es = monitorQueue.poll()) != null ) {
-			logger.printf(BROKER, "Sending  message [%s] to topic %s", es.message, es.topic);
-			brokerServer.simulatorEndpoint.publish(es.topic, Buffer.buffer(es.message), MqttQoS.AT_MOST_ONCE, false,
-					false);
-		}
+	public void enqueueMessageToSimulator(String topic, String message) {
+		simulatorMessageQueue.add(new EntityStatus(topic, message));
 	}
 
 }
