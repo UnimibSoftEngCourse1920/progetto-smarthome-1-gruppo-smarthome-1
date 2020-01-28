@@ -68,7 +68,6 @@ public class BrokerManager {
 	public void sendMessageToEntity() {
 		MqttPublishMessage message;
 		if((message = entityMessageQueue.poll()) != null ) {
-			logger.printf(BROKER_LEVEL, message.topicName());
 			if(brokerMap.containsKey(message.topicName())) {
 				
 				int entityID = brokerMap.get(message.topicName());

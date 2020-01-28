@@ -28,6 +28,12 @@ public class MonitorService extends Thread implements Observer  {
 					logger.printf(MONITOR_LEVEL, "Sensor id %d (%s) has a new state: %s", lastUpdate.getID(), lastUpdate.getName(), lastUpdate.getState());
 			}
 			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 			//DO OTHER ANALISYS STUFF...
 		}
 	}

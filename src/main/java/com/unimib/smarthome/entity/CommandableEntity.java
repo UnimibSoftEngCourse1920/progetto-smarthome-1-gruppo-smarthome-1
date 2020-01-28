@@ -16,7 +16,6 @@ public abstract class CommandableEntity extends SimulatorEntity{
 		setState("0");
 	}
 	
-
 	protected void setState(String newState) {
 		this.state = newState;
 	}
@@ -27,7 +26,12 @@ public abstract class CommandableEntity extends SimulatorEntity{
 
 	@Override
 	public String toString() {
-		return "CommandableEntity [id = " + this.getID() + " type=" + this.getType() + ", name= " + this.getName() + ", topic= " + this.getTopic() + ", state=" + state + "]";
+		return "CommandableEntity [id: " + this.getID() + ", name: \"" + this.getName() + "\", state: " + this.getState() + ", topic: " + this.getTopic() + ", type: " + this.getType() + "]";
+	}
+
+	@Override
+	protected <T> void onIncomingMessage(String newState, Class<T> source) {
+		this.setState(newState);
 	}
 
 	
