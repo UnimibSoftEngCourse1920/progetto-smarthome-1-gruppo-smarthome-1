@@ -21,7 +21,7 @@
     },
     {
       "name": "Sensore conta persone",
-      "range_topic": "sensor/pepoles1",
+      "range_topic": "sensor/people1",
       "type": "range",
       "range_min_val": 0,
       "range_max_val": 10
@@ -57,10 +57,6 @@
         },
         {
           "value": 1,
-          "name": "Movimento"
-        },
-        {
-          "value": 2,
           "name": "Aperto"
         }
       ]
@@ -137,6 +133,20 @@
         "name": "Aperto"
       }
     ]
+    },
+    {
+   	  "name": "Telefono",
+      "switch_topic": "telephone/telephone1",
+        "states" : [
+        {
+          "value": 0,
+          "name": "disattivo"
+        },
+        {
+          "value": 1,
+          "name": "In chiamata"
+        }
+      ]
     }
   ]
 }

@@ -24,7 +24,7 @@
     },
     {
       "name": "Sensore conta persone",
-      "topic": "sensor/pepoles1",
+      "topic": "sensor/people1",
       "type": "RANGE",
       "id": 4,
       "commandable": false
@@ -106,6 +106,14 @@
        "type": "RANGE",
        "id": 15,
        "commandable": true
+       },
+       {
+       "name": "Telefono",
+       "topic": "Telephon/Telephone1",
+       "type": "STATE",
+       "id": 16,
+       "commandable": true
        }
+       
    ]
 }

@@ -1,49 +1,121 @@
 {
 	"automatations" : [
-		{
+		{ 
 			"if" : [
 				{
-					"id": 1, 
+					"id": 4, 
 					"value" : 0,
-					"rel": "<"
+					"rel": "="  
 				},
 				{
-					"id": 2,
+					"id": 5,
 					"value": 1,
-					"rel": "<"
-				}			
+					"rel": "="
+				},
+				{
+					"id": 6,
+					"value": 1,
+					"rel": "="
+				}		
 			],
 			"then": [
 				{
-					"id": 2, 
-					"value" : 50
-				}
-			],
-			"retain": true,
-			"retain_level": 1		
-		},
-		{
-			"if" : [
-				{
-					"id": 20, 
-					"value" : 0,
-					"rel": "<"
+					"id": 5, 
+					"value" : 0
 				},
 				{
-					"id": 10,
-					"value": 1,
-					"rel": "<"
-				}			
-			],
-			"then": [
-				{
-					"id": 2, 
-					"value" : 1
+					"id": 6, 
+					"value" : 0
 				}
 			],
 			"retain": false,
-			"retain_level": 10		
-		}
-	
+			"priority": 1		
+		},
+		{
+			"if" : [
+				
+				{
+					"id": 12,
+					"value": 0,
+					"rel": "="
+				},
+				{
+					"id":3,
+					"value": 1,
+					"rel": "="
+				}			
+			],
+			"then": [
+				{
+					"id": 5, 
+					"value" : 0
+				},
+				{
+					"id": 6, 
+					"value" : 0
+				},
+				{
+					"id": 8, 
+					"value" : 0
+				},
+				{
+					"id": 9, 
+					"value" : 0
+				},
+				{
+					"id": 16,
+					"value" : 1
+				}
+				
+	       ],
+			"retain": true,
+			"priority": 100		
+		},
+		{
+			"if" : [
+				
+				{
+					"id": 2,
+					"value": 3,
+					"rel": ">"
+				}
+			],
+			"then": [
+				{
+					"id": 8, 
+					"value" : 1
+				},
+				{
+					"id": 9, 
+					"value" : 50
+				}
+				
+	       ],
+			"retain": true,
+			"priority": 101	
+		},
+		{
+			"if" : [
+				
+				{
+					"id": 1,
+					"value": 24,
+					"rel": "<"
+				}
+			],
+			"then": [
+				{
+					"id": 10, 
+					"value" : 0
+				},
+				{
+					"id": 11, 
+					"value" : 25
+				}
+				
+	       ],
+			"retain": true,
+			"priority": 10	
+	 	}
 	]
 }

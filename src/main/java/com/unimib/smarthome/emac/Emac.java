@@ -27,6 +27,7 @@ public class Emac implements Observer {
 	public static Emac getInstance() {
 		if(instance == null) {				
 			instance = new Emac();
+			EntityManager.getInstance().attach(instance);
 			}
 		return instance;
 	}

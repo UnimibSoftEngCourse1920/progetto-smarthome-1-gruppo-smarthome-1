@@ -120,7 +120,7 @@ public class SystemInit {
 				});
 
 				boolean retain = (boolean) list.get("retain");
-				int retain_level = (int) ((long) list.get("retain_level"));
+				int retain_level = (int) ((long) list.get("priority"));
 				EntityCondition[] cond = new EntityCondition[condition.size()];
 				EntityStatus[] stat = new EntityStatus[then.size()];
 				int i = 0;
@@ -143,7 +143,7 @@ public class SystemInit {
 		} catch (FileNotFoundException e) {
 			logger.printf(Level.INFO, "%s",  e.toString());
 		}
-		//emac.PrintAutomation();
+		Emac.getInstance().PrintAutomation();
 	}
 
 }
