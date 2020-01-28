@@ -62,9 +62,12 @@ public class EntityManager implements Subject {
 		logger.printf(EM, "Sending message to entity [id: %d, message: %s]", entityID, message);
 		Entity entity = entityMap.get(entityID);
 		try{
-			entity.onIncomingMessage(message);
+			entity.onIncomingMessage(message, Class.forName(Thread.currentThread().getStackTrace()[2].getClassName()));
 		}catch(EntityIncomingMessageException e) {
 			throw e;
+		} catch (ClassNotFoundException e) {
+			entity.onIncomingMessage(message, this.getClass());
+			e.printStackTrace();
 		}
 		//Se non lancio un errore
 		notifyEntityChange(entity);

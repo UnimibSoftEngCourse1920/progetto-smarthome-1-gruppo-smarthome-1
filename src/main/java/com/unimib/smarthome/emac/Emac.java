@@ -105,6 +105,7 @@ public class Emac implements Observer {
 
 	@Override
 	public void update(Entity entity) {
+		System.out.println("AOOOO");
 		statusUpdateQueue.add(entity);
 	}
 

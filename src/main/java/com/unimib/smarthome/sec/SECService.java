@@ -16,6 +16,11 @@ public class SECService extends Thread{
 		
 		while(!Thread.interrupted()) {
 			sec.controlIncomingRequest();
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

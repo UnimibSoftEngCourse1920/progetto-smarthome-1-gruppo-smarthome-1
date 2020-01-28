@@ -71,7 +71,7 @@ public class SECTest {
 
 		sec.addRequestToSECQueue(r1);
 		
-		await().atMost(1, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "0")); 
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "0")); 
 		
 	}
 	
@@ -86,7 +86,7 @@ public class SECTest {
 
 		sec.addRequestToSECQueue(r1);
 		
-		await().atMost(1, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "1")); 
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "1")); 
 	}
 	
 	@Test
@@ -100,7 +100,7 @@ public class SECTest {
 		
 		sec.addRequestToSECQueue(r2);
 		
-		await().atMost(1, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
 		
 	}
 
@@ -116,7 +116,7 @@ public class SECTest {
 		;
 		sec.addRequestToSECQueue(r3);
 		
-		await().atMost(1, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "3")); 
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "3")); 
 		
 		
 	}
@@ -139,8 +139,8 @@ public class SECTest {
 		Request r4b = new Request(conditionsb, consequencesb, false, 2);
 		
 		sec.addRequestToSECQueue(r4b);	
-		await().atMost(1, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
-		await().atMost(1, TimeUnit.SECONDS).until(cfHasRequest(1)); 
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
+		await().atMost(2, TimeUnit.SECONDS).until(cfHasRequest(1)); 
 	}
 	
 	@Test
@@ -154,8 +154,8 @@ public class SECTest {
 		
 		
 		sec.addRequestToSECQueue(r5);
-		await().atMost(1, TimeUnit.SECONDS).until(cfHasRequest(1)); 
-		await().atMost(1, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
+		await().atMost(2, TimeUnit.SECONDS).until(cfHasRequest(1)); 
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
 		
 	}
 	

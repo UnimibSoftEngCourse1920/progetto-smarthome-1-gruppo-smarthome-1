@@ -36,18 +36,13 @@ public class CLIService extends Thread {
 		}
 	}
 	//Visualizzo tutte le entità
-	public void entityVisualization(Map<Integer, Entity> lista ) {
+	public void entityVisualization(Map<Integer, Entity> list ) {
 		
-		for(Integer key : lista.keySet()) {
+		
 
-
-			logger.printf(CLI, "Entity ID: %d", lista.get(key).getID());
-			logger.printf(CLI, "Entity name: %s", lista.get(key).getName());
-			logger.printf(CLI, "Entity state': %s", lista.get(key).getState());
-			logger.printf(CLI, "Entity type': %s", lista.get(key).getType());
-
-
-	  }
+		list.forEach((key, entity) -> {
+			logger.printf(CLI, "%s", entity);
+	  });
 	}
 	// visualizzo lo stato dell'entità che l'utente richiede.
 	public void stateVisualization(int id, String state) {
