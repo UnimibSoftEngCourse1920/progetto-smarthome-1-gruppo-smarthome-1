@@ -23,13 +23,6 @@ public class SmartHome {
 	public static void main(String[] args) {		
 		logger.info("Starting SmartHome");
 		
-		try {
-			SystemInit.initEntities();
-			SystemInit.initAutomatations();
-		} catch (Exception e) {
-			
-		}
-		
 		Device ce = new Device(EntityType.STATE, 15, "Allarme", "alarms/alarm1");
 		try {
 			EntityManager.getInstance().registerEntity(ce);
