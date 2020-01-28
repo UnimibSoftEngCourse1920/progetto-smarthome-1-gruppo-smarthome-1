@@ -20,11 +20,9 @@ public class SmartHome {
 	
 	public static void main(String[] args) {		
 		logger.info("Starting SmartHome");
-		
-
+	
 		SystemInit.initConfig();
-
-
+		
 		brokerService = new BrokerService();
 		cliService = new CLIService();
 		monitorService = new MonitorService();
