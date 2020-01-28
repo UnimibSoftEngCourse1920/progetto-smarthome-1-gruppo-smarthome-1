@@ -36,7 +36,7 @@ public class Emac implements Observer {
 		for (int i = 0; i < r.getConditions().length; i++) {
 			//id di un'entità tra le condition di r
 			int entityId = r.getConditions()[i].getEntityID();
-			logger.printf(Level.INFO, "la richiesta e': %s", r.toString());
+			
 			//lista di richieste già salvate relative a quell'entità
 			List<Request> requests;
 			if (!idToRequests.containsKey(entityId)) {
