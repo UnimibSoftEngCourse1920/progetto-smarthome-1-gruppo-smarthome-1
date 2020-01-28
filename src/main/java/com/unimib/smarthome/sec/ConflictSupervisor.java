@@ -15,7 +15,7 @@ import com.unimib.smarthome.util.RequestValidator;
 
 public class ConflictSupervisor {
 	Logger logger = LogManager.getLogger();
-	Level SEC = Level.getLevel("SEC");
+	Level SEC_LEVEL = Level.getLevel("SEC");
 	private Map<Integer, Set<Request>> retainedRequests = new HashMap<>();
 	
 	/**
@@ -38,17 +38,17 @@ public class ConflictSupervisor {
 					
 					if(request.getPriority() > conflictingRequest.getPriority()) {
 						
-						logger.printf(SEC, "Found retained request with lower priority. Removing it from memory [request: %d, lowerRequest: %d]", request.hashCode(), conflictingRequest.hashCode());
+						logger.printf(SEC_LEVEL, "Found retained request with lower priority. Removing it from memory [request: %d, lowerRequest: %d]", request.hashCode(), conflictingRequest.hashCode());
 						removeRetainRequest(conflictingRequest);
 						
 					}else if(RequestValidator.controlRequestConditions(conflictingRequest)) {  //Se tutte le condizioni di questa richiesta sono ancora rispettate
 						
 						wrapper.requestCanBeExecuted = false;
-						logger.printf(SEC, "Request %d has conflict with request %d", request.hashCode(), conflictingRequest.hashCode());
+						logger.printf(SEC_LEVEL, "Request %d has conflict with request %d", request.hashCode(), conflictingRequest.hashCode());
 						
 					}else {
 						
-						logger.printf(SEC, "Found retained request with condition no longer respected. Removing it from memory [request: %d]", conflictingRequest.hashCode());
+						logger.printf(SEC_LEVEL, "Found retained request with condition no longer respected. Removing it from memory [request: %d]", conflictingRequest.hashCode());
 						removeRetainRequest(conflictingRequest);
 						
 					}
@@ -72,7 +72,7 @@ public class ConflictSupervisor {
 				retainedSet = new HashSet<Request>();
 			}
 			
-			logger.printf(SEC, "Adding retained request to entity [request: %d, entity: %d]", request.hashCode(), consequence.getEntityID());
+			logger.printf(SEC_LEVEL, "Adding retained request to entity [request: %d, entity: %d]", request.hashCode(), consequence.getEntityID());
 			retainedSet.add(request);
 			
 			retainedRequests.put(consequence.getEntityID(), retainedSet);
@@ -84,7 +84,7 @@ public class ConflictSupervisor {
 		
 		retainedRequests.forEach((entityID, retainedSet) -> {
 			if(retainedSet.contains(request)) {
-				logger.printf(SEC, "Removing retained request to entity [request: %d, entity: %d]", request.hashCode(), entityID);
+				logger.printf(SEC_LEVEL, "Removing retained request to entity [request: %d, entity: %d]", request.hashCode(), entityID);
 				retainedSet.remove(request);
 			}
 		});

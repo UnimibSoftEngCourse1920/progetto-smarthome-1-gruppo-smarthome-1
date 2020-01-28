@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.unimib.smarthome.broker.BrokerService;
 import com.unimib.smarthome.console.CLIService;
+import com.unimib.smarthome.emac.EMACService;
 import com.unimib.smarthome.entity.Device;
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.entity.enums.EntityType;
@@ -18,6 +19,7 @@ public class SmartHome {
 	private static CLIService cliService;
 	private static MonitorService monitorService;
 	private static SECService secService;
+	private static EMACService emacService;
 	
 	public static void main(String[] args) {		
 		logger.info("Starting SmartHome");
@@ -33,11 +35,13 @@ public class SmartHome {
 		cliService = new CLIService();
 		monitorService = new MonitorService();
 		secService = new SECService();
+		emacService = new EMACService();
 		
 		brokerService.start();
 		cliService.start();
 		monitorService.start();
 		secService.start();
+		emacService.start();
 	}
 	
 	public static void shutdown() {
@@ -45,5 +49,6 @@ public class SmartHome {
 		cliService.interrupt();
 		monitorService.interrupt();
 		secService.interrupt();
+		emacService.interrupt();
 	}
 }

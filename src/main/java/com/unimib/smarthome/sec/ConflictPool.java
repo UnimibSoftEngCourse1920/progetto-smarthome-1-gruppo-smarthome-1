@@ -11,7 +11,7 @@ import com.unimib.smarthome.request.Request;
 
 public class ConflictPool extends Thread{
 	Logger logger = LogManager.getLogger();
-	Level SECL = Level.getLevel("SEC");
+	Level SEC_LEVEL = Level.getLevel("SEC");
 
 	private SEC sec = null;
 	private ConcurrentLinkedQueue<Request> conflictPool = new ConcurrentLinkedQueue<>();
@@ -23,11 +23,11 @@ public class ConflictPool extends Thread{
 	@Override
 	public void run() {
 		
-		logger.printf(SECL, "Starting ConflictPool");
+		logger.printf(SEC_LEVEL, "Starting ConflictPool");
 		
 		while(!Thread.interrupted()) {
 			conflictPool.forEach((request) -> {
-				logger.printf(SECL, "Trying to evaluate request from conflict pool [id: %d]", request.hashCode());
+				logger.printf(SEC_LEVEL, "Trying to evaluate request from conflict pool [id: %d]", request.hashCode());
 				sec.evaluateRequest(request);
 			});
 			try {
