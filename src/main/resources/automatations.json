@@ -1,4 +1,4 @@
-{
+a{
 	"automatations" : [
 		{ 
 			"if" : [
@@ -12,6 +12,29 @@
 					"value": 1,
 					"rel": "="
 				},
+				{
+					"id": 6,
+					"value": 1,
+					"rel": "="
+				}		
+			],
+			"then": [
+				{
+					"id": 5, 
+					"value" : 0
+				}
+			],
+			"retain": false,
+			"priority": 1		
+		},
+		{ 
+			"if" : [
+				{
+					"id": 4, 
+					"value" : 0,
+					"rel": "="  
+				},
+				
 				{
 					"id": 6,
 					"value": 1,
