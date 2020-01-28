@@ -19,7 +19,7 @@ public class SmartHome {
 	public static void main(String[] args) {		
 		logger.info("Starting SmartHome");
 		
-		SystemInit.Initilizer();
+		SystemInit.initilizer();
 
 		brokerService = new BrokerService();
 		cliService = new CLIService();

@@ -24,7 +24,7 @@ import org.json.simple.parser.ParseException;
 public class SystemInit {
 	private static Logger logger = LogManager.getLogger();
 	
-	public static void Initilizer() {
+	public static void initilizer() {
 		try {
 			initEntities();
 			initAutomatations();
@@ -135,7 +135,7 @@ public class SystemInit {
 				}
 				Request r = new Request(cond, stat, retain, retain_level);
 				// chiamo registerAutomation in emac, per registrare l'automazione.
-				logger.printf(Level.INFO, "la richiesta e': %s", r.toString());
+				//logger.printf(Level.INFO, "la richiesta e': %s", r.toString());
 				emac.registerAutomation(r);
 
 			}
