@@ -27,7 +27,7 @@ public class SystemInit {
 			initEntities();
 			initAutomatations();
 		} catch (Exception e) {
-			logger.error( "%s", e.toString());
+			logger.error(e.toString());
 		}
 	}
 
@@ -81,7 +81,7 @@ public class SystemInit {
 		logger.info("Inizializzazione delle automazioni.");
 		try {
 
-			Object obj = parser.parse(new FileReader("src/main/resources/automatations.json"));
+			Object obj = parser.parse(new FileReader("src/main/resources/automations.json"));
 
 			JSONObject jsonObject = (JSONObject) obj;
 			JSONArray automationsList = (JSONArray) jsonObject.get("automations");

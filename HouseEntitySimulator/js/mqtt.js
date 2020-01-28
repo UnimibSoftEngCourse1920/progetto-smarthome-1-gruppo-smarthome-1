@@ -19,6 +19,33 @@ client.on('message', function (topic, message) {
     console.log("Recived message on topic " + topic + " " + mapTopic[topic] + " : " + message.toString())
     if(mapTopic[topic] !== undefined){
         setNewState(mapTopic[topic], message, topic)
+    }else{
+        if(topic === "update"){
+            let sliders = document.getElementsByClassName("slider")
+            for(let slider of sliders){
+                if ("createEvent" in document) {
+                    var evt = document.createEvent("HTMLEvents");
+                    evt.initEvent("change", false, true);
+                    slider.dispatchEvent(evt);
+                }
+            }
+            let buttons = document.getElementsByClassName("custom-btn")
+            for(let button of buttons) {
+                if ("createEvent" in document) {
+                    var evt = document.createEvent("HTMLEvents");
+                    evt.initEvent("click", false, true);
+                    button.dispatchEvent(evt);
+                }
+            }
+            let selects = document.getElementsByClassName("select")
+            for(let select of selects) {
+                if ("createEvent" in document) {
+                    var evt = document.createEvent("HTMLEvents");
+                    evt.initEvent("click", false, true);
+                    select.dispatchEvent(evt);
+                }
+            }
+        }
     }
 })
 
