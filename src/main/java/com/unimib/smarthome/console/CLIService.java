@@ -40,8 +40,8 @@ public class CLIService extends Thread {
 		
 		
 
-		list.forEach((key, entityList) -> {
-			logger.printf(CLI, "%s", entityList);
+		list.forEach((key, entity) -> {
+			logger.printf(CLI, "%s", entity);
 	  });
 	}
 	// visualizzo lo stato dell'entità che l'utente richiede.

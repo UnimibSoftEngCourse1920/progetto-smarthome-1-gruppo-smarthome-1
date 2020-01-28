@@ -63,7 +63,7 @@ public class Emac implements Observer {
 
 	}
 
-	public void PrintAutomation() {
+	public void printAutomation() {
 		logger.printf(Level.INFO, "%s", idToRequests);
 	}
 
