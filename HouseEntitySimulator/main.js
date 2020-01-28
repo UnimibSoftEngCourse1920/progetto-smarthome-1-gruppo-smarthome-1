@@ -14,8 +14,13 @@ function createWindow () {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
-    }
-  })
+    },
+    title: "SmartHomeSimulator",
+    icon: "favicon.ico",
+    frame: true,
+    titleBarStyle: "hidden",
+    autoHideMenuBar: true
+  });
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')

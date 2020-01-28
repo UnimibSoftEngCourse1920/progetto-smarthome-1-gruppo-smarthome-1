@@ -6,7 +6,6 @@
 * */
 
 'use strict';
-
 const fs = require('fs');
 
 let entitiesState = new Array();
@@ -15,6 +14,14 @@ fs.readFile('entities.json', (err, data) => {
     if (err) throw err;
     let entitiesData = JSON.parse(data);
     drawEntities(entitiesData);
+});
+
+document.addEventListener("keydown", function (e) {
+    if (e.which === 123) {
+        require('electron').remote.getCurrentWindow().toggleDevTools();
+    } else if (e.which === 116) {
+        location.reload();
+    }
 });
 
 function drawEntities(entitiesConfig){
