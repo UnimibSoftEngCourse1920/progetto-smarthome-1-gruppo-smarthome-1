@@ -1,5 +1,6 @@
 package com.unimib.smarthome.sec;
 
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,7 +26,6 @@ public class SECTest {
 	
 	private final static int ENTITY_TEST_ID = 100;
 	
-	
 	@BeforeAll
 	protected static void setUp() {
 		if (setUpIsDone) {
@@ -35,10 +35,8 @@ public class SECTest {
 		
 		SmartHome.main(null);
 		initEntityManager();
+		await().atMost(5, TimeUnit.SECONDS).until(allThreadsAreStarted());
 	}
-	
-	
-	
 	
 	public static void initEntityManager() {
 		try {
@@ -55,6 +53,11 @@ public class SECTest {
 	
 	private Callable<Boolean> cfHasRequest(int nRequest) {
 	      return () -> sec.getConflictPool().countRequestOnPool() == nRequest;
+	}
+	
+	private static Callable<Boolean> allThreadsAreStarted() {
+	      return () -> Thread.getAllStackTraces().keySet().size() > 7;
+
 	}
 	
 	

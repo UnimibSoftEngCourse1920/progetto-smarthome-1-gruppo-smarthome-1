@@ -23,7 +23,7 @@ public class BrokerManager {
 	private BrokerServer brokerServer;
 	private EntityManager entityManager = EntityManager.getInstance();
 
-	private ConcurrentMap<String, Integer> brokerMap = new ConcurrentHashMap<>();
+	private static ConcurrentMap<String, Integer> brokerMap = new ConcurrentHashMap<>();
 	private ConcurrentLinkedQueue<EntityStatus> simulatorMessageQueue = new ConcurrentLinkedQueue<>();
 	private ConcurrentLinkedQueue<MqttPublishMessage> entityMessageQueue = new ConcurrentLinkedQueue<>();
 	
@@ -86,11 +86,13 @@ public class BrokerManager {
 	}
 
 	protected void sendMessageToSimulator() {
-		EntityStatus es;
-		if((es = simulatorMessageQueue.poll()) != null ) {
-			logger.printf(BROKER_LEVEL, "Sending  message [%s] to topic %s", es.message, es.topic);
-			brokerServer.simulatorEndpoint.publish(es.topic, Buffer.buffer(es.message), MqttQoS.AT_MOST_ONCE, false,
-					false);
+		if(brokerServer.simulatorEndpoint != null) { //Se c'e un simulatore collegato :)
+			EntityStatus es;
+			if((es = simulatorMessageQueue.poll()) != null ) {
+				logger.printf(BROKER_LEVEL, "Sending  message [%s] to topic %s", es.message, es.topic);
+				brokerServer.simulatorEndpoint.publish(es.topic, Buffer.buffer(es.message), MqttQoS.AT_MOST_ONCE, false,
+						false);
+			}
 		}
 	}
 	

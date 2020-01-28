@@ -10,7 +10,6 @@ import com.unimib.smarthome.entity.enums.EntityType;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
 import com.unimib.smarthome.monitor.MonitorService;
 import com.unimib.smarthome.sec.SECService;
-import com.unimib.smarthome.systeminit.SystemInit;
 
 public class SmartHome {
 	
@@ -46,8 +45,5 @@ public class SmartHome {
 		cliService.interrupt();
 		monitorService.interrupt();
 		secService.interrupt();
-		
 	}
-	
-	
 }

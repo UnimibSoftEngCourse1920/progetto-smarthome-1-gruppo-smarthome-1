@@ -36,14 +36,14 @@ public class RequestValidator {
 		String entityRealStatus = em.getEntityState(condition.getEntityID());
 		char rel = condition.getRel();
 		switch (rel) {
-		case '=':
-			return !entityRealStatus.equals(condition.getState());
-		case '>':
-			return Double.valueOf(entityRealStatus) <= Double.valueOf(condition.getState());
-		case '<':
-			return Double.valueOf(entityRealStatus) >= Double.valueOf(condition.getState());
-		default:
-			return false;
+			case '=':
+				return entityRealStatus.equals(condition.getState());
+			case '>':
+				return Double.valueOf(entityRealStatus) > Double.valueOf(condition.getState());
+			case '<':
+				return Double.valueOf(entityRealStatus) < Double.valueOf(condition.getState());
+			default:
+				return false;
 		}
 
 	}

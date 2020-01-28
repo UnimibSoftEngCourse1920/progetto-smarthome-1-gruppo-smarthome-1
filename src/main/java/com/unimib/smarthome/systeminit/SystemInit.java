@@ -68,6 +68,8 @@ public class SystemInit {
 			String a;
 			String value;
 			Iterator<JSONObject> iterator = automationsList.iterator();
+			
+
 			while (iterator.hasNext()) {
 				EntityCondition[] condition = new EntityCondition[1000];
 				EntityStatus[] then = new EntityStatus[1000];
