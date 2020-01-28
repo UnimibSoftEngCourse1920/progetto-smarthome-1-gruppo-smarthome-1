@@ -70,11 +70,11 @@
       "range_max_val": 100,
       "states": [
         {
-          "value": 0,
+          "value": 1,
           "name": "Attivo"
         },
         {
-          "value": 1,
+          "value": 0,
           "name": "Disattivo"
         }
       ]
@@ -85,7 +85,7 @@
       "type": "state",
       "states" : [
         {
-          "value": 0,
+          "value": 2,
           "name": "Impostato"
         },
         {
@@ -93,7 +93,7 @@
           "name": "Attivato"
         },
         {
-          "value": 2,
+          "value": 0,
           "name": "Disattivato"
         }
       ]
@@ -104,11 +104,11 @@
       "type": "state",
       "states" : [
         {
-          "value": 0,
+          "value": 1,
           "name": "Attivo"
         },
         {
-          "value": 1,
+          "value": 0,
           "name": "Spento"
         }
       ]
