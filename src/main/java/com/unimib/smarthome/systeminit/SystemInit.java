@@ -32,8 +32,7 @@ public class SystemInit {
 			JSONObject jsonObject = (JSONObject) obj;
 
 			JSONArray entitiesList = (JSONArray) jsonObject.get("entities");
-			
-			Iterator<JSONObject> iterator = entitiesList.iterator();
+						Iterator<JSONObject> iterator = entitiesList.iterator();
 			while (iterator.hasNext()) {
 				JSONObject list = iterator.next();
 

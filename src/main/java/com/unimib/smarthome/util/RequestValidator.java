@@ -21,23 +21,31 @@ public class RequestValidator {
 	public static boolean controlRequestConditions(Request request) {
 		// Prendo la lista di tutte le condizioni della richiesta
 		EntityCondition[] conditions = request.getConditions();
-		// Se è nullo, è un comando utente, quindi va eseguito, senza condizioni.
+		// Se e' nullo, e' un comando utente, quindi va eseguito, senza condizioni.
 		if (conditions != null)
 			for (EntityCondition entityCondition : conditions) {
-				// Itero tutte le condizioni
-
-				String entityRealStatus = em.getEntityState(entityCondition.getEntityID());
-				char rel = entityCondition.getRel();
-				if (rel == '=' && !entityRealStatus.equals(entityCondition.getState()))
-					return false;
-				else if (rel == '>' && Double.valueOf(entityRealStatus) <= Double.valueOf(entityCondition.getState()))
-					return false;
-				else if (rel == '<' && Double.valueOf(entityRealStatus) >= Double.valueOf(entityCondition.getState()))
+				if (!checkValidStatus(entityCondition))
 					return false;
 			}
 
 		// Tutte le condizioni della richiesta sono rispettate
 		return true;
+	}
+
+	private static boolean checkValidStatus(EntityCondition condition) {
+		String entityRealStatus = em.getEntityState(condition.getEntityID());
+		char rel = condition.getRel();
+		switch (rel) {
+		case '=':
+			return !entityRealStatus.equals(condition.getState());
+		case '>':
+			return Double.valueOf(entityRealStatus) <= Double.valueOf(condition.getState());
+		case '<':
+			return Double.valueOf(entityRealStatus) >= Double.valueOf(condition.getState());
+		default:
+			return false;
+		}
+
 	}
 
 }

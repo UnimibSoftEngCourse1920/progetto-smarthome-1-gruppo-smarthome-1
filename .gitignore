@@ -6,3 +6,4 @@ npm-debug.log
 /META-INF/*
 logs
 /target/
+dist
