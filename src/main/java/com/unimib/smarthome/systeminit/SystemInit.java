@@ -27,7 +27,7 @@ public class SystemInit {
 			initEntities();
 			initAutomatations();
 		} catch (Exception e) {
-			logger.error( "%s", e.toString());
+			logger.error(e.toString());
 		}
 	}
 
