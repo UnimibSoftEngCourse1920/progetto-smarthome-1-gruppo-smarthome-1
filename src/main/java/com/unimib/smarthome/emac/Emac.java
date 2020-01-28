@@ -63,10 +63,7 @@ public class Emac implements Observer {
 
 	}
 
-	public void printAutomation() {
-		logger.printf(Level.INFO, "%s", idToRequests);
-	}
-
+	
 	private List<Request> filter(int entityId) {
 		if (idToRequests.containsKey(entityId)) { // Se contiene richieste associate all'entita'
 			List<Request> requests = idToRequests.get(entityId);

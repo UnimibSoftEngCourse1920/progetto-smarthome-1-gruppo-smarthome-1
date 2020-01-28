@@ -49,5 +49,19 @@ public class CLITest {
 		eval.evaluation(test);
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
 	}
-
+	@Test
+	void testSet1() {
+		String test = "set 12 1 false 10";
+		eval.evaluation(test);
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+	}
+	@Test
+	void testGet() {
+		String test = "get 12";
+		eval.evaluation(test);
+		
+		await().atMost(2, TimeUnit.SECONDS); 
+	}
+	
+	
 }
