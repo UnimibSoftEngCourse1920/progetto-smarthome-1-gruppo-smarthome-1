@@ -56,12 +56,12 @@ public class BrokerManager {
 		}
 	}
 
-	public void registryEntityTopic(int entityID, String topic){
+	public void registerEntityTopic(int entityID, String topic){
 		if(!brokerMap.containsKey(topic)) {
 			logger.log(BROKER_LEVEL, "Associated topic [" + topic + "] to entity [" + entityID + "]");
 			brokerMap.put(topic, entityID);
 		}else {
-			logger.log(BROKER_LEVEL, "Topic %s has yet an entity associated ", topic);
+			logger.log(BROKER_LEVEL, "Topic %s is already associated with an entity ", topic);
 		}	
 	}
 	
@@ -72,14 +72,14 @@ public class BrokerManager {
 			if(brokerMap.containsKey(message.topicName())) {
 				
 				int entityID = brokerMap.get(message.topicName());
-				logger.printf(BROKER_LEVEL, "Dispaching message [%s] to entity %d", message.payload(), entityID);
+				logger.printf(BROKER_LEVEL, "Dispatching message [%s] to entity %d", message.payload(), entityID);
 				try {
 					entityManager.sendEntityMessage(entityID, message.payload().toString());
 				} catch (EntityIncomingMessageException e) {
 					e.printStackTrace();
 				}
 			}else {
-				logger.printf(BROKER_LEVEL, "Incoming message from topic %s but there aren't any entity associated with that.", message.topicName());
+				logger.printf(BROKER_LEVEL, "Incoming message from topic %s but there are no entities associated with it.", message.topicName());
 			}
 			
 		}

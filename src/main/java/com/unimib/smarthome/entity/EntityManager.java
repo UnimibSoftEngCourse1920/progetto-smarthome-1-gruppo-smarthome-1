@@ -53,7 +53,7 @@ public class EntityManager implements Subject {
 		entityMap.put(entityID, entity);
 		
 		if(entity instanceof SimulatorEntity) {
-			brokerManager.registryEntityTopic(entityID, ((SimulatorEntity) entity).getTopic());
+			brokerManager.registerEntityTopic(entityID, ((SimulatorEntity) entity).getTopic());
 		}
 	}
 	

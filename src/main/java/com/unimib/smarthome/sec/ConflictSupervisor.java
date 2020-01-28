@@ -38,17 +38,17 @@ public class ConflictSupervisor {
 					
 					if(request.getPriority() > conflictingRequest.getPriority()) {
 						
-						logger.printf(SEC_LEVEL, "Found retained request with lower priority. Removing it from memory [request: %d, lowerRequest: %d]", request.hashCode(), conflictingRequest.hashCode());
+						logger.printf(SEC_LEVEL, "Retained request with lower priority found. Removing it from memory [request: %d, lowerRequest: %d]", request.hashCode(), conflictingRequest.hashCode());
 						removeRetainRequest(conflictingRequest);
 						
 					}else if(RequestValidator.controlRequestConditions(conflictingRequest)) {  //Se tutte le condizioni di questa richiesta sono ancora rispettate
 						
 						wrapper.requestCanBeExecuted = false;
-						logger.printf(SEC_LEVEL, "Request %d has conflict with request %d", request.hashCode(), conflictingRequest.hashCode());
+						logger.printf(SEC_LEVEL, "Request %d has conflict(s) with request %d", request.hashCode(), conflictingRequest.hashCode());
 						
 					}else {
 						
-						logger.printf(SEC_LEVEL, "Found retained request with condition no longer respected. Removing it from memory [request: %d]", conflictingRequest.hashCode());
+						logger.printf(SEC_LEVEL, "Retained request with condition no longer respected found. Removing it from memory [request: %d]", conflictingRequest.hashCode());
 						removeRetainRequest(conflictingRequest);
 						
 					}

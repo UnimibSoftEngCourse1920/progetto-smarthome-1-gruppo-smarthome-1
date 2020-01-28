@@ -25,7 +25,7 @@ public class SystemInit {
 	public static void initConfig() {
 		try {
 			initEntities();
-			initAutomatations();
+			initAutomations();
 		} catch (Exception e) {
 			logger.printf(Level.INFO, "%s", e.toString());
 		}
@@ -76,15 +76,15 @@ public class SystemInit {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void initAutomatations() throws IOException, ParseException {
+	public static void initAutomations() throws IOException, ParseException {
 		JSONParser parser = new JSONParser();
 		logger.info("Inizializzazione delle automazioni.");
 		try {
 
-			Object obj = parser.parse(new FileReader("src/main/resources/automatations.json"));
+			Object obj = parser.parse(new FileReader("src/main/resources/automations.json"));
 
 			JSONObject jsonObject = (JSONObject) obj;
-			JSONArray automationsList = (JSONArray) jsonObject.get("automatations");
+			JSONArray automationsList = (JSONArray) jsonObject.get("automations");
 
 			automationsList.forEach((l) -> {
 				JSONObject list = (JSONObject) l;

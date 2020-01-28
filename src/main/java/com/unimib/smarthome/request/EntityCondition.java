@@ -3,9 +3,9 @@ package com.unimib.smarthome.request;
 public class EntityCondition extends EntityStatus {
 	private char rel;
 	
-	public EntityCondition(int entityID, String state, char relazione) {
+	public EntityCondition(int entityID, String state, char relationship) {
 		super(entityID, state);
-		this.setRel(relazione);
+		this.setRel(relationship);
 	}
 
 	public char getRel() {

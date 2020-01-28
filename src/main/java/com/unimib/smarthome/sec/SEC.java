@@ -35,7 +35,7 @@ public class SEC {
 	}
 	
 	//Mette una richiesta in coda per essere valutata
-	public void addRequestToSECQueue(Request request) { //TODO migliora nome
+	public void addRequestToSECQueue(Request request) { 
 		secQueue.add(request);
 	}
 	

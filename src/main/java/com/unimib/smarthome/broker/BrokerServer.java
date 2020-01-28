@@ -43,7 +43,7 @@ public class BrokerServer {
 				
 				brokerManager.enqueueMessageToEntity(message);
 
-				// specifing handlers for handling QoS 1 and 2
+				// specifying handlers for QoS 1 and 2 handling
 				simulatorEndpoint.publishAcknowledgeHandler(messageId -> {
 
 				}).publishReceivedHandler(messageId -> {
