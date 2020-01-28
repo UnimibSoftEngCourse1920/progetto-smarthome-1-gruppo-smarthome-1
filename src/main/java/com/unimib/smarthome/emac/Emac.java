@@ -36,6 +36,12 @@ public class Emac implements Observer {
 			instance = new Emac();
 		return instance;
 	}
+	
+
+	public ConcurrentLinkedQueue<Entity> getStatusUpdateQueue() {
+		return statusUpdateQueue;
+	}
+
 
 	public void registerAutomation(Request r) {
 
@@ -114,4 +120,9 @@ public class Emac implements Observer {
 			this.execute(statusUpdateQueue.poll().getID());
 		}
 	}
+
+	public Map<Integer, List<Request>> getIdToRequests() {
+		return idToRequests;
+	}
+
 }
