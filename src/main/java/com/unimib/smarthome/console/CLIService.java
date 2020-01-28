@@ -19,7 +19,7 @@ public class CLIService extends Thread {
 
 	@Override
 	public void run() {
-		logger.info("Starting cli interface");
+		logger.info("Starting client interface");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String input;
 		while (!Thread.interrupted()) {
@@ -41,32 +41,32 @@ public class CLIService extends Thread {
 		for(Integer key : lista.keySet()) {
 
 
-			logger.printf(CLI, "ID entita': %d", lista.get(key).getID());
-			logger.printf(CLI, "Nome entita': %s", lista.get(key).getName());
-			logger.printf(CLI, "Stato entita': %s", lista.get(key).getState());
-			logger.printf(CLI, "Tipo entita': %s", lista.get(key).getType());
+			logger.printf(CLI, "Entity ID: %d", lista.get(key).getID());
+			logger.printf(CLI, "Entity name: %s", lista.get(key).getName());
+			logger.printf(CLI, "Entity state': %s", lista.get(key).getState());
+			logger.printf(CLI, "Entity type': %s", lista.get(key).getType());
 
 
 	  }
 	}
 	// visualizzo lo stato dell'entità che l'utente richiede.
 	public void stateVisualization(int id, String state) {
-		logger.printf(CLI, "L'entita' con ID: %d ha come stato %s", id,state);
+		logger.printf(CLI, "Entity with ID: %d has state: %s", id,state);
 	}
 	
 	public void errorInput(String input) {
-		logger.printf(CLI, "L'input %s non è corretto.", input);
+		logger.printf(CLI, "Input %s is invalid.", input);
 	}
 	
 	public void error(int input) {
-		logger.printf(CLI, "l'id %d inserito non è corretto.", input);
+		logger.printf(CLI, "ID %d is not a valid ID.", input);
 	}
 	
 	public void errorSet() {
-		logger.printf(CLI, "Il comando set, deve essere del tipo: set <entity> <value>." );
+		logger.printf(CLI, "Set command must be formed as follows: set <entity> <value>.");
 	}
 	
 	public void errorGet() {
-		logger.printf(CLI, "Il comando get, deve essere del tipo: get <entity>." );
+		logger.printf(CLI, "Get command must be formed as follows: get <entity>." );
 	}
 }
