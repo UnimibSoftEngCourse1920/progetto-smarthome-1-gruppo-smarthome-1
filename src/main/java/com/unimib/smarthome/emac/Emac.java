@@ -1,3 +1,4 @@
+
 package com.unimib.smarthome.emac;
 
 
@@ -6,33 +7,38 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.unimib.smarthome.common.Observer;
-import com.unimib.smarthome.entity.Entity;
-import com.unimib.smarthome.entity.EntityManager;
-import com.unimib.smarthome.request.Request;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.unimib.smarthome.common.Observer;
+import com.unimib.smarthome.entity.Entity;
+import com.unimib.smarthome.request.Request;
+import com.unimib.smarthome.sec.SEC;
+import com.unimib.smarthome.util.RequestValidator;
+
 
 public class Emac implements Observer {
 
-	static Emac instance;
-	private Logger logger = LogManager.getLogger();
-	
 	private Map<Integer, List<Request>> idToRequests = new HashMap<>();
-	private Emac(){};
-	//Singleton
+	private ConcurrentLinkedQueue<Entity> statusUpdateQueue = new ConcurrentLinkedQueue<>();
+	private Logger logger = LogManager.getLogger();
+	private final Level EMAC_LEVEL = Level.getLevel("EMAC");
+	private final SEC sec = SEC.getInstance();
+	private static Emac instance;
+	
+	private Emac() {}
+	
 	public static Emac getInstance() {
-		if(instance == null) {				
+		if(instance == null)
 			instance = new Emac();
-			EntityManager.getInstance().attach(instance);
-			}
 		return instance;
 	}
 	
-	public void registerAutomation(Request r) {
+	
+public void registerAutomation(Request r) {
 		
 		for (int i = 0; i < r.getConditions().length; i++) {
 			//id di un'entità tra le condition di r
@@ -61,53 +67,54 @@ public class Emac implements Observer {
 		logger.printf(Level.INFO, "%s", idToRequests);
 	}
 	
+	
 
 	private List<Request> filter(int entityId) {
-		//tutte le richieste relative ad entity
-		List<Request> requests = idToRequests.get(entityId);
-		List<Request> validRequests = new ArrayList<>();
-		//filtra le sole valide
-		for (Request r : requests) {
-			boolean verified = true;
-			for (int i = 0; i < r.getConditions().length; i++) {
-				//verifico che le condizioni di una richiesta siano tutte soddisfatte
-				if (!r.getConditions()[i].getState().equals(EntityManager.getInstance().getEntityState(entityId))) {
-					verified = false;
+		if(idToRequests.containsKey(entityId)) { //Se contiene richieste associate all'entita'
+			List<Request> requests = idToRequests.get(entityId);
+			List<Request> validRequests = new ArrayList<>();
+			
+			for (Request r : requests) {
+				if(RequestValidator.controlRequestConditions(r))
+					validRequests.add(r);
 				}
-			}
-			if (verified) {
-				validRequests.add(r);
-			}
+			return validRequests;
 		}
-		return validRequests;
+		
+		return null; //Non contiene richieste associate all'entita'
 	}
 	
 	
 	
 	private void execute(int entityId) {
 		List<Request> validRequests = filter(entityId);
-		Collections.sort(validRequests);
-		Collections.reverse(validRequests);
-		for (Request r : validRequests) {
-			if (r.getRetain()) {
-				r.executeRequest();
-				validRequests.remove(r);
+		if(validRequests != null) {
+			logger.printf(EMAC_LEVEL, "New state found on entity %d. %d valid automations found", entityId, validRequests.size());
+			Collections.sort(validRequests);
+			Collections.reverse(validRequests);
+			for (Request r : validRequests) { //Prima esegue le retain 
+				if (r.getRetain()) {
+					logger.printf(EMAC_LEVEL, "Executing request %d", r.hashCode());
+					sec.addRequestToSECQueue(r);
+					validRequests.remove(r);
+				}
 			}
+			for (Request r : validRequests) { //Dopo esegue le normali
+				logger.printf(EMAC_LEVEL, "Executing request %d", r.hashCode());
+				sec.addRequestToSECQueue(r);
+			}	
 		}
-		for (Request r : validRequests) {
-			r.executeRequest();
-		}	
 	}
 
 	@Override
 	public void update(Entity entity) {
-		
-		this.execute(entity.getID());
-		
-		
+		statusUpdateQueue.add(entity);
 	}
 	
-	
-
-	
+	protected void controlNewStatus() {
+		if(!statusUpdateQueue.isEmpty()) {
+			this.execute(statusUpdateQueue.poll().getID());
+		}
+	}
 }
+

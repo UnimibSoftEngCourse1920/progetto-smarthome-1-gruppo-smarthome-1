@@ -1,6 +1,8 @@
 package com.unimib.smarthome.entity;
 
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -24,7 +26,8 @@ public class EntityManager implements Subject {
 	public static EntityManager instance;
 	private static BrokerManager brokerManager = BrokerManager.getInstance();
 	private static ConcurrentMap<Integer, Entity> entityMap = new ConcurrentHashMap<>();
-	protected static ArrayList<Observer> observers = new ArrayList<>();;
+	protected List<Observer> observers = new ArrayList<>();
+
 	private Logger logger = LogManager.getLogger();
 	final Level EM = Level.getLevel("EM");
 	
