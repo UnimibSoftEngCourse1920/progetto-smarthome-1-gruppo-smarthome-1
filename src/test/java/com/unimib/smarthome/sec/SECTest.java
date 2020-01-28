@@ -1,6 +1,5 @@
 package com.unimib.smarthome.sec;
 
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeAll;
