@@ -1,20 +1,111 @@
 { 
    "entities":[ 
       { 
-         "Name":"Luce1",
-         "Topic":"/light",
-         "Type":"BINARY",
-         "State": "1",
-         "Id": 1,
-         "Commandable": false
+         "name":"Sensore temperatura",
+         "topic":"sensor/temp1",
+         "type":"RANGE",
+         "id":1,
+         "commandable":false
       },
-      { 
-	     "Name":"Sensore gas",
-	     "Topic": "192.168.1.26",
-	     "Type":"STATE",
-	     "State": "",
-	     "Id": 2,
-	     "Commandable": false
-      }
+      {
+      "name": "Sensore gas",
+      "topic": "sensor/gas1",
+      "type": "RANGE",
+      "id":2,
+      "commandable": false
+    },
+    {
+      "name": "Sensore movimento",
+      "topic": "sensors/movement1",
+      "type": "BINARY",
+      "id": 3,
+      "commandable": false
+      
+    },
+    {
+      "name": "Sensore conta persone",
+      "topic": "sensor/pepoles1",
+      "type": "RANGE",
+      "id": 4,
+      "commandable": false
+    },
+    {
+      "name": "Luce",
+      "topic": "lights/light1",
+      "type": "BINARY",
+      "id": 5,
+      "commandable": true
+    },
+     {
+      "name": "Luce 2",
+      "topic": "lights/light2",
+      "type": "BINARY",
+      "id": 6,
+      "commandable": true
+    },
+    {
+      "name": "Sensore qualita aria",
+      "topic": "sensor/air1",
+      "type": "RANGE",
+      "id": 7,
+      "commandable": false
+    },
+    {
+      "name": "Serratura automatizzata",
+      "topic": "engine/door1/state",
+      "type": "STATE",
+      "id": 8,
+      "commandable": true
+    },
+    {
+      "name": "Serratura automatizzata",
+      "topic": "engine/door1/position",
+      "type": "RANGE",
+      "id": 9,
+      "commandable": true
+     
+    },
+    {
+      "name": "Termostato",
+      "topic": "control/temp2/state",
+      "type": "STATE",
+      "id": 10,
+      "commandable": true
+      },
+      {
+       "name": "Termostato",
+       "topic": "control/temp2/value",
+       "type": "RANGE",
+       "id": 11,
+       "commandable": true
+      },
+      {
+       "name": "Allarme",
+       "topic": "alarms/alarm1",
+       "type": "STATE",
+       "id": 12,
+       "commandable": true
+      },
+      {
+       "name": "Robot pulizia",
+       "topic": "robots/cleaner1",
+       "type": "STATE",
+       "id": 13,
+       "commandable": true
+      },
+      {
+       "name": "Tenda",
+       "topic": "engine/cover1/state",
+       "type": "STATE",
+       "id": 14,
+       "commandable": true
+      },
+      {
+       "name": "Tenda",
+       "topic": "engine/cover1/position",
+       "type": "RANGE",
+       "id": 15,
+       "commandable": true
+       }
    ]
 }

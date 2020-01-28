@@ -53,7 +53,11 @@ public class Emac implements Observer {
 			
 			idToRequests.put(entityId, requests);
 		}
-		logger.printf(Level.INFO, " %s", idToRequests.toString());
+		
+	}
+	
+	public void PrintAutomation() {
+		logger.printf(Level.INFO, "%s", idToRequests);
 	}
 	
 

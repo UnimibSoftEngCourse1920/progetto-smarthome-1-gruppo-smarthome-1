@@ -52,15 +52,15 @@ public class SystemInit {
 				
 			entitiesList.forEach((listEntities) -> {
 				JSONObject list = (JSONObject) listEntities;
-				String name = ((String) list.get("Name"));
-				String topic = ((String) list.get("Topic"));
-				String type = ((String) list.get("Type"));
-				int id = (int) ((long) list.get("Id"));
+				String name = ((String) list.get("name"));
+				String topic = ((String) list.get("topic"));
+				String type = ((String) list.get("type"));
+				int id = (int) ((long) list.get("id"));
 				//setto lo stato solo dei sensori commandable, i sensor avranno un loro stato in automatico.
 				//String state = ((String) list.get("State"));
 				// se è commandable, creo una classe device, altrimenti creo Sensor.
 				try {
-					if ((Boolean) list.get("Commandable")) {
+					if ((Boolean) list.get("commandable")) {
 						Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
 					} else
 						Entity.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));	
@@ -143,6 +143,7 @@ public class SystemInit {
 		} catch (FileNotFoundException e) {
 			logger.printf(Level.INFO, "%s",  e.toString());
 		}
+		//emac.PrintAutomation();
 	}
 
 }
