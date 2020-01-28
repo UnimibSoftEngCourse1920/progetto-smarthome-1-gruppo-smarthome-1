@@ -23,7 +23,7 @@ public abstract class ReadOnlyEntity extends SimulatorEntity{
 	
 	@Override
 	protected <T> void onIncomingMessage(String newState, Class<T> source) {
-		System.out.println(source);
+		
 		if(source.equals(BrokerManager.class)) {
 			state = newState;
 		}
