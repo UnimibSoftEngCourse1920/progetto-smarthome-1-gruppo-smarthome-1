@@ -4,13 +4,11 @@ import com.unimib.smarthome.entity.EntityManager;
 
 public class EMACService extends Thread{
 
-	EMAC emac = EMAC.getInstance();
+	Emac emac = Emac.getInstance();
 	
 	@Override
 	public void run() {
-		
 		EntityManager.getInstance().attach(emac);
-		
 		while(!Thread.interrupted()) {
 			emac.controlNewStatus();
 		}
