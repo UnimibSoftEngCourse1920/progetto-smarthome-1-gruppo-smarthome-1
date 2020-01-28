@@ -84,7 +84,7 @@ public class SystemInit {
 			Object obj = parser.parse(new FileReader("src/main/resources/automatations.json"));
 
 			JSONObject jsonObject = (JSONObject) obj;
-			JSONArray automationsList = (JSONArray) jsonObject.get("automatations");
+			JSONArray automationsList = (JSONArray) jsonObject.get("automations");
 
 			automationsList.forEach((l) -> {
 				JSONObject list = (JSONObject) l;
