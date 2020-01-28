@@ -22,7 +22,7 @@ import org.json.simple.parser.ParseException;
 public class SystemInit {
 	private static Logger logger = LogManager.getLogger();
 	
-	public static void initilizer() {
+	public static void initConfig() {
 		try {
 			initEntities();
 			initAutomatations();
@@ -47,6 +47,7 @@ public class SystemInit {
 			JSONObject jsonObject = (JSONObject) obj;
 
 			JSONArray entitiesList = (JSONArray) jsonObject.get("entities");
+
 			
 			
 				
@@ -58,6 +59,8 @@ public class SystemInit {
 				int id = (int) ((long) list.get("id"));
 				//setto lo stato solo dei sensori commandable, i sensor avranno un loro stato in automatico.
 				//String state = ((String) list.get("State"));
+
+						
 				// se è commandable, creo una classe device, altrimenti creo Sensor.
 				try {
 					if ((Boolean) list.get("commandable")) {
@@ -86,6 +89,7 @@ public class SystemInit {
 
 			JSONObject jsonObject = (JSONObject) obj;
 			JSONArray automationsList = (JSONArray) jsonObject.get("automatations");
+
 			
 			
 			automationsList.forEach((l) -> {

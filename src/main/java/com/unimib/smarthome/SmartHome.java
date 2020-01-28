@@ -19,7 +19,9 @@ public class SmartHome {
 	public static void main(String[] args) {		
 		logger.info("Starting SmartHome");
 		
-		SystemInit.initilizer();
+
+		SystemInit.initConfig();
+
 
 		brokerService = new BrokerService();
 		cliService = new CLIService();
@@ -37,8 +39,5 @@ public class SmartHome {
 		cliService.interrupt();
 		monitorService.interrupt();
 		secService.interrupt();
-		
 	}
-	
-	
 }

@@ -13,7 +13,7 @@ import io.vertx.mqtt.MqttServerOptions;
 public class BrokerServer {
 
 	private Logger logger = LogManager.getLogger();
-	final static Level BROKER = Level.forName("BROKER", 350);
+	final static Level BROKER = Level.getLevel("BROKER");
 	
 	private MqttServer server;
 	public MqttEndpoint simulatorEndpoint;
@@ -41,8 +41,7 @@ public class BrokerServer {
 
 			simulatorEndpoint.publishHandler(message -> {
 				
-				brokerManager.dispatchMessage(message);
-
+				brokerManager.enqueueMessageToEntity(message);
 
 				// specifing handlers for handling QoS 1 and 2
 				simulatorEndpoint.publishAcknowledgeHandler(messageId -> {

@@ -21,43 +21,51 @@ import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 public class EntityManager implements Subject {
 
-	static EntityManager instance;
-	private BrokerManager brokerManager = BrokerManager.getInstance();
-	private ConcurrentMap<Integer, Entity> entityList = new ConcurrentHashMap<>();
-	protected ArrayList<Observer> observers;
-
+	public static EntityManager instance;
+	private static BrokerManager brokerManager = BrokerManager.getInstance();
+	private static ConcurrentMap<Integer, Entity> entityMap = new ConcurrentHashMap<>();
+	protected static ArrayList<Observer> observers = new ArrayList<>();;
 	private Logger logger = LogManager.getLogger();
 	final Level EM = Level.getLevel("EM");
 	
-	
 	private EntityManager() {}
 	
-	public static EntityManager getInstance() {
-		if(instance == null) {
-			instance = new EntityManager();
-		}
-		return instance;
-	}
+	private static class LazyHolder {
+        private static final EntityManager instance = new EntityManager();
+    }
+
+    public static EntityManager getInstance() {
+        return LazyHolder.instance;
+    }
 	
 	//Registra una nuova entita
 	public void registerEntity(Entity entity) throws DuplicatedEntityException {		
 		int entityID = entity.getID();
-		
+	
+		if(entityMap.containsKey(entityID)) //Controllo che non ci siano entita con lo stesso id
 
-		if(entityList.containsKey(entityID)) //Controllo che non ci siano entita con lo stesso id
-
-			throw new DuplicatedEntityException(entity, entityList.get(entityID));
+			throw new DuplicatedEntityException(entity, entityMap.get(entityID));
 		
 		logger.printf(EM, "Registered entity [id: %d, name: %s]", entityID, entity.getName());
-		entityList.put(entityID, entity);
+		entityMap.put(entityID, entity);
 		
+		if(entity instanceof SimulatorEntity) {
+			brokerManager.registryEntityTopic(entityID, ((SimulatorEntity) entity).getTopic());
+		}
 	}
-	
 	
 	//Inoltra un messaggio ad una entita
 	public void sendEntityMessage(int entityID, String message) throws EntityIncomingMessageException {
 		logger.printf(EM, "Sending message to entity [id: %d, message: %s]", entityID, message);
-		entityList.get(entityID).onIncomingMessage(message);
+		Entity entity = entityMap.get(entityID);
+		try{
+			entity.onIncomingMessage(message);
+		}catch(EntityIncomingMessageException e) {
+			throw e;
+		}
+		//Se non lancio un errore
+		notifyEntityChange(entity);
+			
 	}
 	
 	public void notifyEntityChange(Entity entity) {		
@@ -66,27 +74,28 @@ public class EntityManager implements Subject {
 		notifyObservers(entity);
 		
 		//Aggiorno l'entita nella lista
-		entityList.put(entity.getID(), entity);
+		entityMap.put(entity.getID(), entity);
 		
 		//Se sono le entita del simulatore notifico attraverso il server MQTT
 		if(entity instanceof SimulatorEntity) {
 			SimulatorEntity se = (SimulatorEntity) entity;
-			brokerManager.sendMessageToClient(se.getTopic(), String.valueOf(se.getState()));
+			brokerManager.enqueueMessageToSimulator(se.getTopic(), String.valueOf(se.getState()));
 		}
 			
 	}
 	
 	public String getEntityState(int entityID) {
-		return entityList.get(entityID).getState();
+		return entityMap.get(entityID).getState();
 	}
 	
 	public Map<Integer, Entity> getEntityMap(){
-		return Map.copyOf(entityList);
+		return Map.copyOf(entityMap);
 	}
 	
 	/** OBSERVER PATTERN **/
 	
 	public void attach(Observer o) {
+		logger.printf(EM, "Aggiunto osservatore %s", o);
 		observers.add(o);
 	}
 	

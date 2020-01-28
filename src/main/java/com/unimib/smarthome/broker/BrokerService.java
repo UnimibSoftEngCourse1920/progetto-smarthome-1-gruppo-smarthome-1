@@ -14,7 +14,8 @@ public class BrokerService extends Thread{
 		brokerManager.startBrokerServer();
 		
 		while(!Thread.interrupted()) {
-			brokerManager.sendNewMessageToClients();
+			brokerManager.sendMessageToEntity();
+			brokerManager.sendMessageToSimulator();
 		}
 		
 	}
