@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.unimib.smarthome.common.Observer;
 import com.unimib.smarthome.entity.Entity;
+import com.unimib.smarthome.entity.EntityManager;
 
 public class MonitorService extends Thread implements Observer  {
 	private Logger logger = LogManager.getLogger();
@@ -18,10 +19,13 @@ public class MonitorService extends Thread implements Observer  {
 	@Override
 	public void run() {
 		logger.info("Starting monitor service");
+		
+		EntityManager.getInstance().attach(this);
+		
 		while(!Thread.interrupted()) {
 			
 			if((lastUpdate = monitorQueue.poll()) != null ) {
-					logger.printf(MONITOR_LEVEL, "Sensor id %i (%s) has a new state: %s", lastUpdate.getID(), lastUpdate.getName(), lastUpdate.getState());
+					logger.printf(MONITOR_LEVEL, "Sensor id %d (%s) has a new state: %s", lastUpdate.getID(), lastUpdate.getName(), lastUpdate.getState());
 			}
 			
 			//DO OTHER ANALISYS STUFF...

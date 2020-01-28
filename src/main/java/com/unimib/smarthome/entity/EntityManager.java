@@ -24,7 +24,7 @@ public class EntityManager implements Subject {
 	public static EntityManager instance;
 	private static BrokerManager brokerManager = BrokerManager.getInstance();
 	private static ConcurrentMap<Integer, Entity> entityMap = new ConcurrentHashMap<>();
-	protected static ArrayList<Observer> observers;
+	protected static ArrayList<Observer> observers = new ArrayList<>();;
 	private Logger logger = LogManager.getLogger();
 	final Level EM = Level.getLevel("EM");
 	
@@ -71,7 +71,7 @@ public class EntityManager implements Subject {
 	public void notifyEntityChange(Entity entity) {		
 		
 		//NOTIFICA OSSERVATORI
-		//notifyObservers(entity);
+		notifyObservers(entity);
 		
 		//Aggiorno l'entita nella lista
 		entityMap.put(entity.getID(), entity);
@@ -95,6 +95,7 @@ public class EntityManager implements Subject {
 	/** OBSERVER PATTERN **/
 	
 	public void attach(Observer o) {
+		logger.printf(EM, "Aggiunto osservatore %s", o);
 		observers.add(o);
 	}
 	
