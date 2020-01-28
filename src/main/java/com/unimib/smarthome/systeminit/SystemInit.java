@@ -11,6 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedList;
+
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -26,13 +29,13 @@ public class SystemInit {
 			initEntities();
 			initAutomatations();
 		}catch(Exception e) {
-			
+			logger.printf(Level.INFO, "%s",  e.toString());
 		}
 	}
 	
 	
 	
-	
+	 
 	
 	// leggo da un file json le varie entità che devo registrare nel sistema.
 	@SuppressWarnings("unchecked")
@@ -83,17 +86,14 @@ public class SystemInit {
 
 			JSONObject jsonObject = (JSONObject) obj;
 			JSONArray automationsList = (JSONArray) jsonObject.get("automatations");
-			int i;
-			int j;
+			
 			String a;
 			String value;
 			Iterator<JSONObject> iterator = automationsList.iterator();
 			while (iterator.hasNext()) {
-				EntityCondition[] condition = new EntityCondition[1000];
-				EntityStatus[] then = new EntityStatus[1000];
-				Emac emac = new Emac();
-				i = 0;
-				j = 0;
+				LinkedList<EntityCondition> condition = new LinkedList<EntityCondition>();
+				LinkedList<EntityStatus> then =  new LinkedList<EntityStatus>();
+				Emac emac = Emac.getInstance();
 				JSONObject list = iterator.next();
 				// L'if è un array di condizioni.
 				JSONArray ifList = (JSONArray) list.get("if");
@@ -104,8 +104,8 @@ public class SystemInit {
 					value = Integer.toString((int) ((long) conditionlist.get("value")));
 					EntityCondition cond = new EntityCondition((int) ((long) conditionlist.get("id")), value,
 							a.charAt(0));
-					condition[i] = cond;
-					i++;
+					condition.add(cond);
+					
 				}
 				// Anche le conseguenze, possono contenere più azioni.
 				JSONArray thenList = (JSONArray) list.get("then");
@@ -115,20 +115,33 @@ public class SystemInit {
 					value = Integer.toString((int) ((long) thenlist.get("value")));
 					EntityStatus status = new EntityStatus((int) ((long) thenlist.get("id")), value);
 
-					then[j] = status;
-					j++;
+					then.add(status);
+					
 				}
 
 				boolean retain = (boolean) list.get("retain");
 				int retain_level = (int) ((long) list.get("retain_level"));
-
+				EntityCondition[] cond = new EntityCondition[condition.size()];
+				EntityStatus[] stat = new EntityStatus[then.size()];
+				int i = 0;
+				int j =0;
+				for(EntityCondition c : condition) {
+					cond[i]=c;
+					i++;
+				}
+				for(EntityStatus s : then) {
+					stat[j]=s;
+					j++;
+				}
+				Request r = new Request(cond, stat, retain, retain_level);
 				// chiamo registerAutomation in emac, per registrare l'automazione.
-				 emac.registerAutomation(new Request(condition, then, retain, retain_level));
+				logger.printf(Level.INFO, "la richiesta e': %s", r.toString());
+				emac.registerAutomation(r);
 
 			}
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			logger.printf(Level.INFO, "%s",  e.toString());
 		}
 	}
 
