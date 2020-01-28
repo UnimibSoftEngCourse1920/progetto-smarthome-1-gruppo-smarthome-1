@@ -12,7 +12,7 @@ public class BrokerService extends Thread{
 	public void run() {
 		logger.info("Starting Broker service");
 		brokerManager.startBrokerServer();
-		
+	
 		while(!Thread.interrupted()) {
 			brokerManager.sendMessageToEntity();
 			brokerManager.sendMessageToSimulator();
