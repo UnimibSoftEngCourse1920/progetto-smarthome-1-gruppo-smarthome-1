@@ -17,10 +17,7 @@ public class Request implements Comparable<Request>{
 		this.setRetain(retain);
 		this.setPriority(priority);
 	}
-	// da cancellare successivamente, una volta finite le modifiche di @gianlo e @davide.
-	public void executeRequest() {
-		
-	}
+
 	public EntityCondition[] getConditions() {
 		return conditions;
 	}

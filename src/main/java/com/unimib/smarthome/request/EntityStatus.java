@@ -23,8 +23,6 @@ public class EntityStatus {
 		this.state = state;
 	}
 	
-	public void esegui() {}
-	
 	@Override
 	public String toString() {
 		return "EntityStatus [entityID: " + this.getEntityID() + ", state: " + this.getState() + "]";

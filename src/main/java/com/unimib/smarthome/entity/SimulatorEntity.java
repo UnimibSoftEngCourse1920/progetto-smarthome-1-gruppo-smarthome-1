@@ -13,6 +13,7 @@ public abstract class SimulatorEntity extends Entity{
 	public SimulatorEntity(EntityType type, int id, String name, String topic) {
 		super(type, id, name);
 		setTopic(topic);
+		setState("0");
 	}
 	
 	public SimulatorEntity(EntityType type, int id, String name, String topic, String initialState) {

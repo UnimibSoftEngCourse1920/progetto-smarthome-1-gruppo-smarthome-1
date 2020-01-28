@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -69,7 +70,7 @@ public class Emac implements Observer {
 	private List<Request> filter(int entityId) {
 		if (idToRequests.containsKey(entityId)) { // Se contiene richieste associate all'entita'
 			List<Request> requests = idToRequests.get(entityId);
-			List<Request> validRequests = new ArrayList<>();
+			List<Request> validRequests = new CopyOnWriteArrayList<>();
 
 			for (Request r : requests) {
 				if (RequestValidator.controlRequestConditions(r))
