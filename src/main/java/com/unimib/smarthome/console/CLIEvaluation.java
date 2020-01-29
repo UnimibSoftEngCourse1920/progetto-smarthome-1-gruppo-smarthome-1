@@ -70,7 +70,7 @@ public class CLIEvaluation {
 				break;
 				
 			case "refuse":
-				pendingRequest = null;
+				refuse();
 				break;
 				
 			default:
@@ -95,10 +95,14 @@ public class CLIEvaluation {
 			
 	}
 	
-	private void accept() {
+	private static void refuse() {
+		pendingRequest = null;
+	}
+	
+	private static void accept() {
 		if(pendingRequest != null) {
-			Request r = new Request(pendingRequest.getConditions(), pendingRequest.getConsequences(), pendingRequest.getRetain(), pendingRequest.getPriority());
-			SEC.getInstance().addRequestToSECQueue(r); 
+			Request newRequest = new Request(pendingRequest.getConditions(), pendingRequest.getConsequences(), pendingRequest.getRetain(), pendingRequest.getPriority());
+			SEC.getInstance().addRequestToSECQueue(newRequest); 
 			pendingRequest = null;
 		}
 	}

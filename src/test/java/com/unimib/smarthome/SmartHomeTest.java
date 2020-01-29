@@ -39,7 +39,7 @@ public class SmartHomeTest {
 	@BeforeAll
 	protected static void setUp() {
 		if (setUpIsDone) {
-	        return;
+	        return; 
 	    }
 	    setUpIsDone = true; 
 		
@@ -219,6 +219,21 @@ public class SmartHomeTest {
 		assertTrue(true);
 	}
 	
+	@Test
+	void testAccept() {
+		eval.evaluation("set 1 20 false 10");
+		eval.evaluation("accept");
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+		assertTrue(true);
+	}
+	 
+	@Test
+	void testRefuse() {
+		eval.evaluation("set 1 20 false 10");
+		eval.evaluation("refuse");
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+		assertTrue(true);
+	}
 	@Test
 	public void emacTest() {
 		String test = "set 1 20";
