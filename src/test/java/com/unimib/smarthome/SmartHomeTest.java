@@ -56,12 +56,6 @@ public class SmartHomeTest {
 		await().atMost(5, TimeUnit.SECONDS).until(allThreadsAreStarted());
 	}
 	
-	@AfterAll
-	protected static void shutDown() {
-		SmartHome.shutdown();
-		await().atMost(5, TimeUnit.SECONDS); 
-	}
-	
 	private static Callable<Boolean> allThreadsAreStarted() {
 	      return () -> Thread.getAllStackTraces().keySet().size() > 7;
 
