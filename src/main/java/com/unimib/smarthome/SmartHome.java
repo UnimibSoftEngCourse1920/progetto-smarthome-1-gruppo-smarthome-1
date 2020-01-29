@@ -42,5 +42,6 @@ public class SmartHome {
 		monitorService.interrupt();
 		secService.interrupt();
 		emacService.interrupt();
+		System.exit(0);
 	}
 }

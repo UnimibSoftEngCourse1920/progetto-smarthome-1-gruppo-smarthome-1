@@ -1,11 +1,11 @@
 package com.unimib.smarthome.sec;
 
+
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import com.unimib.smarthome.request.Request;
 
 
@@ -23,15 +23,15 @@ public class ConflictPool extends Thread{
 	@Override
 	public void run() {
 		
-		logger.log(SEC_LEVEL, "Starting ConflictPool");
+		logger.printf(SEC_LEVEL, "Starting ConflictPool");
 		
 		while(!Thread.interrupted()) {
-			conflictPoolQueue.forEach(request -> {
+			conflictPoolQueue.forEach((request) -> {
 				logger.printf(SEC_LEVEL, "Trying to evaluate request from conflict pool [id: %d]", request.hashCode());
 				sec.evaluateRequest(request);
 			});
 			try {
-				Thread.sleep(10000); //10s
+				Thread.sleep(5000); //10s
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
@@ -51,4 +51,11 @@ public class ConflictPool extends Thread{
 		conflictPoolQueue.clear();
 	}
 	
+	public Request[] getConflictPool(){
+		if(conflictPoolQueue != null)
+			return (Request[]) conflictPoolQueue.toArray();
+		return null;
+		
+	}
+
 }

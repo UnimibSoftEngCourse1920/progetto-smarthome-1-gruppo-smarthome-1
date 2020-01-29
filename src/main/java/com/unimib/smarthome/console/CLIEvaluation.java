@@ -1,7 +1,11 @@
 package com.unimib.smarthome.console;
+
 import java.util.Map;
 
+import com.unimib.smarthome.SmartHome;
 import com.unimib.smarthome.entity.*;
+import com.unimib.smarthome.request.Request;
+import com.unimib.smarthome.sec.*;
 public class CLIEvaluation {
 
 	
@@ -10,6 +14,10 @@ public class CLIEvaluation {
 		String[] e = eval.split(" ");
 		CLIService s = new CLIService();
 		CLIRequest r = new CLIRequest();
+		SEC sec = SEC.getInstance();
+		ConflictPool cf = new ConflictPool(sec);
+		Request[] request;
+		
 		/*
 		 * se e' list, richiamo la visualizzazione che e' effettuata da CLIService.
 		 * se e' set, richiamo createRequest, bisogna vedere se retain e priority sono vuoti.
@@ -18,40 +26,68 @@ public class CLIEvaluation {
 		try {
 			switch(e[0]) {
 			case "list":
-				Map<Integer, Entity> lista = EntityManager.getInstance().getEntityMap();
-				s.entityVisualization(lista);
+				Map<Integer, Entity> list = EntityManager.getInstance().getEntityMap();
+				//Entity[] entities= new Entity[list.size()];
+				
+				list.forEach((key, entity) -> {
+					s.print(entity.toString());
+				});
+				//s.print(Arrays.toString(entities));
 				break;
 				
 			case "set": 
-				if(e.length == 5)
+				if(e.length == 5) {
+					s.print("Executing request.");
 					r.createRequest(Integer.parseInt(e[1]), e[2], 
 							Boolean.parseBoolean(e[3]), Integer.parseInt(e[4]));
-				else 
-					if(e.length == 3)
+				}
+				else
+					if(e.length == 3) {
+						s.print("Executing request.");
 						r.createRequest(Integer.parseInt(e[1]), e[2]);
+					}
 					else
-						s.errorSet();
-					
+						s.print("Set command must be formed as follows: set <entity> <value>.");
 				break;
 			case "get": 
 				if(e[1] != null) {
 					Entity entity = EntityManager.getInstance().getEntity(Integer.parseInt(e[1]));
-					s.stateVisualization(Integer.parseInt(e[1]), entity);
+					//s.stateVisualization(Integer.parseInt(e[1]), entity);
+					s.print(entity.toString());
 				}
 				else
-					s.errorGet();
+					s.print("The ID inserted is not a valid ID.");
 					
 				break;
+				
+			case "shutdown":
+				s.print("System is shutting down.");
+				SmartHome.shutdown();
+				break;
+				
+			case "listCF":
+				if(cf.getConflictPool() == null)
+					s.print("ConflictPool is empty.");
+				else {
+					request = cf.getConflictPool();
+					for(Request req: request )
+						s.print(req.toString());
+				}
+					break;
+					
+			case "clearCF" : 
+				cf.clearPool();
+				s.print("ConflictPool is empty now. ");
+				break;
+				
 			default:
 				//Nel caso in cui il comando inserito non e' presente tra questi tre. 
-				s.errorInput(eval);
+				s.print("Input is invalid.");
 			}
-			
-			
-			//TODO comando per spegnere tutto, e avere lista richieste in CF e svuotarla
-			
 		} //Nel caso in cui abbia inserito un id non valido
-		catch(Exception error) { s.error(Integer.parseInt(e[1]));}
+		catch(Exception error) { s.print(error.toString());
+			
+		} 
 	}
 }
 	
