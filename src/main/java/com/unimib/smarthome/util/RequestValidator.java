@@ -33,7 +33,7 @@ public class RequestValidator {
 	}
 
 	private static boolean checkValidStatus(EntityCondition condition) {
-		String entityRealStatus = em.getEntityState(condition.getEntityID());
+		String entityRealStatus = em.getEntity(condition.getEntityID()).getState();
 		if(entityRealStatus != null) {
 			char rel = condition.getRel();
 			switch (rel) {

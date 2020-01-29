@@ -85,9 +85,9 @@ public class EntityManager implements Subject {
 			
 	}
 	
-	public String getEntityState(int entityID) {
-		return entityMap.get(entityID).getState();
-	}
+//	public String getEntityState(int entityID) {
+//		return entityMap.get(entityID).getState();
+//	}
 	
 	public Entity getEntity(int entityID) {
 		return entityMap.get(entityID);

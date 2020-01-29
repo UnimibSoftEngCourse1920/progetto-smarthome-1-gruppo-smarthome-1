@@ -17,7 +17,7 @@ public class EMACService extends Thread{
 		while(!Thread.interrupted()) {
 			emac.controlNewStatus();
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(250);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}

@@ -89,7 +89,7 @@ public class EMAC implements Observer {
 	private void execute(int entityId) {
 		List<Request> validRequests = filter(entityId);
 		if (validRequests != null) {
-			logger.printf(EMAC_LEVEL, "New state found on entity %d. %d valid automations found", entityId,
+			logger.printf(EMAC_LEVEL, "New state found on entity %d. [%d valid automations found]", entityId,
 					validRequests.size());
 			Collections.sort(validRequests);
 			Collections.reverse(validRequests);

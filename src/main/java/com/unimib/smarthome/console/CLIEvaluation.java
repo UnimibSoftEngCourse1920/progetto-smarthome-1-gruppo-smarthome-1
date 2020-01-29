@@ -11,9 +11,9 @@ public class CLIEvaluation {
 		CLIService s = new CLIService();
 		CLIRequest r = new CLIRequest();
 		/*
-		 * se è list, richiamo la visualizzazione che è effettuata da CLIService.
-		 * se è set, richiamo createRequest, bisogna vedere se retain e priority sono vuoti.
-		 * se è get richiamo la visualizzazione dello stato di quell'entità.
+		 * se e' list, richiamo la visualizzazione che e' effettuata da CLIService.
+		 * se e' set, richiamo createRequest, bisogna vedere se retain e priority sono vuoti.
+		 * se e' get richiamo la visualizzazione dello stato di quell'entita'.
 		 */
 		try {
 			switch(e[0]) {
@@ -35,17 +35,20 @@ public class CLIEvaluation {
 				break;
 			case "get": 
 				if(e[1] != null) {
-					String state = EntityManager.getInstance().getEntityState(Integer.parseInt(e[1]));
-					s.stateVisualization(Integer.parseInt(e[1]), state);
+					Entity entity = EntityManager.getInstance().getEntity(Integer.parseInt(e[1]));
+					s.stateVisualization(Integer.parseInt(e[1]), entity);
 				}
 				else
 					s.errorGet();
 					
 				break;
 			default:
-				//Nel caso in cui il comando inserito non è presente tra questi tre. 
+				//Nel caso in cui il comando inserito non e' presente tra questi tre. 
 				s.errorInput(eval);
 			}
+			
+			
+			//TODO comando per spegnere tutto, e avere lista richieste in CF e svuotarla
 			
 		} //Nel caso in cui abbia inserito un id non valido
 		catch(Exception error) { s.error(Integer.parseInt(e[1]));}

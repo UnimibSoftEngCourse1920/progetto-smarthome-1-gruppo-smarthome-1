@@ -70,7 +70,7 @@ public class SmartHomeTest {
 
 	
 	private Callable<Boolean> entityHasState(int entityID, String state) {
-	      return () -> em.getEntityState(entityID).equals(state);
+	      return () -> em.getEntity(entityID).getState().equals(state);
 	}
 	
 	private Callable<Boolean> cfHasRequest(int nRequest) {
