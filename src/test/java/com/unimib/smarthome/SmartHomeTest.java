@@ -227,19 +227,19 @@ public class SmartHomeTest {
 		assertTrue(true);
 	}
 	
-//	@Test
-//	@Order(8)
-//	void testCLI() {
-//		eval.evaluation("get " + ENTITY_TEST_ID);
-//		eval.evaluation("list");
-//		eval.evaluation("listCF");
-//		eval.evaluation("clearCF");
-//		eval.evaluation("clear");
-//		eval.evaluation("set 1 1 1");
-//		
-//		assertTrue(true);
-//		//Controllo con Mock https://stackoverflow.com/questions/3717402/how-can-i-test-with-junit-that-a-warning-was-logged-with-log4j
-//	}
+	@Test
+	@Order(8)
+	void testCLI() {
+		eval.evaluation("get " + ENTITY_TEST_ID);
+		eval.evaluation("list");
+		eval.evaluation("listCF");
+		eval.evaluation("clearCF");
+		eval.evaluation("clear");
+		eval.evaluation("set 1 1 1");
+		eval.evaluation("get 6733");
+		assertTrue(true);
+		//Controllo con Mock https://stackoverflow.com/questions/3717402/how-can-i-test-with-junit-that-a-warning-was-logged-with-log4j
+	}
 	
 	@Test
 	@Order(7)
