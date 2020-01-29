@@ -66,7 +66,9 @@ public class SmartHomeTest {
 	private Callable<Boolean> cfHasRequest(int nRequest) {
 	      return () -> sec.getConflictPool().countRequestOnPool() == nRequest;
 	}
-	
+	private Callable<Boolean> CLIEvalHasRequest(Boolean b) {
+		return () -> CLIEvaluation.getPendingRequest() == b;
+	}
 	@Test
 	@Order(0)
 	void initEntityManager() {
@@ -222,14 +224,16 @@ public class SmartHomeTest {
 	@Test
 	void testAccept() {
 		eval.evaluation("set 1 20 false 10");
+		await().atMost(2, TimeUnit.SECONDS).until(CLIEvalHasRequest(true));
 		eval.evaluation("accept");
-		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(10, "1")); 
 		assertTrue(true);
 	}
 	 
 	@Test
 	void testRefuse() {
 		eval.evaluation("set 1 20 false 10");
+		await().atMost(2, TimeUnit.SECONDS).until(CLIEvalHasRequest(true));
 		eval.evaluation("refuse");
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
 		assertTrue(true);

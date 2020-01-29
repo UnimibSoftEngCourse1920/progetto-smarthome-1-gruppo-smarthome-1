@@ -129,4 +129,10 @@ public class CLIEvaluation {
 			else
 				print("Set command must be formed as follows: set <entity> <value>.");
 	}
+	
+	public static boolean getPendingRequest() {
+		if (pendingRequest == null)
+			return false;
+		return true;
+	}
 }
