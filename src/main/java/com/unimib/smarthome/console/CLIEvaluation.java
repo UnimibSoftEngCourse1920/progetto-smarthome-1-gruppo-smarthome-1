@@ -24,7 +24,7 @@ public class CLIEvaluation {
 		 * se e' get richiamo la visualizzazione dello stato di quell'entita'.
 		 */
 		try {
-			switch(e[0]) {
+			switch(e[0]) { 
 			case "list":
 				Map<Integer, Entity> list = EntityManager.getInstance().getEntityMap();
 				
@@ -49,13 +49,15 @@ public class CLIEvaluation {
 						s.print("Set command must be formed as follows: set <entity> <value>.");
 				break;
 			case "get": 
-				if(e[1] != null) {
-					Entity entity = EntityManager.getInstance().getEntity(Integer.parseInt(e[1]));
-					s.print(entity.toString());
+				try {
+					if(e[1] != null) {
+						Entity entity = EntityManager.getInstance().getEntity(Integer.parseInt(e[1]));
+						s.print(entity.toString());
+					}
+				} catch (Exception err) {
+					s.print("The ID entered is not a valid ID.");
 				}
-				else
-					s.print("The ID inserted is not a valid ID.");
-					
+				
 				break;
 				
 			case "shutdown":
