@@ -31,7 +31,7 @@ public class SystemInit {
 		}
 	}
 
-	// leggo da un file json le varie entita'� che devo registrare nel sistema.
+	// leggo da un file json le varie entita' che devo registrare nel sistema.
 	@SuppressWarnings("unchecked")
 	public static void initEntities() throws IOException, ParseException, DuplicatedEntityException {
 		JSONParser parser = new JSONParser();

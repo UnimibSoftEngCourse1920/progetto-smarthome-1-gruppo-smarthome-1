@@ -47,7 +47,7 @@ public class RequestValidator {
 					return false;
 			}
 		}
-		return true; //null è sempre valido come stato (?) :O
+		return true; 
 	}
 
 }

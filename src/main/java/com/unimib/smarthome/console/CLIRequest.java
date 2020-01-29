@@ -6,7 +6,7 @@ public class CLIRequest {
 	private final SEC sec = SEC.getInstance();
 	
 	//creo le richieste dell'utente.
-	//caso in cui non specifica il retain e la priorita' .
+	//caso in cui non specifica il retain e la priorita'.
 	public  void createRequest(int id, String state) {
 		int priority = Integer.MAX_VALUE;
 		EntityStatus[] s = new EntityStatus[1];

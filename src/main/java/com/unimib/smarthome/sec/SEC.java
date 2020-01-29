@@ -54,7 +54,7 @@ public class SEC {
 		if(RequestValidator.controlRequestConditions(r)) {
 			if(conflictSupervisor.controlRequest(r)) {
 				if(errorSupervisor.executeRequest(r)) {
-					//Se la richiesta � andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
+					//Se la richiesta e' andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
 					
 					logger.printf(SEC_LEVEL, "No conflicts detected on request %d", r.hashCode());
 					
