@@ -23,10 +23,10 @@ public class ConflictPool extends Thread{
 	@Override
 	public void run() {
 		
-		logger.printf(SEC_LEVEL, "Starting ConflictPool");
+		logger.log(SEC_LEVEL, "Starting ConflictPool");
 		
 		while(!Thread.interrupted()) {
-			conflictPoolQueue.forEach((request) -> {
+			conflictPoolQueue.forEach(request -> {
 				logger.printf(SEC_LEVEL, "Trying to evaluate request from conflict pool [id: %d]", request.hashCode());
 				sec.evaluateRequest(request);
 			});

@@ -3,8 +3,6 @@ package com.unimib.smarthome;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -234,6 +232,11 @@ public class SmartHomeTest {
 	void testGet() {
 		eval.evaluation("get " + ENTITY_TEST_ID);
 		eval.evaluation("list");
+		eval.evaluation("listCF");
+		eval.evaluation("clearCF");
+		eval.evaluation("clear");
+		eval.evaluation("set 1 1 1");
+		eval.evaluation("get 29338473748");
 		assertTrue(true);
 		//Controllo con Mock https://stackoverflow.com/questions/3717402/how-can-i-test-with-junit-that-a-warning-was-logged-with-log4j
 	}
