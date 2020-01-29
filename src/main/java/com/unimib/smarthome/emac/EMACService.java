@@ -7,7 +7,7 @@ import com.unimib.smarthome.entity.EntityManager;
 
 public class EMACService extends Thread{
 
-	Emac emac = Emac.getInstance();
+	EMAC emac = EMAC.getInstance();
 	private Logger logger = LogManager.getLogger();
 	
 	@Override

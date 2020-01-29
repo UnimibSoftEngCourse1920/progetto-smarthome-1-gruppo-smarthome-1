@@ -19,7 +19,7 @@ public class SEC {
 	private ConflictSupervisor conflictSupervisor;
 	private ErrorSupervisor errorSupervisor;
 	private ConflictPool conflictPool;
-	private static SEC instance = null;
+	//private static SEC instance = null;
 	
 	private SEC() {
 		conflictSupervisor = new ConflictSupervisor();
@@ -27,11 +27,12 @@ public class SEC {
 		conflictPool = new ConflictPool(this);
 	}
 	
+	private static class LazyHolder{
+		public static final SEC INSTANCE = new SEC();
+	}
+	
 	public static SEC getInstance() {
-		if(instance == null) {
-			instance = new SEC();
-		}
-		return instance;
+		return LazyHolder.INSTANCE;
 	}
 	
 	//Mette una richiesta in coda per essere valutata

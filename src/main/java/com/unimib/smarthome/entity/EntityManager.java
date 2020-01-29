@@ -23,9 +23,8 @@ import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 public class EntityManager implements Subject {
 
-	public static EntityManager instance;
-	private static BrokerManager brokerManager = BrokerManager.getInstance();
-	private static ConcurrentMap<Integer, Entity> entityMap = new ConcurrentHashMap<>();
+	private BrokerManager brokerManager = BrokerManager.getInstance(); //static
+	private ConcurrentMap<Integer, Entity> entityMap = new ConcurrentHashMap<>(); //static
 	protected List<Observer> observers = new ArrayList<>();
 
 	private Logger logger = LogManager.getLogger();
@@ -34,11 +33,11 @@ public class EntityManager implements Subject {
 	private EntityManager() {}
 	
 	private static class LazyHolder {
-        private static final EntityManager instance = new EntityManager();
+        private static final EntityManager INSTANCE = new EntityManager();
     }
 
     public static EntityManager getInstance() {
-        return LazyHolder.instance;
+        return LazyHolder.INSTANCE;
     }
 	
 	//Registra una nuova entita
@@ -60,32 +59,28 @@ public class EntityManager implements Subject {
 	//Inoltra un messaggio ad una entita
 	public void sendEntityMessage(int entityID, String message) throws EntityIncomingMessageException {
 		logger.printf(EM, "Sending message to entity [id: %d, message: %s]", entityID, message);
-		Entity entity = entityMap.get(entityID);
+		Entity oldEntity = entityMap.get(entityID);
+		Entity newEntity = oldEntity;
 		try{
-			entity.onIncomingMessage(message, Class.forName(Thread.currentThread().getStackTrace()[2].getClassName()));
+			newEntity = oldEntity.onIncomingMessage(message, Class.forName(Thread.currentThread().getStackTrace()[2].getClassName()));
 		}catch(EntityIncomingMessageException e) {
 			throw e;
 		} catch (ClassNotFoundException e) {
-			entity.onIncomingMessage(message, this.getClass());
-			e.printStackTrace();
+			newEntity = oldEntity.onIncomingMessage(message, this.getClass());
 		}
-		//Se non lancio un errore
-		notifyEntityChange(entity);
+		
+		entityMap.put(entityID, newEntity); //Aggiorno l'entita nella mappa
+		
+		notifyEntityChange(newEntity); //Notitifo a tutti il cambiamento
 			
 	}
 	
 	public void notifyEntityChange(Entity entity) {		
-		
-		//NOTIFICA OSSERVATORI
-		notifyObservers(entity);
-		
-		//Aggiorno l'entita nella lista
-		entityMap.put(entity.getID(), entity);
-		
-		//Se sono le entita del simulatore notifico attraverso il server MQTT
-		if(entity instanceof SimulatorEntity) {
+		notifyObservers(entity); //NOTIFICA OSSERVATORI		
+
+		if(entity instanceof SimulatorEntity) { //Se sono le entita del simulatore notifico attraverso il server MQTT
 			SimulatorEntity se = (SimulatorEntity) entity;
-			brokerManager.enqueueMessageToSimulator(se.getTopic(), String.valueOf(se.getState()));
+			brokerManager.enqueueEntityToSimulator(se);
 		}
 			
 	}

@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.unimib.smarthome.entity.EntityManager;
+import com.unimib.smarthome.entity.SimulatorEntity;
 import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 import io.netty.handler.codec.mqtt.MqttQoS;
@@ -18,32 +19,24 @@ import io.vertx.mqtt.messages.MqttPublishMessage;
 public class BrokerManager {
 
 	private Logger logger = LogManager.getLogger();
-	final static Level BROKER_LEVEL = Level.getLevel("BROKER");
+	final Level BROKER_LEVEL = Level.getLevel("BROKER");
 	
 	private BrokerServer brokerServer;
 	private EntityManager entityManager = EntityManager.getInstance();
 
-	private static ConcurrentMap<String, Integer> brokerMap = new ConcurrentHashMap<>();
-	private ConcurrentLinkedQueue<EntityStatus> simulatorMessageQueue = new ConcurrentLinkedQueue<>();
+	private ConcurrentMap<String, Integer> brokerMap = new ConcurrentHashMap<>(); //static
+	private ConcurrentLinkedQueue<SimulatorEntity> simulatorMessageQueue = new ConcurrentLinkedQueue<>();
 	private ConcurrentLinkedQueue<MqttPublishMessage> entityMessageQueue = new ConcurrentLinkedQueue<>();
 	
-	class EntityStatus{
-		public EntityStatus(String topic, String message) {
-			this.topic = topic;
-			this.message = message;
-		}
-		String topic;
-		String message;
-	}
-	
+
 	private BrokerManager() {}
 	
 	private static class LazyHolder {
-        private static final BrokerManager instance = new BrokerManager();
+        private static final BrokerManager INSTANCE = new BrokerManager();
     }
 
     public static BrokerManager getInstance() {
-        return LazyHolder.instance;
+        return LazyHolder.INSTANCE;
     }
 
 
@@ -86,30 +79,22 @@ public class BrokerManager {
 
 	protected void sendMessageToSimulator() {
 		if(brokerServer.simulatorEndpoint != null) { //Se c'e un simulatore collegato :)
-			EntityStatus es;
+			SimulatorEntity es;
 			if((es = simulatorMessageQueue.poll()) != null ) {
-				logger.printf(BROKER_LEVEL, "Sending  message [%s] to topic %s", es.message, es.topic);
-				brokerServer.simulatorEndpoint.publish(es.topic, Buffer.buffer(es.message), MqttQoS.AT_MOST_ONCE, false,
+				logger.printf(BROKER_LEVEL, "Sending  message [%s] to topic %s", es.getState(), es.getTopic());
+				brokerServer.simulatorEndpoint.publish(es.getTopic(), Buffer.buffer(es.getState()), MqttQoS.AT_MOST_ONCE, false,
 						false);
 			}
 		}
 	}
 	
-	
-	//Chiamato quando ricevo un messaggio dal simulatore
-	public void enqueueMessageToEntity(MqttPublishMessage message) {		
+	public void enqueueMessageToEntity(MqttPublishMessage message) { //Chiamato per inoltrare un messaggio dal simulatore a EntityManager
 		entityMessageQueue.add(message);
 	}
 
-	//Chiamato per mandare un messaggio al simulatore
-	public void enqueueMessageToSimulator(String topic, String message) {
-		simulatorMessageQueue.add(new EntityStatus(topic, message));
+	
+	public void enqueueEntityToSimulator(SimulatorEntity entity) { //Chiamato per aggiornare una entita' sul simulatore
+		simulatorMessageQueue.add(entity);
 	}
 	
-	public void getUpdateFromAllEntities() {
-		if(brokerServer.simulatorEndpoint != null) { //Se c'e un simulatore collegato :)
-
-		}
-	}
-
 }

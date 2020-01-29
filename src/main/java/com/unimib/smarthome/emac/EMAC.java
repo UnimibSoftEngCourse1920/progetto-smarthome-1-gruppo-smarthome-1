@@ -19,23 +19,24 @@ import com.unimib.smarthome.request.Request;
 import com.unimib.smarthome.sec.SEC;
 import com.unimib.smarthome.util.RequestValidator;
 
-public class Emac implements Observer {
-
+public class EMAC implements Observer {
+	private final Level EMAC_LEVEL = Level.getLevel("EMAC");
+	private final SEC sec = SEC.getInstance();
+	
 	private Map<Integer, List<Request>> idToRequests = new HashMap<>();
 	private ConcurrentLinkedQueue<Entity> statusUpdateQueue = new ConcurrentLinkedQueue<>();
 	private Logger logger = LogManager.getLogger();
-	private final Level EMAC_LEVEL = Level.getLevel("EMAC");
-	private final SEC sec = SEC.getInstance();
-	private static Emac instance;
 
-	private Emac() {
-	}
 
-	public static Emac getInstance() {
-		if (instance == null)
-			instance = new Emac();
-		return instance;
-	}
+	private EMAC() {}
+	
+	private static class LazyHolder {
+        private static final EMAC INSTANCE = new EMAC();
+    }
+
+    public static EMAC getInstance() {
+        return LazyHolder.INSTANCE;
+    }
 	
 
 	public ConcurrentLinkedQueue<Entity> getStatusUpdateQueue() {

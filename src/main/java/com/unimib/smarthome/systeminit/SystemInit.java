@@ -90,7 +90,7 @@ public class SystemInit {
 				JSONObject list = (JSONObject) l;
 				LinkedList<EntityCondition> condition = new LinkedList<EntityCondition>();
 				LinkedList<EntityStatus> then = new LinkedList<EntityStatus>();
-				Emac emac = Emac.getInstance();
+				EMAC emac = EMAC.getInstance();
 				// L'if è un array di condizioni.
 				JSONArray ifList = (JSONArray) list.get("conditions");
 
