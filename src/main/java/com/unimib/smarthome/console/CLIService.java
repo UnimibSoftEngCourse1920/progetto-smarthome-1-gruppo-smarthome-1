@@ -1,7 +1,4 @@
 package com.unimib.smarthome.console;
-
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.Level;
@@ -25,8 +22,8 @@ public class CLIService extends Thread {
 		String input;
 		while (!Thread.interrupted()) {
 			logger.log(CLI, "Enter a command:");
-			input = sc.next();
-			if(input != "")
+			input = sc.nextLine();
+			if(!input.equals(""))
 				eval.evaluation(input); 
 			try {
 				Thread.sleep(1000);
