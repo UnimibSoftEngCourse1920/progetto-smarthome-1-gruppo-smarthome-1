@@ -63,15 +63,11 @@ public class EntityManager implements Subject {
 		Entity newEntity = oldEntity;
 		try{
 			newEntity = oldEntity.onIncomingMessage(message, Class.forName(Thread.currentThread().getStackTrace()[2].getClassName()));
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-//		catch(EntityIncomingMessageException e) {
-//			throw e;
-//		} catch (ClassNotFoundException e) {
-//			newEntity = oldEntity.onIncomingMessage(message, this.getClass());
-//		}
-		
+		} catch(EntityIncomingMessageException e) {
+			throw e;
+		} catch (ClassNotFoundException e) {
+			newEntity = oldEntity.onIncomingMessage(message, this.getClass());
+		}		
 		logger.printf(EM, "Replacing %s -> %s inside the entityMap]", oldEntity, newEntity);
 		entityMap.put(entityID, newEntity); //Aggiorno l'entita nella mappa
 		

@@ -36,7 +36,7 @@ public class SystemInit {
 	public static void initEntities() throws IOException, ParseException, DuplicatedEntityException {
 		JSONParser parser = new JSONParser();
 		EntityManager Entity = EntityManager.getInstance();
-		logger.info("Inizializzazione delle entità.");
+		logger.info("Inizializzazione delle entita'.");
 
 		try {
 			// leggo il file.

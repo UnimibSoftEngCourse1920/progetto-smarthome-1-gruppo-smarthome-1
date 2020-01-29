@@ -17,7 +17,7 @@ public class Device extends CommandableEntity {
 	protected Device setState(String state) throws EntityIncomingMessageException{
 		switch(getType()) {
 			case BINARY:
-				if(state == "0" || state == "1")
+				if(state.equals("0") || state.equals("1"))
 					return new Device(this.getType(), this.getID(), this.getName(), this.getTopic(), state);
 				throw new EntityIncomingMessageException(this, "BINARY entity cannot have state " + state);
 			case RANGE:
