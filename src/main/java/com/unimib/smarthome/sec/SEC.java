@@ -53,15 +53,12 @@ public class SEC {
 		if(RequestValidator.controlRequestConditions(r)) {
 			if(conflictSupervisor.controlRequest(r)) {
 				if(errorSupervisor.executeRequest(r)) {
-					//Se la richiesta e' andata a buon fine, controllo se era ti tipo retain e avviso il supervisore dei conflitti
 					
-					logger.printf(SEC_LEVEL, "No conflicts detected on request %d", r.hashCode());
+					logger.printf(SEC_LEVEL, "No errors detected on request %d", r.hashCode());
 					
-				} //Se la richiesta ha lanciato un errore il supervisore dei conflitti avra gia gestito la situazione
+					conflictSupervisor.executedRequest(r);
+				} 
 				
-				if(r.getRetain()) {
-					conflictSupervisor.addRetainedRequest(r);
-				}
 				
 			}else {
 				logger.printf(SEC_LEVEL, "Putting the request %d into the ConflictPool", r.hashCode());
