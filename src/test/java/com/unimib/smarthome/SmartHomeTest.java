@@ -236,7 +236,7 @@ public class SmartHomeTest {
 		eval.evaluation("clearCF");
 		eval.evaluation("clear");
 		eval.evaluation("set 1 1 1");
-		eval.evaluation("get 6777");
+		
 		assertTrue(true);
 		//Controllo con Mock https://stackoverflow.com/questions/3717402/how-can-i-test-with-junit-that-a-warning-was-logged-with-log4j
 	}
