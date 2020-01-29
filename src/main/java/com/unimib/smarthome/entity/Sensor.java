@@ -20,5 +20,4 @@ public class Sensor extends ReadOnlyEntity {
 		}
 		return this;
 	}
-
 }

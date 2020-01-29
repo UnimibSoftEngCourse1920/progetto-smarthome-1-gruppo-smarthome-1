@@ -229,14 +229,14 @@ public class SmartHomeTest {
 	
 	@Test
 	@Order(8)
-	void testGet() {
+	void testCLI() {
 		eval.evaluation("get " + ENTITY_TEST_ID);
 		eval.evaluation("list");
 		eval.evaluation("listCF");
 		eval.evaluation("clearCF");
 		eval.evaluation("clear");
 		eval.evaluation("set 1 1 1");
-		eval.evaluation("get 29338473748");
+		eval.evaluation("get 67");
 		assertTrue(true);
 		//Controllo con Mock https://stackoverflow.com/questions/3717402/how-can-i-test-with-junit-that-a-warning-was-logged-with-log4j
 	}
@@ -245,13 +245,13 @@ public class SmartHomeTest {
 	@Order(7)
 	public void emacTestAutomation() {
 		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "7", '=')};
-		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "7a")};
+		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "77")};
 		Request automation = new Request(conditions, consequences, false, 1);
 		emac.registerAutomation(automation);
 		
 		eval.evaluation("set " + ENTITY_TEST_ID + " 7");
 		
-		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "7a")); 	
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "77")); 	
 		assertTrue(true);
 	}
 }

@@ -1,6 +1,9 @@
 package com.unimib.smarthome.util;
 
+import com.unimib.smarthome.entity.Entity;
 import com.unimib.smarthome.entity.EntityManager;
+import com.unimib.smarthome.entity.enums.EntityType;
+import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 import com.unimib.smarthome.request.EntityCondition;
 import com.unimib.smarthome.request.Request;
 
@@ -33,21 +36,44 @@ public class RequestValidator {
 	}
 
 	private static boolean checkValidStatus(EntityCondition condition) {
-		String entityRealStatus = em.getEntity(condition.getEntityID()).getState();
-		if(entityRealStatus != null) {
+		
+		Entity conditionEntity = em.getEntity(condition.getEntityID());
+		ComparatorEntity comparatorEntity = new ComparatorEntity(condition);
+		
+		if(conditionEntity != null) {
 			char rel = condition.getRel();
 			switch (rel) {
 				case '=':
-					return entityRealStatus.equals(condition.getState());
+					return conditionEntity.compareTo(comparatorEntity) == 0;
+					
 				case '>':
-					return Double.valueOf(entityRealStatus) > Double.valueOf(condition.getState());
+					return  conditionEntity.compareTo(comparatorEntity) > 0;
+					
 				case '<':
-					return Double.valueOf(entityRealStatus) < Double.valueOf(condition.getState());
+					return conditionEntity.compareTo(comparatorEntity) < 0;
 				default:
 					return false;
 			}
 		}
 		return true; 
+	}
+	
+	private static class ComparatorEntity extends Entity {
+		public ComparatorEntity(EntityCondition ec) {
+			super(EntityType.BINARY, ec.getEntityID(), "comparatorEntity", ec.getState());
+		}
+
+		@Override
+		public int compareTo(Entity o) {
+			return 0;
+		}
+
+		@Override
+		protected <T> Entity onIncomingMessage(String newState, Class<T> source) throws EntityIncomingMessageException {
+			return null;
+		}
+
+		
 	}
 
 }

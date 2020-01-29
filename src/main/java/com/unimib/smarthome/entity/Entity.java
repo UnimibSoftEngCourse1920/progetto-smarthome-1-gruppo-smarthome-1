@@ -7,7 +7,7 @@ import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
  * Classe che rappresenta in astratto un'entita
  */
 
-public abstract class Entity {
+public abstract class Entity implements Comparable<Entity>{
 
 	private int id;
 	private EntityType type;

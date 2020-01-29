@@ -27,4 +27,9 @@ public abstract class SimulatorEntity extends Entity{
 	public String toString() {
 		return "Entity " + getID() + "[name: " + getName() + ", type:" + getType() + ", state: " + getState() + ", topic:" + getTopic() + "]";
 	}
+	
+	@Override
+	public int compareTo(Entity o) {
+		return (int) (Double.parseDouble(this.getState()) - Double.parseDouble(o.getState())); 
+	}
 }
