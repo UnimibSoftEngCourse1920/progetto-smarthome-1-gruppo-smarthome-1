@@ -1,32 +1,43 @@
-package com.unimib.smarthome.sec;
+package com.unimib.smarthome;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import com.unimib.smarthome.SmartHome;
+import com.unimib.smarthome.console.CLIEvaluation;
+import com.unimib.smarthome.emac.Emac;
 import com.unimib.smarthome.entities.Luce;
+import com.unimib.smarthome.entity.Entity;
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
 import com.unimib.smarthome.request.EntityCondition;
 import com.unimib.smarthome.request.EntityStatus;
 import com.unimib.smarthome.request.Request;
+import com.unimib.smarthome.sec.SEC;
+
 import static org.awaitility.Awaitility.*;
+import static org.junit.Assert.assertFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class SECTest {
+public class SmartHomeTest {
 	
 	private static boolean setUpIsDone = false;
 	static EntityManager em = EntityManager.getInstance();
 	SEC sec = SEC.getInstance();
-	
+	Emac emac = Emac.getInstance();
+	public CLIEvaluation eval = new CLIEvaluation();
 	private final static int ENTITY_TEST_ID = 100;
 	
 	@BeforeAll
 	protected static void setUp() {
+		
 		if (setUpIsDone) {
 	        return;
 	    }
@@ -36,6 +47,18 @@ public class SECTest {
 		initEntityManager();
 		await().atMost(5, TimeUnit.SECONDS).until(allThreadsAreStarted());
 	}
+	
+	@AfterAll
+	protected static void shutDown() {
+		SmartHome.shutdown();
+		await().atMost(5, TimeUnit.SECONDS); 
+	}
+	
+	private static Callable<Boolean> allThreadsAreStarted() {
+	      return () -> Thread.getAllStackTraces().keySet().size() > 7;
+
+	}
+
 	
 	public static void initEntityManager() {
 		try {
@@ -54,10 +77,7 @@ public class SECTest {
 	      return () -> sec.getConflictPool().countRequestOnPool() == nRequest;
 	}
 	
-	private static Callable<Boolean> allThreadsAreStarted() {
-	      return () -> Thread.getAllStackTraces().keySet().size() > 7;
 
-	}
 	
 	
 	@Test
@@ -164,6 +184,29 @@ public class SECTest {
 	public void testConflictPoolExecution() throws InterruptedException {
 		System.out.println("---------------------------------------- testConflictPoolExecution");
 		await().atMost(11, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "4")); 
+	}
+	
+	@Test
+	void testSet() {
+		String test = "set 12 1";
+		eval.evaluation(test);
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+	}
+	
+	@Test
+	void testSet1() {
+		String test = "set 12 1 false 10";
+		eval.evaluation(test);
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+	}
+	
+	@Test
+	public void emacTest() {
+		String test = "set 1 20";
+		eval.evaluation(test);
+		//emac.controlNewStatus();
+		ConcurrentLinkedQueue<Entity> SUDTest = new ConcurrentLinkedQueue<>();
+		assertFalse(SUDTest.equals(emac.getStatusUpdateQueue()));	
 	}
 
 }

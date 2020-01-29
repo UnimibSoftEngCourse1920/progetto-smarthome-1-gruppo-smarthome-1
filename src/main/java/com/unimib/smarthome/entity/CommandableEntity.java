@@ -15,11 +15,11 @@ public abstract class CommandableEntity extends SimulatorEntity{
 		super(type, id, name, topic);
 		setState("0");
 	}
-	
+	@Override
 	protected void setState(String newState) {
 		this.state = newState;
 	}
-	
+	@Override
 	public String getState() {
 		return state;
 	}

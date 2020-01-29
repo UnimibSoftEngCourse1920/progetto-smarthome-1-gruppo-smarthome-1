@@ -1,3 +1,3 @@
 # Progetto SmartHome 1 🏠
 
-![GitHub Logo](https://user-images.githubusercontent.com/7064130/73291894-624f8300-4201-11ea-8eaa-ebd266fc2331.gif =900x465)
+<img src="https://user-images.githubusercontent.com/7064130/73316093-44e6dd00-4232-11ea-8ef5-78625fbcc5bf.gif" alt="alt text" width="900" height="whatever">

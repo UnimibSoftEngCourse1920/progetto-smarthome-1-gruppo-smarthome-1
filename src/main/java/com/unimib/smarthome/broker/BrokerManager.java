@@ -105,5 +105,11 @@ public class BrokerManager {
 	public void enqueueMessageToSimulator(String topic, String message) {
 		simulatorMessageQueue.add(new EntityStatus(topic, message));
 	}
+	
+	public void getUpdateFromAllEntities() {
+		if(brokerServer.simulatorEndpoint != null) { //Se c'e un simulatore collegato :)
+
+		}
+	}
 
 }

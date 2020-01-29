@@ -27,7 +27,7 @@ public class SystemInit {
 			initEntities();
 			initAutomations();
 		} catch (Exception e) {
-			logger.error( "%s", e.toString());
+			logger.error(e.toString());
 		}
 	}
 
@@ -100,7 +100,7 @@ public class SystemInit {
 					JSONObject conditionList = (JSONObject) condList;
 					a = ((String) conditionList.get("rel"));
 					value = Integer.toString((int) ((long) conditionList.get("value")));
-					logger.printf(Level.INFO, "%s", a);
+					
 					EntityCondition cond = new EntityCondition((int) ((long) conditionList.get("id")), value,
 							a.charAt(0));
 					
