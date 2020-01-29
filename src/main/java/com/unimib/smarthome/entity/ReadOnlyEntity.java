@@ -1,6 +1,5 @@
 package com.unimib.smarthome.entity;
 
-import com.unimib.smarthome.broker.BrokerManager;
 import com.unimib.smarthome.entity.enums.EntityType;
 
 /**
@@ -12,8 +11,12 @@ public abstract class ReadOnlyEntity extends SimulatorEntity{
 	private String state;
 	
 	public ReadOnlyEntity(EntityType type, int id, String name, String topic) {
+		super(type, id, name, topic, "");
+	}
+	
+	public ReadOnlyEntity(EntityType type, int id, String name, String topic, String initialState) {
 		super(type, id, name, topic);
-		state = "";
+		state = initialState;
 	}
 	
 	@Override
@@ -21,13 +24,6 @@ public abstract class ReadOnlyEntity extends SimulatorEntity{
 		return "ReadOnlyEntity [id: " + this.getID() + ", name: \"" + this.getName() + "\", state: " + this.getState() + ", topic: " + this.getTopic() + ", type: " + this.getType() + "]";
 	}
 	
-	@Override
-	protected <T> void onIncomingMessage(String newState, Class<T> source) {
-		
-		if(source.equals(BrokerManager.class)) {
-			state = newState;
-		}
-	}
 	
 	@Override
 	public String getState() {

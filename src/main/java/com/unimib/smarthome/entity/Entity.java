@@ -15,14 +15,18 @@ public abstract class Entity {
 	private String state;
 	
 	public Entity(EntityType type, int id, String name) {
+		this(type, id, name, "");
+	}
+	
+	public Entity(EntityType type, int id, String name, String state) {
 		this.id = id;
-		setType(type);
-		setName(name);
-		setState("");
+		this.type = type;
+		this.id = id;
+		this.state = state;
 	}
 	
 	//Metodo per permettere all'entita di comunicare con l'esterno
-	protected abstract <T> void onIncomingMessage(String newState, Class<T> source) throws EntityIncomingMessageException;
+	protected abstract <T> Entity onIncomingMessage(String newState, Class<T> source) throws EntityIncomingMessageException;
 
 	public int getID() {
 		return this.id;
@@ -37,22 +41,10 @@ public abstract class Entity {
 
 	}
 	
-	public String getType() {
-		return this.type.getName();
+	public EntityType getType() {
+		return this.type;
 	}
 
-	protected void setName(String name) {
-		this.name = name;
-	}
-	
-	protected void setType(EntityType type) {
-		this.type = type;
-	}
-	
-	protected void setState(String state) {
-		this.state = state;
-	}
-	
 	@Override
 	public String toString() {
 		return "Entity " + getID() + "[name: " + getName() + ", type:" + getType() + ", state: " + getState() + "]";
