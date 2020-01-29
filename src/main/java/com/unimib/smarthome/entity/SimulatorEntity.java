@@ -33,3 +33,4 @@ public abstract class SimulatorEntity extends Entity{
 		return (int) (Double.parseDouble(this.getState()) - Double.parseDouble(o.getState())); 
 	}
 }
+
