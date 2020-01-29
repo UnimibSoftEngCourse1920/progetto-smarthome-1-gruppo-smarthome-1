@@ -66,9 +66,6 @@ public class SmartHomeTest {
 
 	}
 
-	
-
-	
 	private Callable<Boolean> entityHasState(int entityID, String state) {
 	      return () -> em.getEntity(entityID).getState().equals(state);
 	}
@@ -90,10 +87,32 @@ public class SmartHomeTest {
 	}
 	
 	@Test
+	@Order(0)
+	void testRequestHigherThan(){
+		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "10", '<')};
+		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "12")};
+		Request r = new Request(conditions, consequences, false, 1);
+		
+		sec.addRequestToSECQueue(r);
+		
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "12")); 
+	}
+	
+	@Test
+	@Order(0)
+	void testRequestLoweThan(){
+		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "10", '>')};
+		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "0")};
+		Request r = new Request(conditions, consequences, false, 1);
+		
+		sec.addRequestToSECQueue(r);
+		
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "0")); 
+	}
+	
+	@Test
 	@Order(1)
 	void testFailRequestExecution() {
-		System.out.println("---------------------------------------- testFailRequestExecution");
-		 
 		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "2", '=')};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "1")};
 		Request r1 = new Request(conditions, consequences, true, 0);
@@ -107,8 +126,6 @@ public class SmartHomeTest {
 	@Test
 	@Order(2)
 	void testEasyRequestExecution() {
-		System.out.println("---------------------------------------- testEasyRequestExecution");
-		 
 		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "0", '=')};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "1")};
 		Request r1 = new Request(conditions, consequences, true, 3);
@@ -121,8 +138,6 @@ public class SmartHomeTest {
 	@Test
 	@Order(2)
 	public void testSimpleRetainedRequestExecution() throws InterruptedException {
-		System.out.println("---------------------------------------- testSimpleRetainedRequestExecution");
-		
 		EntityCondition[] conditions = {};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "2")};
 		Request r2 = new Request(conditions, consequences, true, 3);
@@ -135,9 +150,7 @@ public class SmartHomeTest {
 
 	@Test
 	@Order(3)
-	public void testPrioritedRequestExecution() throws InterruptedException {
-		System.out.println("---------------------------------------- testPrioritedRequestExecution");
-		
+	public void testPrioritedRequestExecution() throws InterruptedException {	
 		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "2", '=')};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "3")};
 		Request r3 = new Request(conditions, consequences, false, 10);
@@ -153,8 +166,6 @@ public class SmartHomeTest {
 	@Test
 	@Order(4)
 	public void testLowPrioritedRequestExecution() throws InterruptedException {
-		System.out.println("---------------------------------------- testLowPrioritedRequestExecution");
-		
 		EntityCondition[] conditions = {};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "2")};
 		Request r4a = new Request(conditions, consequences, true, 5);
@@ -175,8 +186,6 @@ public class SmartHomeTest {
 	@Test
 	@Order(5)
 	public void testHighPrioritedRequestExecution() throws InterruptedException {
-		System.out.println("---------------------------------------- testHighPrioritedRequestExecution");
-		
 		EntityCondition[] conditions = {};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "2")};
 		Request r5 = new Request(conditions, consequences, false, 6);
@@ -191,7 +200,6 @@ public class SmartHomeTest {
 	@Test
 	@Order(6)
 	public void testConflictPoolExecution() throws InterruptedException {
-		System.out.println("---------------------------------------- testConflictPoolExecution");
 		await().atMost(11, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "4")); 
 	}
 	
@@ -217,5 +225,26 @@ public class SmartHomeTest {
 		ConcurrentLinkedQueue<Entity> SUDTest = new ConcurrentLinkedQueue<>();
 		assertFalse(SUDTest.equals(emac.getStatusUpdateQueue()));	
 	}
-
+	
+	@Test
+	@Order(8)
+	void testGet() {
+		eval.evaluation("get " + ENTITY_TEST_ID);
+		eval.evaluation("list");
+		
+		//Controllo con Mock https://stackoverflow.com/questions/3717402/how-can-i-test-with-junit-that-a-warning-was-logged-with-log4j
+	}
+	
+	@Test
+	@Order(7)
+	public void emacTestAutomation() {
+		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "7", '=')};
+		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "7a")};
+		Request automation = new Request(conditions, consequences, false, 1);
+		emac.registerAutomation(automation);
+		
+		eval.evaluation("set " + ENTITY_TEST_ID + " 7");
+		
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "7a")); 	
+	}
 }

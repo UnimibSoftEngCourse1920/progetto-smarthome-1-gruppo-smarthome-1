@@ -50,5 +50,5 @@ public class ConflictPool extends Thread{
 	public void clearPool() {
 		conflictPool.clear();
 	}
-
+	
 }
