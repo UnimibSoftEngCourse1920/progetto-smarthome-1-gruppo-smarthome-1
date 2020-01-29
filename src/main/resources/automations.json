@@ -25,7 +25,8 @@
 				}
 			],
 			"retain": false,
-			"priority": 1		
+			"priority": 1,
+			"ask": false		
 		},
 		{ 
 			"conditions" : [
@@ -52,7 +53,8 @@
 				}
 			],
 			"retain": false,
-			"priority": 1		
+			"priority": 1,
+		    "ask": false		
 		},
 		{
 			"conditions" : [
@@ -92,7 +94,8 @@
 				
 	       ],
 			"retain": true,
-			"priority": 100		
+			"priority": 100,
+			"ask": false	
 		},
 		{
 			"conditions" : [
@@ -115,7 +118,8 @@
 				
 	       ],
 			"retain": true,
-			"priority": 101	
+			"priority": 101,
+			"ask": false
 		},
 		{
 			"conditions" : [
@@ -138,7 +142,8 @@
 				
 	       ],
 			"retain": true,
-			"priority": 10	
+			"priority": 10,
+			"ask": true	
 	 	}
 	]
 }

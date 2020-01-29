@@ -38,7 +38,7 @@ public class SystemInit {
 		JSONParser parser = new JSONParser();
 		EntityManager entityManager = EntityManager.getInstance();
 		logger.info("Inizializzazione delle entita'.");
-
+ 
 		try {
 			// leggo il file.
 
@@ -121,6 +121,7 @@ public class SystemInit {
 
 				boolean retain = (boolean) list.get("retain");
 				int priority = (int) ((long) list.get("priority"));
+				boolean ask = (boolean) list.get("ask");
 				EntityCondition[] cond = new EntityCondition[condition.size()];
 				EntityStatus[] stat = new EntityStatus[then.size()];
 				int i = 0;

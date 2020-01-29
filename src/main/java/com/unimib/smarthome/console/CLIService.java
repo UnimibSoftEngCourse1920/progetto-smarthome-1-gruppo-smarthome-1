@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.unimib.smarthome.request.Request;
+
 
 public class CLIService extends Thread {
 
@@ -24,7 +26,7 @@ public class CLIService extends Thread {
 				logger.log(CLI, "Enter a command:");
 				input = reader.readLine();
 				CLIEvaluation eval = new CLIEvaluation();
-				eval.evaluation(input);
+				eval.evaluation(input); 
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -36,5 +38,10 @@ public class CLIService extends Thread {
 	public void print(String s) {
 		logger.printf(CLI, "%s", s);
 	}
+	
+	public static void askPermission(Request request) {
+		
+	}
+	
 	
 }

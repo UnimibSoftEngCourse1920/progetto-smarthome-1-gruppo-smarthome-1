@@ -246,10 +246,13 @@ public class SmartHomeTest {
 	public void emacTestAutomation() {
 		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "7", '=')};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "77")};
+		EntityCondition[] conditions1 = {new EntityCondition(12, "1", '=')};
+		EntityStatus[] consequences1 = {new EntityStatus(8, "0")};
 		Request automation = new Request(conditions, consequences, false, 1);
+		Request automation1 = new Request(conditions1, consequences1, false, 1);
 		emac.registerAutomation(automation);
-		
-		eval.evaluation("set " + ENTITY_TEST_ID + " 7");
+		emac.registerAutomation(automation1);
+		eval.evaluation("set " + ENTITY_TEST_ID + " 7"); 
 		
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "77")); 	
 		assertTrue(true);

@@ -32,7 +32,7 @@ public class CLIEvaluation {
 				list.forEach((key, entity) -> 
 					s.print(entity.toString())
 				);
-				break;
+				break; 
 				
 			case "set": 
 				if(e.length == 5) {
@@ -49,15 +49,10 @@ public class CLIEvaluation {
 						s.print("Set command must be formed as follows: set <entity> <value>.");
 				break;
 			case "get": 
-				try {
 					if(e[1] != null) {
 						Entity entity = EntityManager.getInstance().getEntity(Integer.parseInt(e[1]));
 						s.print(entity.toString());
 					}
-				} catch (Exception err) {
-					s.print("The ID entered is not a valid ID.");
-				}
-				
 				break;
 				
 			case "shutdown":
@@ -84,7 +79,7 @@ public class CLIEvaluation {
 				s.print("Input is invalid.");
 			}
 		} //Nel caso in cui abbia inserito un id non valido
-		catch(Exception error) { s.print(error.toString());
+		catch(Exception error) { s.print("The ID entered is not a valid ID.");
 			
 		} 
 	}
