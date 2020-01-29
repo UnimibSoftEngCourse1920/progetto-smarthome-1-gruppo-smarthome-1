@@ -197,6 +197,8 @@ public class SmartHomeTest {
 	@Test
 	@Order(6)
 	public void testConflictPoolExecution() throws InterruptedException {
+		await().atMost(2, TimeUnit.SECONDS).until(cfHasRequest(1));
+		eval.evaluation("set ");
 		await().atMost(11, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "4")); 
 		assertTrue(true);
 	}

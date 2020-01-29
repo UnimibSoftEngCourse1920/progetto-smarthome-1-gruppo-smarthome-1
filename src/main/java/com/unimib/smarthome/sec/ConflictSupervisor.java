@@ -79,7 +79,13 @@ public class ConflictSupervisor {
 			
 			retainedRequests.put(consequence.getEntityID(), retainedSet);
 		}
-		
+	}
+	
+	/*Metodo chiamato per informare il ConflictSupervisor che una richiesta è stata eseguita senza problemi*/
+	protected void executedRequest(Request request) {
+		if(request.getRetain()) {
+			addRetainedRequest(request);
+		}
 	}
 	
 	protected void removeRetainRequest(Request request) {
