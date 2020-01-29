@@ -1,88 +1,128 @@
 package com.unimib.smarthome.console;
 
+import java.util.Arrays;
 import java.util.Map;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.unimib.smarthome.SmartHome;
 import com.unimib.smarthome.entity.*;
 import com.unimib.smarthome.request.Request;
 import com.unimib.smarthome.sec.*;
 public class CLIEvaluation {
-
+	private static Logger logger = LogManager.getLogger();
+	final static Level CLI = Level.getLevel("CLI");
+	private static Request pendingRequest = null;
+	SEC sec = SEC.getInstance();
+	ConflictPool cf = new ConflictPool(sec);
+	Request[] request;
+	//divido la richiesta in base agli spazi.
 	
+	CLIRequest r = new CLIRequest();
+			
 	public void evaluation(String eval) {
-		//divido la richiesta in base agli spazi.
 		String[] e = eval.split(" ");
-		CLIService s = new CLIService();
-		CLIRequest r = new CLIRequest();
-		SEC sec = SEC.getInstance();
-		ConflictPool cf = new ConflictPool(sec);
-		Request[] request;
 		
 		/*
 		 * se e' list, richiamo la visualizzazione che e' effettuata da CLIService.
 		 * se e' set, richiamo createRequest, bisogna vedere se retain e priority sono vuoti.
 		 * se e' get richiamo la visualizzazione dello stato di quell'entita'.
 		 */
+		
 		try {
-			switch(e[0]) { 
+			switch(e[0]) {  
 			case "list":
 				Map<Integer, Entity> list = EntityManager.getInstance().getEntityMap();
-				
-				
 				list.forEach((key, entity) -> 
-					s.print(entity.toString())
+					print(entity.toString())
 				);
 				break; 
 				
 			case "set": 
-				if(e.length == 5) {
-					s.print("Executing request.");
-					r.createRequest(Integer.parseInt(e[1]), e[2], 
-							Boolean.parseBoolean(e[3]), Integer.parseInt(e[4]));
-				}
-				else
-					if(e.length == 3) {
-						s.print("Executing request.");
-						r.createRequest(Integer.parseInt(e[1]), e[2]);
-					}
-					else
-						s.print("Set command must be formed as follows: set <entity> <value>.");
+				executeSet(e);
+				
 				break;
 			case "get": 
 					if(e[1] != null) {
 						Entity entity = EntityManager.getInstance().getEntity(Integer.parseInt(e[1]));
-						s.print(entity.toString());
+						print(entity.toString());
 					}
 				break;
 				
 			case "shutdown":
-				s.print("System is shutting down.");
+				print("System is shutting down.");
 				SmartHome.shutdown();
 				break;
 				
 			case "listCF":
-				request = cf.getConflictPool();
-				if(request.length == 0)
-					s.print("ConflictPool is empty.");
-				else 
-					for(Request req: request )
-						s.print(req.toString());
+				printCF();
 					break;
 					
 			case "clearCF" : 
 				cf.clearPool();
-				s.print("ConflictPool is empty now. ");
+				print("ConflictPool is empty now. ");
+				break;
+				
+			case "accept":
+				accept();
+				break;
+				
+			case "refuse":
+				pendingRequest = null;
 				break;
 				
 			default:
 				//Nel caso in cui il comando inserito non e' presente tra questi tre. 
-				s.print("Input is invalid.");
+				print("Input is invalid.");
 			}
 		} //Nel caso in cui abbia inserito un id non valido
-		catch(Exception error) { s.print("The ID entered is not a valid ID.");
-			
+		catch(Exception error) { 
+			print("The ID entered is not a valid ID.");
 		} 
 	}
-}
 	
-
+	private void print(String s) {
+		logger.printf(CLI, "%s", s);
+	}
+	
+	public static void askPermission(Request r) {
+		pendingRequest = r;
+		logger.log(CLI, "*************************************************************************************************************");
+		logger.printf(CLI, "Do you want to proceed with the request: %s ?", Arrays.toString(r.getConsequences()));
+		logger.log(CLI, "*************************************************************************************************************");
+			
+	}
+	
+	private void accept() {
+		if(pendingRequest != null) {
+			Request r = new Request(pendingRequest.getConditions(), pendingRequest.getConsequences(), pendingRequest.getRetain(), pendingRequest.getPriority());
+			SEC.getInstance().addRequestToSECQueue(r); 
+			pendingRequest = null;
+		}
+	}
+	private void printCF() {
+		request = cf.getConflictPool();
+		if(request.length == 0)
+			print("ConflictPool is empty.");
+		else 
+			for(Request req: request )
+				print(req.toString());
+	}
+	
+	private void executeSet(String[] eval) {
+		if(eval.length == 5) {
+			print("Executing request.");
+			r.createRequest(Integer.parseInt(eval[1]), eval[2], 
+					Boolean.parseBoolean(eval[3]), Integer.parseInt(eval[4]));
+		}
+		else
+			if(eval.length == 3) {
+				print("Executing request.");
+				r.createRequest(Integer.parseInt(eval[1]), eval[2]);
+			}
+			else
+				print("Set command must be formed as follows: set <entity> <value>.");
+	}
+}

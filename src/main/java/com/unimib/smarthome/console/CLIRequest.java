@@ -12,7 +12,7 @@ public class CLIRequest {
 		EntityStatus[] s = new EntityStatus[1];
 		s[0] = new EntityStatus(id, state);
 		Request r1 = new Request(null, s, false, priority);
-		sec.addRequestToSECQueue(r1);
+		sec.addRequestToSECQueue(r1); 
 		
 		
 	}

@@ -134,7 +134,7 @@ public class SystemInit {
 					stat[j] = s;
 					j++;
 				}
-				Request r = new Request(cond, stat, retain, priority);
+				Request r = new Request(cond, stat, retain, priority,ask);
 				// chiamo registerAutomation in emac, per registrare l'automazione.
 				emac.registerAutomation(r);
 

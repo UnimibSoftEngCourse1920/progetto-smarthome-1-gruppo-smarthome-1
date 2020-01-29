@@ -12,7 +12,7 @@ public class Request implements Comparable<Request>{
 	
 	public Request(EntityCondition[] conditions, EntityStatus[] consequences) {
 		this(conditions, consequences, false, 1, false);
-	}
+	} 
 	
 	public Request(EntityCondition[] conditions, EntityStatus[] consequences, boolean retain, int priority){
 		this(conditions, consequences, retain, priority, false);
