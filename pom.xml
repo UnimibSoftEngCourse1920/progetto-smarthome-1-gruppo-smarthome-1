@@ -110,20 +110,21 @@
     		<plugin>
     			<groupId>org.apache.maven.plugins</groupId>
     			<artifactId>maven-compiler-plugin</artifactId>
-    			<version>3.8.0</version>
+    			<version>3.8.1</version>
     			<configuration>
         			<release>11</release>
     			</configuration>
     		</plugin>
     		
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-			</plugin>
-			
-			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.2</version>
+				<configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <excludes>
+                        <exclude>**/*Broker*.java</exclude>
+                    </excludes>
+                </configuration>
 			</plugin>
 			
     	</plugins>
@@ -131,5 +132,6 @@
 	
     <properties>
     	<sonar.java.source>11</sonar.java.source>
+    	<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
     </properties>
 </project>
