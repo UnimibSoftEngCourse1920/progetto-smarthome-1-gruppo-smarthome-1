@@ -5,7 +5,6 @@ import com.unimib.smarthome.emac.*;
 import com.unimib.smarthome.entity.Device;
 import com.unimib.smarthome.entity.Sensor;
 import com.unimib.smarthome.entity.enums.EntityType;
-import com.unimib.smarthome.entity.exceptions.DuplicatedEntityException;
 import com.unimib.smarthome.request.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -55,19 +54,18 @@ public class SystemInit {
 				String topic = ((String) list.get("topic"));
 				String type = ((String) list.get("type"));
 				int id = (int) ((long) list.get("id"));
-				// setto lo stato solo dei sensori commandable, i sensor avranno un loro stato
-				// in automatico.
-				// String state = ((String) list.get("State"));
-
-				// se e' commandable, creo una classe device, altrimenti creo Sensor.
+				//setto lo stato solo dei sensori commandable, i sensor avranno un loro stato
+				//in automatico. Se e' commandable, creo una classe device, altrimenti creo Sensor.
+				boolean commandable = (Boolean) list.get("commandable");
 				try {
-					if ((Boolean) list.get("commandable")) {
+					if (Boolean.TRUE.equals(commandable)) 
 						entityManager.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
-					} else
+					
+					else
 						entityManager.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
 
 				} catch (Exception e) {
-
+					logger.warn(e.toString());
 				}
 			});
 
@@ -88,15 +86,15 @@ public class SystemInit {
 			JSONObject jsonObject = (JSONObject) obj;
 			JSONArray automationsList = (JSONArray) jsonObject.get("automations");
 
-			automationsList.forEach((l) -> {
+			automationsList.forEach(l -> {
 				JSONObject list = (JSONObject) l;
-				LinkedList<EntityCondition> condition = new LinkedList<EntityCondition>();
-				LinkedList<EntityStatus> then = new LinkedList<EntityStatus>();
+				LinkedList<EntityCondition> condition = new LinkedList<>();
+				LinkedList<EntityStatus> then = new LinkedList<>();
 				EMAC emac = EMAC.getInstance();
 				// L'if è un array di condizioni.
 				JSONArray ifList = (JSONArray) list.get("conditions");
 
-				ifList.forEach((condList) -> {
+				ifList.forEach(condList -> {
 					String a;
 					String value;
 					JSONObject conditionList = (JSONObject) condList;
@@ -112,7 +110,7 @@ public class SystemInit {
 				// Anche le conseguenze, possono contenere più azioni.
 				JSONArray thenList = (JSONArray) list.get("consequences");
 
-				thenList.forEach((thenL) -> {
+				thenList.forEach(thenL -> {
 					String value;
 					JSONObject consequences = (JSONObject) thenL;
 					value = Integer.toString((int) ((long) consequences.get("value")));
@@ -122,7 +120,7 @@ public class SystemInit {
 				});
 
 				boolean retain = (boolean) list.get("retain");
-				int retain_level = (int) ((long) list.get("priority"));
+				int priority = (int) ((long) list.get("priority"));
 				EntityCondition[] cond = new EntityCondition[condition.size()];
 				EntityStatus[] stat = new EntityStatus[then.size()];
 				int i = 0;
@@ -135,7 +133,7 @@ public class SystemInit {
 					stat[j] = s;
 					j++;
 				}
-				Request r = new Request(cond, stat, retain, retain_level);
+				Request r = new Request(cond, stat, retain, priority);
 				// chiamo registerAutomation in emac, per registrare l'automazione.
 				emac.registerAutomation(r);
 

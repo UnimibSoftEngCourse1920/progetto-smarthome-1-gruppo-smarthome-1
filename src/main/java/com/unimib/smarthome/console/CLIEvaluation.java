@@ -27,12 +27,11 @@ public class CLIEvaluation {
 			switch(e[0]) {
 			case "list":
 				Map<Integer, Entity> list = EntityManager.getInstance().getEntityMap();
-				//Entity[] entities= new Entity[list.size()];
 				
-				list.forEach((key, entity) -> {
-					s.print(entity.toString());
-				});
-				//s.print(Arrays.toString(entities));
+				
+				list.forEach((key, entity) -> 
+					s.print(entity.toString())
+				);
 				break;
 				
 			case "set": 
@@ -52,7 +51,6 @@ public class CLIEvaluation {
 			case "get": 
 				if(e[1] != null) {
 					Entity entity = EntityManager.getInstance().getEntity(Integer.parseInt(e[1]));
-					//s.stateVisualization(Integer.parseInt(e[1]), entity);
 					s.print(entity.toString());
 				}
 				else
@@ -66,13 +64,12 @@ public class CLIEvaluation {
 				break;
 				
 			case "listCF":
-				if(cf.getConflictPool() == null)
+				request = cf.getConflictPool();
+				if(request.length == 0)
 					s.print("ConflictPool is empty.");
-				else {
-					request = cf.getConflictPool();
+				else 
 					for(Request req: request )
 						s.print(req.toString());
-				}
 					break;
 					
 			case "clearCF" : 

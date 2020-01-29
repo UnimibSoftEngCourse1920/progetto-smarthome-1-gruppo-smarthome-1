@@ -53,8 +53,8 @@ public class ConflictPool extends Thread{
 	
 	public Request[] getConflictPool(){
 		if(conflictPoolQueue != null)
-			return (Request[]) conflictPoolQueue.toArray();
-		return null;
+			return conflictPoolQueue.toArray(new Request[0]); 
+		return new Request[0];
 		
 	}
 
