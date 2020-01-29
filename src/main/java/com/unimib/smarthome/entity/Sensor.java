@@ -4,16 +4,13 @@ import com.unimib.smarthome.broker.BrokerManager;
 import com.unimib.smarthome.entity.enums.EntityType;
 
 public class Sensor extends ReadOnlyEntity {
-
-	String state;
 	
 	public Sensor(EntityType type, int id, String name, String topic) {
 		super(type, id, name, topic, "");
 	}
 	
 	public Sensor(EntityType type, int id, String name, String topic, String newState) {
-		super(type, id, name, topic);
-		this.state = newState;
+		super(type, id, name, topic, newState);
 	}
 	
 	@Override
@@ -22,11 +19,6 @@ public class Sensor extends ReadOnlyEntity {
 			return new Sensor(this.getType(), this.getID(), this.getName(), this.getTopic(), newState);
 		}
 		return this;
-	}
-	
-	@Override
-	public String getState() {
-		return state;
 	}
 
 }

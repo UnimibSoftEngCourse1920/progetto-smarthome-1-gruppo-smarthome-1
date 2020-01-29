@@ -14,15 +14,15 @@ public abstract class Entity {
 	private String name;
 	private String state;
 	
-	public Entity(EntityType type, int id, String name) {
-		this(type, id, name, "");
-	}
-	
 	public Entity(EntityType type, int id, String name, String state) {
 		this.id = id;
 		this.type = type;
-		this.id = id;
+		this.name = name;
 		this.state = state;
+	}
+	
+	public Entity(EntityType type, int id, String name) {
+		this(type, id, name, "");
 	}
 	
 	//Metodo per permettere all'entita di comunicare con l'esterno

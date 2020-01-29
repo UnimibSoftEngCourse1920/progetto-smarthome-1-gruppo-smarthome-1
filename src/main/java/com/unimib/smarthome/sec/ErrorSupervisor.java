@@ -32,7 +32,7 @@ public class ErrorSupervisor {
 			try {
 				entityManager.sendEntityMessage(es.getEntityID(), es.getState());
 			} catch (EntityIncomingMessageException e) {
-				logger.printf(SEC_LEVEL, e.getMessage());
+				logger.log(SEC_LEVEL, e.getCause());
 				noError = true;
 				//PRENDE DECISIONE IN AUTOMATICO
 			}

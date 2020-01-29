@@ -10,15 +10,13 @@ import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 public abstract class CommandableEntity extends SimulatorEntity{
 
-	private String state;
 	
 	public CommandableEntity(EntityType type, int id, String name, String topic) {
 		super(type, id, name, topic, "0");
 	}
 	
 	public CommandableEntity(EntityType type, int id, String name, String topic, String initialState) {
-		super(type, id, name, topic);
-		this.state = initialState;
+		super(type, id, name, topic, initialState);
 	}
 	
 	@Override
@@ -26,18 +24,8 @@ public abstract class CommandableEntity extends SimulatorEntity{
 		return this.setState(newState);
 	}
 	
-	@Override
-	public String getState() {
-		return state;
-	}
-	
-	private Entity setState(String newState) throws EntityIncomingMessageException{
-		try {
-			return getClass().getDeclaredConstructor(EntityType.class, Integer.class, String.class, String.class, String.class).newInstance(getType(), this.getID(), this.getName(), this.getTopic(), newState);
-		} catch (Exception e) {
-			return this;
-		}
-	}
+
+	protected abstract Entity setState(String newState) throws EntityIncomingMessageException;
 	
 	@Override
 	public String toString() {

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import com.unimib.smarthome.SmartHome;
 import com.unimib.smarthome.console.CLIEvaluation;
-import com.unimib.smarthome.emac.Emac;
+import com.unimib.smarthome.emac.EMAC;
 import com.unimib.smarthome.entities.Luce;
 import com.unimib.smarthome.entity.Entity;
 import com.unimib.smarthome.entity.EntityManager;
@@ -24,6 +24,8 @@ import com.unimib.smarthome.sec.SEC;
 
 import static org.awaitility.Awaitility.*;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SmartHomeTest {
@@ -31,20 +33,25 @@ public class SmartHomeTest {
 	private static boolean setUpIsDone = false;
 	static EntityManager em = EntityManager.getInstance();
 	SEC sec = SEC.getInstance();
-	Emac emac = Emac.getInstance();
+	EMAC emac = EMAC.getInstance();
 	public CLIEvaluation eval = new CLIEvaluation();
 	private final static int ENTITY_TEST_ID = 100;
 	
 	@BeforeAll
 	protected static void setUp() {
-		
 		if (setUpIsDone) {
 	        return;
 	    }
 	    setUpIsDone = true;
 		
 		SmartHome.main(null);
-		initEntityManager();
+		
+		Luce luce = new Luce(ENTITY_TEST_ID, "Luce1", "/luce");
+		try {
+			em.registerEntity(luce);
+		} catch (DuplicatedEntityException e) {
+		}
+		
 		await().atMost(5, TimeUnit.SECONDS).until(allThreadsAreStarted());
 	}
 	
@@ -60,14 +67,7 @@ public class SmartHomeTest {
 	}
 
 	
-	public static void initEntityManager() {
-		try {
-			Luce luce = new Luce(ENTITY_TEST_ID, "Luce1", "/luce");
-			em.registerEntity(luce);
-		} catch (DuplicatedEntityException e) {
-			e.printStackTrace();
-		}
-	}
+
 	
 	private Callable<Boolean> entityHasState(int entityID, String state) {
 	      return () -> em.getEntityState(entityID).equals(state);
@@ -77,11 +77,20 @@ public class SmartHomeTest {
 	      return () -> sec.getConflictPool().countRequestOnPool() == nRequest;
 	}
 	
-
-	
-	
 	@Test
 	@Order(0)
+	void initEntityManager() {
+		try {
+			Luce luce = new Luce(ENTITY_TEST_ID + 2, "Luce1", "/luce");
+			em.registerEntity(luce);
+			assertEquals(luce, em.getEntity(ENTITY_TEST_ID + 2));
+		} catch (DuplicatedEntityException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	@Order(1)
 	void testFailRequestExecution() {
 		System.out.println("---------------------------------------- testFailRequestExecution");
 		 
@@ -96,7 +105,7 @@ public class SmartHomeTest {
 	}
 	
 	@Test
-	@Order(1)
+	@Order(2)
 	void testEasyRequestExecution() {
 		System.out.println("---------------------------------------- testEasyRequestExecution");
 		 

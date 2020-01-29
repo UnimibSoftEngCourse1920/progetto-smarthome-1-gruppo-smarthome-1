@@ -6,30 +6,25 @@ import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 public class Luce extends CommandableEntity{
 
+	public Luce(int id, String name, String topic, String state) {
+		super(EntityType.STATE, id, name, topic, state);
+	}
+	
 	public Luce(int id, String name, String topic) {
-		super(EntityType.BINARY, id, name, topic);
+		super(EntityType.STATE, id, name, topic, "0");
 	}
 
-	private String state;
-
-
-	protected void onIncomingMessage(String newState) throws EntityIncomingMessageException {
-		System.out.println("Setto nuovo stato su " + newState);
-		this.setState(newState);
-//			if(newState.equals("0") || newState.equals("1")) {
-//				this.setState(newState);
-//			}else
-//				throw new EntityIncomingMessageException(this, "Invalid state: " + newState);
+	@Override 
+	protected Luce setState(String state) throws EntityIncomingMessageException{
+		switch(getType()) {
+		case BINARY:
+			if(state == "0" || state == "1")
+				return new Luce(this.getID(), this.getName(), this.getTopic(), state);
+			throw new EntityIncomingMessageException(this, "BINARY entity cannot have state " + state);
+		case RANGE:
+		case STATE:
+		default:
+			return new Luce(this.getID(), this.getName(), this.getTopic(), state);
+		}
 	}
-	
-	@Override
-	public void setState(String newState) {
-		this.state = newState;
-	}
-	
-	@Override
-	public String getState() {
-		return this.state;
-	}
-	
 }

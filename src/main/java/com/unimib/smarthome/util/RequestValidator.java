@@ -34,18 +34,20 @@ public class RequestValidator {
 
 	private static boolean checkValidStatus(EntityCondition condition) {
 		String entityRealStatus = em.getEntityState(condition.getEntityID());
-		char rel = condition.getRel();
-		switch (rel) {
-			case '=':
-				return entityRealStatus.equals(condition.getState());
-			case '>':
-				return Double.valueOf(entityRealStatus) > Double.valueOf(condition.getState());
-			case '<':
-				return Double.valueOf(entityRealStatus) < Double.valueOf(condition.getState());
-			default:
-				return false;
+		if(entityRealStatus != null) {
+			char rel = condition.getRel();
+			switch (rel) {
+				case '=':
+					return entityRealStatus.equals(condition.getState());
+				case '>':
+					return Double.valueOf(entityRealStatus) > Double.valueOf(condition.getState());
+				case '<':
+					return Double.valueOf(entityRealStatus) < Double.valueOf(condition.getState());
+				default:
+					return false;
+			}
 		}
-
+		return true; //null è sempre valido come stato (?) :O
 	}
 
 }
