@@ -1,7 +1,6 @@
 package com.unimib.smarthome.emac;
 
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.unimib.smarthome.entity.EntityManager;
@@ -20,7 +19,7 @@ public class EMACService extends Thread{
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				logger.printf(Level.WARN, "%s", e);
+				Thread.currentThread().interrupt();
 			}
 		}
 	}
