@@ -26,7 +26,9 @@ public class ConflictSupervisor {
 	protected boolean controlRequest(Request request) {
 		
 		EntityStatus[] consequences = request.getConsequences();
-		var wrapper = new Object(){ boolean requestCanBeExecuted; };
+		var wrapper = new Object(){ 
+			boolean requestCanBeExecuted;
+			};
 		wrapper.requestCanBeExecuted = true;
 
 		for(EntityStatus ea : consequences){
@@ -34,7 +36,7 @@ public class ConflictSupervisor {
 				
 				Set<Request> conflictingRequests = retainedRequests.get(ea.getEntityID());
 				
-				conflictingRequests.forEach((conflictingRequest) -> {
+				conflictingRequests.forEach(conflictingRequest -> {
 					
 					if(request.getPriority() > conflictingRequest.getPriority()) {
 						
@@ -69,7 +71,7 @@ public class ConflictSupervisor {
 		for(EntityStatus consequence : consequences) {
 			Set<Request> retainedSet;
 			if((retainedSet = retainedRequests.get(consequence.getEntityID())) == null) {
-				retainedSet = new HashSet<Request>();
+				retainedSet = new HashSet<>();
 			}
 			
 			logger.printf(SEC_LEVEL, "Adding retained request to entity [request: %d, entity: %d]", request.hashCode(), consequence.getEntityID());

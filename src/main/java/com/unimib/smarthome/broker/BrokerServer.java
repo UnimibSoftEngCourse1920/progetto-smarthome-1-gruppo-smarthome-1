@@ -15,15 +15,14 @@ import io.vertx.mqtt.MqttServerOptions;
 public class BrokerServer {
 
 	private Logger logger = LogManager.getLogger();
-	final static Level BROKER_LEVEL = Level.getLevel("BROKER");
-	
-	private MqttServer server;
-	public MqttEndpoint simulatorEndpoint = null;
+	static final Level BROKER_LEVEL = Level.getLevel("BROKER");
+
+	private static MqttEndpoint simulatorEndpoint = null;
 
 	BrokerManager brokerManager = BrokerManager.getInstance();
 	
 	
-	public void start() throws Exception {
+	public void start() {
 
 		VertxOptions voptions = new VertxOptions();
 		Vertx vertx = Vertx.vertx(voptions);
@@ -31,7 +30,7 @@ public class BrokerServer {
 		//Creo un server MQTT
 		logger.log(BROKER_LEVEL, "Starting MQTT server");
 		MqttServerOptions options = new MqttServerOptions().setPort(1883).setHost("0.0.0.0");
-		server = MqttServer.create(vertx, options);
+		MqttServer server = MqttServer.create(vertx, options);
 
 		//Connessione dei client
 		server.endpointHandler(end -> {
@@ -41,7 +40,7 @@ public class BrokerServer {
 			if(end != null && !end.equals(simulatorEndpoint)) {
 				simulatorEndpoint = end;
 	
-				logger.log(BROKER_LEVEL, "Simulator connected! [" + simulatorEndpoint.clientIdentifier() + "]");
+				logger.log(BROKER_LEVEL, "Simulator connected! [%s]", simulatorEndpoint.clientIdentifier());
 		
 				simulatorEndpoint.publishHandler(message -> {
 					
@@ -68,10 +67,14 @@ public class BrokerServer {
 
 		server.listen(ar -> {
 			if (ar.succeeded()) {
-				logger.log(BROKER_LEVEL, "MQTT server started and listening on port " + server.actualPort());
+				logger.printf(BROKER_LEVEL, "MQTT server started and listening on port %d", server.actualPort());
 			} else {
-				logger.log(BROKER_LEVEL, "MQTT server error on start" + ar.cause().getMessage());
+				logger.printf(BROKER_LEVEL, "MQTT server error on start %s" + ar.cause().getMessage());
 			}
 		});
+	}
+	
+	public MqttEndpoint getSimulatorEndpoint() {
+		return simulatorEndpoint;
 	}
 }

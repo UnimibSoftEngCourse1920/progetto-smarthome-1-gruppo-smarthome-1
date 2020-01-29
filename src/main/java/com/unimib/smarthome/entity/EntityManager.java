@@ -28,7 +28,7 @@ public class EntityManager implements Subject {
 	protected List<Observer> observers = new ArrayList<>();
 
 	private Logger logger = LogManager.getLogger();
-	final Level EM = Level.getLevel("EM");
+	final Level ENTITY_MANAGER_LEVEL = Level.getLevel("EM");
 	
 	private EntityManager() {}
 	
@@ -48,7 +48,7 @@ public class EntityManager implements Subject {
 
 			throw new DuplicatedEntityException(entity, entityMap.get(entityID));
 		
-		logger.printf(EM, "Registered entity [id: %d, name: %s]", entityID, entity.getName());
+		logger.printf(ENTITY_MANAGER_LEVEL, "Registered entity [id: %d, name: %s]", entityID, entity.getName());
 		entityMap.put(entityID, entity);
 		
 		if(entity instanceof SimulatorEntity) {
@@ -58,7 +58,7 @@ public class EntityManager implements Subject {
 	
 	//Inoltra un messaggio ad una entita
 	public void sendEntityMessage(int entityID, String message) throws EntityIncomingMessageException {
-		logger.printf(EM, "Sending message to entity [id: %d, message: %s]", entityID, message);
+		logger.printf(ENTITY_MANAGER_LEVEL, "Sending message to entity [id: %d, message: %s]", entityID, message);
 		Entity oldEntity = entityMap.get(entityID);
 		Entity newEntity = oldEntity;
 		try{
@@ -68,7 +68,7 @@ public class EntityManager implements Subject {
 		} catch (ClassNotFoundException e) {
 			newEntity = oldEntity.onIncomingMessage(message, this.getClass());
 		}		
-		logger.printf(EM, "Replacing %s -> %s inside the entityMap]", oldEntity, newEntity);
+		logger.printf(ENTITY_MANAGER_LEVEL, "Replacing %s -> %s inside the entityMap]", oldEntity, newEntity);
 		entityMap.put(entityID, newEntity); //Aggiorno l'entita nella mappa
 		
 		notifyEntityChange(newEntity); //Notitifo a tutti il cambiamento
@@ -85,10 +85,6 @@ public class EntityManager implements Subject {
 			
 	}
 	
-//	public String getEntityState(int entityID) {
-//		return entityMap.get(entityID).getState();
-//	}
-	
 	public Entity getEntity(int entityID) {
 		return entityMap.get(entityID);
 	}
@@ -100,7 +96,7 @@ public class EntityManager implements Subject {
 	/** OBSERVER PATTERN **/
 	
 	public void attach(Observer o) {
-		logger.printf(EM, "Aggiunto osservatore %s", o);
+		logger.printf(ENTITY_MANAGER_LEVEL, "Aggiunto osservatore %s", o);
 		observers.add(o);
 	}
 	

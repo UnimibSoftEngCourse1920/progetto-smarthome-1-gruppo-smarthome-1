@@ -56,6 +56,16 @@ public class Request implements Comparable<Request>{
 		Integer p2 = Integer.valueOf(r2.getPriority());
 		return p1.compareTo(p2);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 
 	@Override
 	public String toString() {

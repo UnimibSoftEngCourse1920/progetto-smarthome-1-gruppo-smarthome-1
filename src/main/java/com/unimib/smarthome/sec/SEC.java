@@ -19,7 +19,6 @@ public class SEC {
 	private ConflictSupervisor conflictSupervisor;
 	private ErrorSupervisor errorSupervisor;
 	private ConflictPool conflictPool;
-	//private static SEC instance = null;
 	
 	private SEC() {
 		conflictSupervisor = new ConflictSupervisor();

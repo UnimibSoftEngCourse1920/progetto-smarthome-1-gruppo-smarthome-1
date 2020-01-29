@@ -14,7 +14,7 @@ import com.unimib.smarthome.entity.Entity;
 public class CLIService extends Thread {
 
 	private Logger logger = LogManager.getLogger();
-	final static Level CLI = Level.getLevel("CLI");
+	static final Level CLI = Level.getLevel("CLI");
 
 	@Override
 	public void run() {
@@ -30,16 +30,16 @@ public class CLIService extends Thread {
 				eval.evaluation(input);
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error(e.getLocalizedMessage());
 			}
 		}
 	}
 
 	// Visualizzo tutte le entita'
 	public void entityVisualization(Map<Integer, Entity> list) {
-		list.forEach((key, entity) -> {
-			logger.printf(CLI, "%s", entity);
-		});
+		list.forEach((key, entity) -> 
+			logger.printf(CLI, "%s", entity)
+		);
 	}
 
 	// visualizzo lo stato dell'entità che l'utente richiede.

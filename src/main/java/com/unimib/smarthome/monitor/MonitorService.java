@@ -32,7 +32,6 @@ public class MonitorService extends Thread implements Observer  {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				//logger.printf(Level.WARN, "%s", e);
 			}
 			
 			//DO OTHER ANALISYS STUFF...

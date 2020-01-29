@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.unimib.smarthome.entity.EntityManager;
 import com.unimib.smarthome.entity.SimulatorEntity;
+import com.unimib.smarthome.entity.exceptions.EntityIncomingMessageException;
 
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.buffer.Buffer;
@@ -43,13 +44,13 @@ public class BrokerManager {
 			brokerServer = new BrokerServer();
 			brokerServer.start();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage());
 		}
 	}
 
 	public void registerEntityTopic(int entityID, String topic){
 		if(!brokerMap.containsKey(topic)) {
-			logger.log(BROKER_LEVEL, "Associated topic [" + topic + "] to entity [" + entityID + "]");
+			logger.printf(BROKER_LEVEL, "Associated topic [%s] to entity [%d]", topic, entityID);
 			brokerMap.put(topic, entityID);
 		}else {
 			logger.log(BROKER_LEVEL, "Topic %s is already associated with an entity ", topic);
@@ -63,12 +64,13 @@ public class BrokerManager {
 				
 				int entityID = brokerMap.get(message.topicName());
 				logger.printf(BROKER_LEVEL, "Sending message to EntityManager [entity: %d, message: %s]", entityID, message.payload());
-				try {
-					EntityManager.getInstance().sendEntityMessage(entityID, message.payload().toString());
-				} catch (Exception e) {
-					System.out.println("UEEE");
-					e.printStackTrace();
-				}
+
+					try {
+						EntityManager.getInstance().sendEntityMessage(entityID, message.payload().toString());
+					} catch (EntityIncomingMessageException e) {
+						logger.error(e.getLocalizedMessage());
+					}
+
 			}else {
 				logger.printf(BROKER_LEVEL, "Incoming message from topic %s but there are no entities associated with it.", message.topicName());
 			}
@@ -77,11 +79,11 @@ public class BrokerManager {
 	}
 
 	protected void sendMessageToSimulator() {
-		if(brokerServer.simulatorEndpoint != null) { //Se c'e un simulatore collegato :)
+		if(brokerServer.getSimulatorEndpoint() != null) { //Se c'e un simulatore collegato :)
 			SimulatorEntity es;
 			if((es = simulatorMessageQueue.poll()) != null ) {
 				logger.printf(BROKER_LEVEL, "Sending  message to simulator [message: %s, topic: %s]", es.getState(), es.getTopic());
-				brokerServer.simulatorEndpoint.publish(es.getTopic(), Buffer.buffer(es.getState()), MqttQoS.AT_MOST_ONCE, false,
+				brokerServer.getSimulatorEndpoint().publish(es.getTopic(), Buffer.buffer(es.getState()), MqttQoS.AT_MOST_ONCE, false,
 						false);
 			}
 		}

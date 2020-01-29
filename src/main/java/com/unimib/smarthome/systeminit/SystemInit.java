@@ -22,6 +22,8 @@ import org.json.simple.parser.ParseException;
 public class SystemInit {
 	private static Logger logger = LogManager.getLogger();
 
+	private SystemInit() {}
+	
 	public static void initConfig() {
 		try {
 			initEntities();
@@ -33,9 +35,9 @@ public class SystemInit {
 
 	// leggo da un file json le varie entita' che devo registrare nel sistema.
 	@SuppressWarnings("unchecked")
-	public static void initEntities() throws IOException, ParseException, DuplicatedEntityException {
+	public static void initEntities() throws IOException, ParseException {
 		JSONParser parser = new JSONParser();
-		EntityManager Entity = EntityManager.getInstance();
+		EntityManager entityManager = EntityManager.getInstance();
 		logger.info("Inizializzazione delle entita'.");
 
 		try {
@@ -47,7 +49,7 @@ public class SystemInit {
 
 			JSONArray entitiesList = (JSONArray) jsonObject.get("entities");
 
-			entitiesList.forEach((listEntities) -> {
+			entitiesList.forEach(listEntities -> {
 				JSONObject list = (JSONObject) listEntities;
 				String name = ((String) list.get("name"));
 				String topic = ((String) list.get("topic"));
@@ -57,12 +59,12 @@ public class SystemInit {
 				// in automatico.
 				// String state = ((String) list.get("State"));
 
-				// se è commandable, creo una classe device, altrimenti creo Sensor.
+				// se e' commandable, creo una classe device, altrimenti creo Sensor.
 				try {
 					if ((Boolean) list.get("commandable")) {
-						Entity.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
+						entityManager.registerEntity(new Device(EntityType.getEntityType(type), id, name, topic));
 					} else
-						Entity.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
+						entityManager.registerEntity(new Sensor(EntityType.getEntityType(type), id, name, topic));
 
 				} catch (Exception e) {
 
@@ -70,7 +72,7 @@ public class SystemInit {
 			});
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage());
 		}
 
 	}

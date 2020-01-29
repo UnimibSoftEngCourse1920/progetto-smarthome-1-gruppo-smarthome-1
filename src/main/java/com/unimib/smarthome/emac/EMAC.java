@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -22,32 +23,30 @@ import com.unimib.smarthome.util.RequestValidator;
 public class EMAC implements Observer {
 	private final Level EMAC_LEVEL = Level.getLevel("EMAC");
 	private final SEC sec = SEC.getInstance();
-	
+
 	private Map<Integer, List<Request>> idToRequests = new HashMap<>();
 	private ConcurrentLinkedQueue<Entity> statusUpdateQueue = new ConcurrentLinkedQueue<>();
 	private Logger logger = LogManager.getLogger();
 
-
-	private EMAC() {}
-	
-	private static class LazyHolder {
-        private static final EMAC INSTANCE = new EMAC();
-    }
-
-    public static EMAC getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-	
-
-	public ConcurrentLinkedQueue<Entity> getStatusUpdateQueue() {
-		return statusUpdateQueue;
+	private EMAC() {
 	}
 
+	private static class LazyHolder {
+		private static final EMAC INSTANCE = new EMAC();
+	}
+
+	public static EMAC getInstance() {
+		return LazyHolder.INSTANCE;
+	}
+
+	public Queue<Entity> getStatusUpdateQueue() {
+		return statusUpdateQueue;
+	}
 
 	public void registerAutomation(Request r) {
 
 		logger.printf(EMAC_LEVEL, "Registered automation %s", r);
-		
+
 		for (int i = 0; i < r.getConditions().length; i++) {
 			// id di un'entità tra le condition di r
 			int entityId = r.getConditions()[i].getEntityID();
@@ -55,7 +54,7 @@ public class EMAC implements Observer {
 			// lista di richieste già salvate relative a quell'entità
 			List<Request> requests;
 			if (!idToRequests.containsKey(entityId)) {
-				requests = new ArrayList<Request>();
+				requests = new ArrayList<>();
 
 			} else {
 				requests = idToRequests.get(entityId);
@@ -70,11 +69,11 @@ public class EMAC implements Observer {
 
 	}
 
-	
 	private List<Request> filter(int entityId) {
+		List<Request> validRequests = new ArrayList<>();
 		if (idToRequests.containsKey(entityId)) { // Se contiene richieste associate all'entita'
 			List<Request> requests = idToRequests.get(entityId);
-			List<Request> validRequests = new CopyOnWriteArrayList<>();
+			validRequests = new CopyOnWriteArrayList<>();
 
 			for (Request r : requests) {
 				if (RequestValidator.controlRequestConditions(r))
@@ -83,27 +82,25 @@ public class EMAC implements Observer {
 			return validRequests;
 		}
 
-		return null; // Non contiene richieste associate all'entita'
+		return validRequests; // Non contiene richieste associate all'entita'
 	}
 
 	private void execute(int entityId) {
 		List<Request> validRequests = filter(entityId);
-		if (validRequests != null) {
-			logger.printf(EMAC_LEVEL, "New state found on entity %d. [%d valid automations found]", entityId,
-					validRequests.size());
-			Collections.sort(validRequests);
-			Collections.reverse(validRequests);
-			for (Request r : validRequests) { // Prima esegue le retain
-				if (r.getRetain()) {
-					logger.printf(EMAC_LEVEL, "Executing request %d", r.hashCode());
-					sec.addRequestToSECQueue(r);
-					validRequests.remove(r);
-				}
-			}
-			for (Request r : validRequests) { // Dopo esegue le normali
+		logger.printf(EMAC_LEVEL, "New state found on entity %d. [%d valid automations found]", entityId,
+				validRequests.size());
+		Collections.sort(validRequests);
+		Collections.reverse(validRequests);
+		for (Request r : validRequests) { // Prima esegue le retain
+			if (r.getRetain()) {
 				logger.printf(EMAC_LEVEL, "Executing request %d", r.hashCode());
 				sec.addRequestToSECQueue(r);
+				validRequests.remove(r);
 			}
+		}
+		for (Request r : validRequests) { // Dopo esegue le normali
+			logger.printf(EMAC_LEVEL, "Executing request %d", r.hashCode());
+			sec.addRequestToSECQueue(r);
 		}
 	}
 

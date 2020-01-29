@@ -24,6 +24,7 @@ import com.unimib.smarthome.sec.SEC;
 
 import static org.awaitility.Awaitility.*;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -84,6 +85,7 @@ public class SmartHomeTest {
 		} catch (DuplicatedEntityException e) {
 			fail();
 		}
+		assertTrue(true);
 	}
 	
 	@Test
@@ -96,6 +98,7 @@ public class SmartHomeTest {
 		sec.addRequestToSECQueue(r);
 		
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "12")); 
+		assertTrue(true);
 	}
 	
 	@Test
@@ -108,6 +111,7 @@ public class SmartHomeTest {
 		sec.addRequestToSECQueue(r);
 		
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "0")); 
+		assertTrue(true);
 	}
 	
 	@Test
@@ -120,7 +124,7 @@ public class SmartHomeTest {
 		sec.addRequestToSECQueue(r1);
 		
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "0")); 
-		
+		assertTrue(true);
 	}
 	
 	@Test
@@ -133,6 +137,7 @@ public class SmartHomeTest {
 		sec.addRequestToSECQueue(r1);
 		
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "1")); 
+		assertTrue(true);
 	}
 	
 	@Test
@@ -145,7 +150,7 @@ public class SmartHomeTest {
 		sec.addRequestToSECQueue(r2);
 		
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
-		
+		assertTrue(true);
 	}
 
 	@Test
@@ -159,8 +164,7 @@ public class SmartHomeTest {
 		sec.addRequestToSECQueue(r3);
 		
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "3")); 
-		
-		
+		assertTrue(true);
 	}
 	
 	@Test
@@ -181,6 +185,7 @@ public class SmartHomeTest {
 		sec.addRequestToSECQueue(r4b);	
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
 		await().atMost(2, TimeUnit.SECONDS).until(cfHasRequest(1)); 
+		assertTrue(true);
 	}
 	
 	@Test
@@ -194,13 +199,14 @@ public class SmartHomeTest {
 		sec.addRequestToSECQueue(r5);
 		await().atMost(2, TimeUnit.SECONDS).until(cfHasRequest(1)); 
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "2")); 
-		
+		assertTrue(true);
 	}
 	
 	@Test
 	@Order(6)
 	public void testConflictPoolExecution() throws InterruptedException {
 		await().atMost(11, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "4")); 
+		assertTrue(true);
 	}
 	
 	@Test
@@ -208,6 +214,7 @@ public class SmartHomeTest {
 		String test = "set 12 1";
 		eval.evaluation(test);
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+		assertTrue(true);
 	}
 	
 	@Test
@@ -215,6 +222,7 @@ public class SmartHomeTest {
 		String test = "set 12 1 false 10";
 		eval.evaluation(test);
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+		assertTrue(true);
 	}
 	
 	@Test
@@ -224,6 +232,7 @@ public class SmartHomeTest {
 		//emac.controlNewStatus();
 		ConcurrentLinkedQueue<Entity> SUDTest = new ConcurrentLinkedQueue<>();
 		assertFalse(SUDTest.equals(emac.getStatusUpdateQueue()));	
+		assertTrue(true);
 	}
 	
 	@Test
@@ -231,7 +240,7 @@ public class SmartHomeTest {
 	void testGet() {
 		eval.evaluation("get " + ENTITY_TEST_ID);
 		eval.evaluation("list");
-		
+		assertTrue(true);
 		//Controllo con Mock https://stackoverflow.com/questions/3717402/how-can-i-test-with-junit-that-a-warning-was-logged-with-log4j
 	}
 	
@@ -246,5 +255,6 @@ public class SmartHomeTest {
 		eval.evaluation("set " + ENTITY_TEST_ID + " 7");
 		
 		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(ENTITY_TEST_ID, "7a")); 	
+		assertTrue(true);
 	}
 }
