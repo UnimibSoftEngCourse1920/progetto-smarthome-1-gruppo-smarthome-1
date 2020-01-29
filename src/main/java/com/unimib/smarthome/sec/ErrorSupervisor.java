@@ -30,7 +30,7 @@ public class ErrorSupervisor {
 		
 		return sendMessagesToEntities(r.getConsequences());
 		
-	}
+	} 
 	 
 	private boolean sendMessagesToEntities(EntityStatus[] consequences) {
 		boolean noError = true;

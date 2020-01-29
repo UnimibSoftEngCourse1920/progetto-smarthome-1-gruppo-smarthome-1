@@ -81,7 +81,7 @@ public class ConflictSupervisor {
 		}
 	}
 	
-	/*Metodo chiamato per informare il ConflictSupervisor che una richiesta è stata eseguita senza problemi*/
+	/*Metodo chiamato per informare il ConflictSupervisor che una richiesta e' stata eseguita senza problemi*/
 	protected void executedRequest(Request request) {
 		if(request.getRetain()) {
 			addRetainedRequest(request);
