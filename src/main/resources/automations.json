@@ -11,12 +11,7 @@
 					"id": 5,
 					"value": 1,
 					"rel": "="
-				},
-				{
-					"id": 6,
-					"value": 1,
-					"rel": "="
-				}		
+				}
 			],
 			"consequences": [
 				{
@@ -26,7 +21,7 @@
 			],
 			"retain": false,
 			"priority": 1,
-			"ask": false		
+			"ask": true		
 		},
 		{ 
 			"conditions" : [
@@ -145,5 +140,6 @@
 			"priority": 10,
 			"ask": true	
 	 	}
+	 	
 	]
 }

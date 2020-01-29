@@ -206,6 +206,7 @@ public class SmartHomeTest {
 	}
 	
 	@Test
+	@Order(7)
 	void testSet() {
 		String test = "set 12 1";
 		eval.evaluation(test);
@@ -214,6 +215,7 @@ public class SmartHomeTest {
 	}
 	
 	@Test
+	@Order(8)
 	void testSet1() {
 		String test = "set 12 1 false 10";
 		eval.evaluation(test);
@@ -222,6 +224,7 @@ public class SmartHomeTest {
 	}
 	
 	@Test
+	@Order(8)
 	void testAccept() {
 		eval.evaluation("set 1 20 false 10");
 		await().atMost(2, TimeUnit.SECONDS).until(CLIEvalHasRequest(true));
@@ -231,25 +234,24 @@ public class SmartHomeTest {
 	}
 	 
 	@Test
+	@Order(9)
 	void testRefuse() {
-		eval.evaluation("set 1 20 false 10");
+		eval.evaluation("set 5 1 false 10");
 		await().atMost(2, TimeUnit.SECONDS).until(CLIEvalHasRequest(true));
-		eval.evaluation("refuse");
-		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(12, "1")); 
+		eval.evaluation("refuse"); 
 		assertTrue(true);
-	}
+	} 
 	@Test
+	@Order(10)
 	public void emacTest() {
-		String test = "set 1 20";
-		eval.evaluation(test);
-		//emac.controlNewStatus();
+		eval.evaluation("set 6 1");
 		ConcurrentLinkedQueue<Entity> SUDTest = new ConcurrentLinkedQueue<>();
 		assertFalse(SUDTest.equals(emac.getStatusUpdateQueue()));	
 		assertTrue(true);
 	}
 	
 	@Test
-	@Order(8)
+	@Order(11)
 	void testCLI() {
 		eval.evaluation("get " + ENTITY_TEST_ID);
 		eval.evaluation("list");
@@ -263,7 +265,7 @@ public class SmartHomeTest {
 	}
 	
 	@Test
-	@Order(7)
+	@Order(12)
 	public void emacTestAutomation() {
 		EntityCondition[] conditions = {new EntityCondition(ENTITY_TEST_ID, "7", '=')};
 		EntityStatus[] consequences = {new EntityStatus(ENTITY_TEST_ID, "77")};

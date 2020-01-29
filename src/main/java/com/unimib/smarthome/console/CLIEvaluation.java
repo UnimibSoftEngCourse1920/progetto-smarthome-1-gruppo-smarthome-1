@@ -96,6 +96,7 @@ public class CLIEvaluation {
 	}
 	
 	private static void refuse() {
+		logger.log(CLI, "Request rejected.");
 		pendingRequest = null;
 	}
 	
@@ -131,8 +132,9 @@ public class CLIEvaluation {
 	}
 	
 	public static boolean getPendingRequest() {
-		if (pendingRequest == null)
-			return false;
-		return true;
+		boolean b = false;
+		if (pendingRequest != null)
+			b=true;
+		return b;
 	}
 }
