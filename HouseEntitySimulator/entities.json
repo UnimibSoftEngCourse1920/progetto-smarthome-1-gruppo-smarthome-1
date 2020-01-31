@@ -140,7 +140,7 @@
     {
    	  "name": "Telefono",
    	  "type": "state",
-      "state_topic": "telephone/telephone1",
+      "state_topic": "Telephone/telephone1",
         "states" : [
         {
           "value": 0,
