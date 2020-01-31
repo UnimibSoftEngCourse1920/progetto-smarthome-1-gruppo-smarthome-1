@@ -20,14 +20,14 @@
       "type": "switch"
     },
     {
-      "name": "Sensore conta persone sala",
+      "name": "conta persone 1",
       "range_topic": "sensor/people1",
       "type": "range",
       "range_min_val": 0,
       "range_max_val": 10
     },
      {
-      "name": "Sensore conta persone camera",
+      "name": "conta persone 2",
       "range_topic": "sensor/people2",
       "type": "range",
       "range_min_val": 0,
