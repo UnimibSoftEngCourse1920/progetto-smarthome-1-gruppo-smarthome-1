@@ -133,5 +133,6 @@
     <properties>
     	<sonar.java.source>11</sonar.java.source>
     	<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+	<sonar.exclusions>BrokerServer.java</sonar.exclusions>
     </properties>
 </project>
