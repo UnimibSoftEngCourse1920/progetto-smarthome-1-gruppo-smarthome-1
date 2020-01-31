@@ -111,7 +111,7 @@
 				}
 				
 	      	],
-			"retain": true,
+			"retain": false,
 			"priority": 120,
 			"ask": false	
 	 	},
@@ -137,7 +137,7 @@
 				}
 				
 	      	],
-			"retain": true,
+			"retain": false,
 			"priority": 120,
 			"ask": false	
 	 	},
@@ -291,9 +291,9 @@
 					"rel": "="
 				},
 				{
-					"id":2,
-					"value":3,
-					"rel": "<"
+					"id": 9,
+					"value": 0,
+					"rel": ">"
 				}
 			],
 			"consequences": [
@@ -336,9 +336,9 @@
 					"rel": "="
 				},
 				{
-					"id":2,
-					"value":3,
-					"rel": "<"
+					"id": 9,
+					"value": 0,
+					"rel": ">"
 				}
 			],
 			"consequences": [
