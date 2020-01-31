@@ -29,6 +29,7 @@ client.on('message', function (topic, message) {
                     slider.dispatchEvent(evt);
                 }
             }
+        	
             let buttons = document.getElementsByClassName("custom-btn")
             for(let button of buttons) {
                 if ("createEvent" in document) {
@@ -37,6 +38,7 @@ client.on('message', function (topic, message) {
                     button.dispatchEvent(evt);
                 }
             }
+            
             let selects = document.getElementsByClassName("select")
             for(let select of selects) {
                 if ("createEvent" in document) {
