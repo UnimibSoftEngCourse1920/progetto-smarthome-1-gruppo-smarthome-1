@@ -26,7 +26,7 @@
 		{ 
 			"conditions" : [
 				{
-					"id": 4, 
+					"id": 17, 
 					"value" : 0,
 					"rel": "="  
 				},
@@ -39,10 +39,6 @@
 			],
 			"consequences": [
 				{
-					"id": 5, 
-					"value" : 0
-				},
-				{
 					"id": 6, 
 					"value" : 0
 				}
@@ -51,12 +47,13 @@
 			"priority": 1,
 		    "ask": false		
 		},
+		
 		{
 			"conditions" : [
 				
 				{
 					"id": 12,
-					"value": 1,
+					"value": 2,
 					"rel": "="
 				},
 				{
@@ -92,6 +89,59 @@
 			"priority": 100,
 			"ask": false	
 		},
+			{
+			"conditions" : [
+				
+				{
+					"id": 12,
+					"value": 1,
+					"rel": "="
+				},
+				{
+					"id":2,
+					"value":3,
+					"rel": ">"
+				}
+				
+			],
+			"consequences": [
+				{
+					"id": 12, 
+					"value" : 0
+				}
+				
+	      	],
+			"retain": true,
+			"priority": 120,
+			"ask": false	
+	 	},
+	 	{
+			"conditions" : [
+				
+				{
+					"id": 12,
+					"value": 2,
+					"rel": "="
+				},
+				{
+					"id":2,
+					"value":3,
+					"rel": ">"
+				}
+				
+			],
+			"consequences": [
+				{
+					"id": 12, 
+					"value" : 0
+				}
+				
+	      	],
+			"retain": true,
+			"priority": 120,
+			"ask": false	
+	 	},
+		
 		{
 			"conditions" : [
 				
@@ -100,8 +150,13 @@
 					"value": 3,
 					"rel": ">"
 				}
+				
 			],
 			"consequences": [
+				{
+					"id": 12,
+					"value": 0
+				},
 				{
 					"id": 8, 
 					"value" : 1
@@ -110,10 +165,9 @@
 					"id": 9, 
 					"value" : 70
 				}
-				
-	       ],
+	      	],
 			"retain": true,
-			"priority": 101,
+			"priority": 150,
 			"ask": false
 		},
 		{
@@ -123,6 +177,11 @@
 					"id": 1,
 					"value": 24,
 					"rel": "<"
+				},
+				{
+					"id":10,
+					"value":0,
+					"rel": "="
 				}
 			],
 			"consequences": [
@@ -136,10 +195,158 @@
 				}
 				
 	       ],
+			"retain": false,
+			"priority": 50,
+			"ask": false
+	 	},
+	 	{
+			"conditions" : [
+				
+				{
+					"id": 1,
+					"value": 26,
+					"rel": ">"
+				},
+				{
+					"id":10,
+					"value":0,
+					"rel": "="
+				}
+			],
+			"consequences": [
+				{
+					"id": 10, 
+					"value" : 1
+				},
+				{
+					"id": 11, 
+					"value" : 20
+				}
+				
+	       ],
+			"retain": false,
+			"priority": 50,
+			"ask": false	
+	 	},
+	 	{
+			"conditions" : [
+				
+				{
+					"id": 1,
+					"value": 23,
+					"rel": ">"
+				},
+				{
+					"id": 1,
+					"value": 26,
+					"rel": "<"
+				}
+			],
+			"consequences": [
+				{
+					"id": 10, 
+					"value" : 0
+				},
+				{
+					"id": 11, 
+					"value" : 0
+				}
+				
+	       ],
+			"retain": false,
+			"priority": 50,
+			"ask": false
+	 	},
+	 	{
+			"conditions" : [
+				
+				{
+					"id": 12,
+					"value": 1,
+					"rel": "="
+				},
+				{
+					"id":10,
+					"value":1,
+					"rel": "="
+				},
+				{
+					"id":2,
+					"value":3,
+					"rel": "<"
+				}
+			],
+			"consequences": [
+				{
+					"id": 5, 
+					"value" : 0
+				},
+				{
+					"id": 6, 
+					"value" : 0
+				},
+				{
+					"id": 8, 
+					"value" : 0
+				},
+				{
+					"id": 9, 
+					"value" : 0
+				},
+				{
+					"id": 16,
+					"value" : 1
+				}
+	       ],
 			"retain": true,
-			"priority": 10,
-			"ask": true	
+			"priority": 100,
+			"ask": false	
+	 	},
+	 	{
+			"conditions" : [
+				
+				{
+					"id": 12,
+					"value": 2,
+					"rel": "="
+				},
+				{
+					"id":10,
+					"value":1,
+					"rel": "="
+				},
+				{
+					"id":2,
+					"value":3,
+					"rel": "<"
+				}
+			],
+			"consequences": [
+				{
+					"id": 5, 
+					"value" : 0
+				},
+				{
+					"id": 6, 
+					"value" : 0
+				},
+				{
+					"id": 8, 
+					"value" : 0
+				},
+				{
+					"id": 9, 
+					"value" : 0
+				},
+				{
+					"id": 16,
+					"value" : 1
+				}
+	       ],
+			"retain": true,
+			"priority": 100,
+			"ask": false	
 	 	}
-	 	
+	 	 	
 	]
 }

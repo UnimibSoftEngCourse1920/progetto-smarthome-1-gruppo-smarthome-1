@@ -226,11 +226,14 @@ public class SmartHomeTest {
 	@Test
 	@Order(8)
 	void testAccept() {
-		eval.evaluation("set 1 20 false 10");
+		eval.evaluation("set 5 1 false 10");
 		await().atMost(2, TimeUnit.SECONDS).until(CLIEvalHasRequest(true));
 		eval.evaluation("accept");
-		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(10, "1")); 
-		assertTrue(true);
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(5, "0"));
+		//eval.evaluation("set 5 1 false 10");
+		//await().atMost(2, TimeUnit.SECONDS).until(CLIEvalHasRequest(true));
+		//eval.evaluation("refuse");
+		assertTrue(true); 
 	}
 	 
 	@Test
@@ -239,6 +242,7 @@ public class SmartHomeTest {
 		eval.evaluation("set 5 1 false 10");
 		await().atMost(2, TimeUnit.SECONDS).until(CLIEvalHasRequest(true));
 		eval.evaluation("refuse"); 
+		await().atMost(2, TimeUnit.SECONDS).until(entityHasState(5, "1"));
 		assertTrue(true);
 	} 
 	@Test

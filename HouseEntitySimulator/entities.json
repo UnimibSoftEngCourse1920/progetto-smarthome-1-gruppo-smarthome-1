@@ -5,7 +5,7 @@
       "range_topic": "sensor/temp1",
       "type": "range",
       "range_min_val": 0,
-      "range_max_val": 100
+      "range_max_val": 40
     },
     {
       "name": "Sensore gas",
@@ -20,19 +20,26 @@
       "type": "switch"
     },
     {
-      "name": "Sensore conta persone",
+      "name": "Sensore conta persone sala",
       "range_topic": "sensor/people1",
       "type": "range",
       "range_min_val": 0,
       "range_max_val": 10
     },
+     {
+      "name": "Sensore conta persone camera",
+      "range_topic": "sensor/people2",
+      "type": "range",
+      "range_min_val": 0,
+      "range_max_val": 10
+    },
     {
-      "name": "Luce",
+      "name": "Luce sala",
       "switch_topic": "lights/light1",
       "type": "switch"
     },
     {
-      "name": "Luce 2",
+      "name": "Luce camera",
       "switch_topic": "lights/light2",
       "type": "switch"
     },
@@ -67,7 +74,7 @@
       "state_topic": "control/temp2/state",
       "type": "range_state",
       "range_min_val": 0,
-      "range_max_val": 100,
+      "range_max_val": 30,
       "states": [
         {
           "value": 1,
@@ -90,9 +97,13 @@
         },
         {
           "value": 1,
-          "name": "Attivato"
+          "name": "Attivo totalmente"
+        },
+        {
+          "value": 2,
+          "name": "Attivo esterno"
         }
-      ]
+     ]
     },
     {
       "name": "Robot pulizia",
@@ -128,7 +139,8 @@
     },
     {
    	  "name": "Telefono",
-      "switch_topic": "telephone/telephone1",
+   	  "type": "state",
+      "state_topic": "telephone/telephone1",
         "states" : [
         {
           "value": 0,
