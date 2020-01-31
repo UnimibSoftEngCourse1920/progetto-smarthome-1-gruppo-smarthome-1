@@ -16,7 +16,7 @@ public class CLIEvaluation {
 	final static Level CLI = Level.getLevel("CLI");
 	private static Request pendingRequest = null;
 	SEC sec = SEC.getInstance();
-	ConflictPool cf = new ConflictPool(sec);
+	ConflictPool cf = SEC.getInstance().getConflictPool();
 	Request[] request;
 	//divido la richiesta in base agli spazi.
 	

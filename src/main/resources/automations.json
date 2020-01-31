@@ -170,6 +170,30 @@
 			"conditions" : [
 				
 				{
+					"id": 2,
+					"value": 4,
+					"rel": "<"
+				}
+				
+			],
+			"consequences": [
+				{
+					"id": 8, 
+					"value" : 0
+				},
+				{
+					"id": 9, 
+					"value" : 0
+				}
+	      	],
+			"retain": false,
+			"priority": 100,
+			"ask": false
+		},
+		{
+			"conditions" : [
+				
+				{
 					"id": 1,
 					"value": 24,
 					"rel": "<"

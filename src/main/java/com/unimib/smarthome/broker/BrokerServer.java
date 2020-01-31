@@ -40,7 +40,7 @@ public class BrokerServer {
 			if(end != null && !end.equals(simulatorEndpoint)) {
 				simulatorEndpoint = end;
 	
-				logger.log(BROKER_LEVEL, "Simulator connected! [%s]", simulatorEndpoint.clientIdentifier());
+				logger.printf(BROKER_LEVEL, "Simulator connected! [%s]", simulatorEndpoint.clientIdentifier());
 		
 				simulatorEndpoint.publishHandler(message -> {
 					
@@ -69,7 +69,7 @@ public class BrokerServer {
 			if (ar.succeeded()) {
 				logger.printf(BROKER_LEVEL, "MQTT server started and listening on port %d", server.actualPort());
 			} else {
-				logger.printf(BROKER_LEVEL, "MQTT server error on start %s" + ar.cause().getMessage());
+				logger.printf(BROKER_LEVEL, "MQTT server error on start %s", ar.cause().getMessage());
 			}
 		});
 	}

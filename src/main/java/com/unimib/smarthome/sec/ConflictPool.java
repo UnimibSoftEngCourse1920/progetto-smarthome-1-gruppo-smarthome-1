@@ -16,7 +16,7 @@ public class ConflictPool extends Thread{
 	private SEC sec = null;
 	private ConcurrentLinkedQueue<Request> conflictPoolQueue = new ConcurrentLinkedQueue<>();
 	
-	public ConflictPool(SEC sec) {
+	protected ConflictPool(SEC sec) {
 		this.sec = sec;
 	}
 	
@@ -26,10 +26,15 @@ public class ConflictPool extends Thread{
 		logger.log(SEC_LEVEL, "Starting ConflictPool");
 		
 		while(!Thread.interrupted()) {
-			conflictPoolQueue.forEach(request -> {
+			
+			Request[] cpCopy = getConflictPool();
+			
+			for(Request request : cpCopy) {
 				logger.printf(SEC_LEVEL, "Trying to evaluate request from conflict pool [id: %d]", request.hashCode());
+				conflictPoolQueue.remove(request);
 				sec.evaluateRequest(request);
-			});
+			}
+			
 			try {
 				Thread.sleep(5000); //10s
 			} catch (InterruptedException e) {
@@ -39,8 +44,10 @@ public class ConflictPool extends Thread{
 	}
 	
 	protected void addRequestToPool(Request r) {
-		if(!conflictPoolQueue.contains(r))
+		if(!conflictPoolQueue.contains(r)) {
+			logger.printf(SEC_LEVEL, "Added request into the conflict pool [id: %d]", r.hashCode());
 			conflictPoolQueue.add(r);
+		}
 	}
 	
 	public int countRequestOnPool() {
