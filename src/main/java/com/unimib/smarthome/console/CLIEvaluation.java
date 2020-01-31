@@ -56,11 +56,11 @@ public class CLIEvaluation {
 				SmartHome.shutdown();
 				break;
 				
-			case "listCF":
+			case "listCP":
 				printCF();
 					break;
 					
-			case "clearCF" : 
+			case "clearCP" : 
 				cf.clearPool();
 				print("ConflictPool is empty now. ");
 				break;

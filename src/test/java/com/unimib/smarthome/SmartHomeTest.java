@@ -255,8 +255,8 @@ public class SmartHomeTest {
 	void testCLI() {
 		eval.evaluation("get " + ENTITY_TEST_ID);
 		eval.evaluation("list");
-		eval.evaluation("listCF");
-		eval.evaluation("clearCF");
+		eval.evaluation("listCP");
+		eval.evaluation("clearCP");
 		eval.evaluation("clear");
 		eval.evaluation("set 1 1 1");
 		eval.evaluation("get 6733");
