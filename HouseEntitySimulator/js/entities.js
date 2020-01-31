@@ -53,7 +53,7 @@ function drawEntities(entitiesConfig){
                 template.querySelector(".custom-btn").setAttribute("entity", `${idCounter}`);
                 appendEntityTemplate(template);
                 entitiesState[idCounter] = entity;
-                entitiesState[idCounter].state = 0;
+                entitiesState[idCounter].state = 1;
                 entitiesState[idCounter].id = idCounter;
                 document.querySelector(`.custom-btn[entity='${idCounter}']`).addEventListener("click", switchButton);
                 mapTopicToEntity(entitiesState[idCounter].switch_topic, idCounter);
